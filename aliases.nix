@@ -6,7 +6,7 @@
 		shellAliases = {
 			vi = "nvim";
 			rbs = "sudo nixos-rebuild switch";
-			rbt = "nixos-rebuild dry-build";
+			rbt = "sudo nixos-rebuild dry-build";
 		};
 	};
 }
