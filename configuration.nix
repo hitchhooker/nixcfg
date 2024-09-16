@@ -55,7 +55,7 @@
 
     # User-specific packages
     packages = with pkgs; [
-      alacritty bspwm bun chromium dunst element-desktop google-cloud-sdk
+      alacritty bspwm bun chromium dunst element-desktop gh google-cloud-sdk
       i3lock-fancy-rapid keepassxc nodejs polybar rofi signal-desktop sxhkd
       syncthing telegram-desktop tree xclip yarn
     ];
@@ -68,7 +68,7 @@
 
   # packages.nix
   environment.systemPackages = with pkgs; [
-    cargo gcc fd gh git lightdm lm_sensors neovim ripgrep rustup screen wget zellij zsh
+    cargo gcc fd git lightdm lm_sensors neovim parted ripgrep rustup screen wget zellij zsh
   ];
 
   # services.nix
