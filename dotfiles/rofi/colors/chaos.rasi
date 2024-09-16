@@ -1,0 +1,16 @@
+/**
+ *
+ * Author : kusamaxi.com (hitchhooker)
+ * Github : @hitchhooker
+ *
+ * Colors
+ **/
+
+* {
+    background:     #15161EFF;    /* Dark Grey */
+    background-alt: #1A1B26FF;    /* Darker Grey */
+    foreground:     #F8229BFF;    /* Pink */
+    selected:       #E6007AFF;    /* Polkapink */
+    urgent:         #D3FF33FF;    /* Lime */
+    active:         #56F39AFF;    /* Green */
+}

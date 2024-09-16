@@ -1,0 +1,24 @@
+#!/bin/zsh
+
+# Alias to start wpa_supplicant and get an IP
+alias start_wifi="sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlp2s0 && sudo dhclient wlp2s0"
+
+# Function to add a network to wpa_supplicant.conf
+add_wifi() {
+  local ssid="$1"
+  local passphrase="$2"
+  
+  if [ -z "$ssid" ]; then
+    echo "Usage: add_wifi <SSID> [<passphrase>]"
+    return 1
+  fi
+
+  if [ -z "$passphrase" ]; then
+    # Open network
+    echo -e "\nnetwork={\n    ssid=\"$ssid\"\n    key_mgmt=NONE\n}" | sudo tee -a /etc/wpa_supplicant.conf > /dev/null
+  else
+    # Secured network with passphrase
+    local psk=$(wpa_passphrase "$ssid" "$passphrase" | grep 'psk=' | grep -v '#')
+    echo -e "\nnetwork={\n    ssid=\"$ssid\"\n    $psk\n}" | sudo tee -a /etc/wpa_supplicant.conf > /dev/null
+  fi
+}

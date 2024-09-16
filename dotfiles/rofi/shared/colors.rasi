@@ -1,0 +1,19 @@
+/**
+ *
+ * Author : kusamaxi (kusamaxi)
+ * Github : @kusamaxi
+ * 
+ * Colors
+ *
+ * Available Colors Schemes
+ *
+ * adapta    catppuccin    everforest    navy       paper
+ * arc       cyberpunk     gruvbox       nord       solarized
+ * black     dracula       lovelace      onedark    yousai
+ * chaos     harmony
+ *
+ **/
+
+/* Import color-scheme from `colors` directory */
+
+@import "~/.config/rofi/colors/chaos.rasi"

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+display_output="eDP-1" # Change this to your display output
+cache_file="/tmp/brightness_cache"
+
+if [ ! -f "$cache_file" ]; then
+	current_brightness=$(xrandr --verbose | grep -i -A 5 "^$display_output connected" | grep -i 'Brightness:' | cut -f2- -d:)
+	echo "$current_brightness" >"$cache_file"
+else
+	current_brightness=$(cat "$cache_file")
+fi
+
+if [ $# -eq 2 ]; then
+	action=$1
+	value=$2
+
+	case $action in
+	-inc | -dec)
+		change_percentage=$(echo "scale=2; $value / 100" | bc)
+		if [ $action == "-inc" ]; then
+			new_brightness=$(echo "$current_brightness + $change_percentage" | bc)
+			new_brightness=$(echo "if ($new_brightness > 1) 1 else $new_brightness" | bc)
+		else
+			new_brightness=$(echo "$current_brightness - $change_percentage" | bc)
+			new_brightness=$(echo "if ($new_brightness < 0) 0 else $new_brightness" | bc)
+		fi
+
+		xrandr --output $display_output --brightness $new_brightness
+		echo "$new_brightness" >"$cache_file"
+		;;
+	-set)
+		new_brightness=$(echo "scale=2; $value / 100" | bc)
+		xrandr --output $display_output --brightness $new_brightness
+		echo "$new_brightness" >"$cache_file"
+		;;
+	*)
+		echo "Invalid option. Usage: $0 {-inc|-dec|-set} <value>"
+		exit 1
+		;;
+	esac
+elif [ $# -eq 1 ] && [ "$1" == "-get" ]; then
+	brightness_percentage=$(echo "scale=0; $current_brightness * 100" | bc)
+	echo $brightness_percentage
+else
+	echo "Invalid usage. Use: $0 {-inc|-dec|-set|-get} [value]"
+	exit 1
+fi
+

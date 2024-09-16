@@ -1,0 +1,12 @@
+/**
+ *
+ * Author : kusamaxi (kusamaxi)
+ * Github : @kusamaxi
+ * 
+ * Fonts
+ *
+ **/
+
+* {
+    font: "Unbounded Medium 12";
+}

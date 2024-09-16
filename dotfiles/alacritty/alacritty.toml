@@ -1,0 +1,71 @@
+live_config_reload = true
+
+[colors.bright]
+black = "0x555555"
+blue = "0xe6007a"
+cyan = "0x00ffe1"
+green = "0x56F39A"
+magenta = "0x00B2FF"
+red = "0x552BBF"
+white = "0xFFFFFF"
+yellow = "0xD3FF33"
+
+[colors.cursor]
+cursor = "0xe6007a"
+text = "0x000000"
+
+[colors.normal]
+black = "0x000000"
+blue = "0xe6007a"
+cyan = "0x00ffe1"
+green = "0x56F39A"
+magenta = "0x0077ff"
+red = "0x552BBF"
+white = "0xFFFFFF"
+yellow = "0xD3FF33"
+
+[colors.primary]
+background = "0x000000"
+foreground = "0xF8229B"
+
+[cursor]
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "on"
+shape = "Block"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 8.0
+
+[font.bold]
+style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.normal]
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[window]
+decorations = "full"
+dynamic_padding = true
+dynamic_title = true
+opacity = 1
+startup_mode = "Windowed"
+
+[window.dimensions]
+columns = 84
+lines = 22
+
+[window.padding]
+x = 0
+y = 0
