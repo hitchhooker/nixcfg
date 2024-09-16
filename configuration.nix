@@ -15,6 +15,10 @@ in
     '';
   };
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "slack"
+  ];
+
   # locale
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -55,8 +59,8 @@ in
     # User-specific packages
     packages = with pkgs; [
       alacritty bspwm bun chromium dunst element-desktop gh google-cloud-sdk
-      i3lock-fancy-rapid keepassxc nodejs polybar rofi signal-desktop sxhkd
-      syncthing telegram-desktop tree xclip yarn
+      i3lock-fancy-rapid keepassxc nodejs polybar rofi signal-desktop slack
+      sxhkd syncthing telegram-desktop tree xclip yarn
     ];
   };
 
@@ -89,13 +93,12 @@ in
     };
   };
 
-  services = {
-    openssh.enable = true;
+  services = { openssh.enable = true;
     xserver = {
       enable = true;
       xkb = {
-        layout = "us";
-        options = "eurosign:e,caps:escape";
+        layout = "us,fi";
+        options = "grp:win_space_toggle";
       };
       windowManager.bspwm.enable = true;
       displayManager.lightdm.enable = true;

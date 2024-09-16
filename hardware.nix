@@ -100,10 +100,9 @@
   services.libinput = {
     enable = true;
     touchpad = {
-      naturalScrolling = true;     # Enable natural scrolling
-        tapping = true;              # Enable tap-to-click
-        disableWhileTyping = true;   # Disable touchpad while typing
-        scrollMethod = "twofinger";  # Use two-finger scrolling
+      tapping = true;              # Enable tap-to-click
+      disableWhileTyping = true;   # Disable touchpad while typing
+      scrollMethod = "twofinger";  # Use two-finger scrolling
     };
   };
 }
