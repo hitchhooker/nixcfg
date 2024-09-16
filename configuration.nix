@@ -68,7 +68,7 @@
 
   # packages.nix
   environment.systemPackages = with pkgs; [
-    cargo gcc git lightdm lm_sensors neovim ripgrep rustup screen wget zellij zsh
+    cargo gcc fd gh git lightdm lm_sensors neovim ripgrep rustup screen wget zellij zsh
   ];
 
   # services.nix
