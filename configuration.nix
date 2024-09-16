@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  aliceSecret = import /etc/secrets/alice-hash.nix;
+in
 {
   # imports
   imports = [ ./aliases.nix ./hardware.nix <home-manager/nixos> ];
@@ -42,10 +45,6 @@
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = false;
 
-
-  let
-    aliceSecret = import /etc/secrets/alice-hash.nix;
-  in
   users.users.alice = {
     isNormalUser = true;
     home = "/home/alice";
@@ -135,4 +134,3 @@
     chmod +x /home/alice/.wifi
   '';
 }
-
