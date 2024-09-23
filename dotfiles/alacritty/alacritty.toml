@@ -36,7 +36,7 @@ blinking = "on"
 shape = "Block"
 
 [env]
-TERM = "xterm-256color"
+TERM = "alacritty"  # Changed from "xterm-256color"
 
 [font]
 size = 8.0
@@ -69,3 +69,7 @@ lines = 22
 [window.padding]
 x = 0
 y = 0
+
+[shell]
+program = "/run/current-system/sw/bin/zsh"  # Added explicit shell specification
+args = ["-l"]  # Added to ensure login shell

@@ -2,50 +2,58 @@
 
 let
   aliceSecret = import /etc/secrets/alice-hash.nix;
+  wifiSecret = import /etc/secrets/wifi-networks.nix;
+
+  hostSpecificHardwareConfig = ./machines/lenovo.nix;
+  useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
 in
 {
-  # imports
-  imports = [ ./aliases.nix ./hardware.nix <home-manager/nixos> ];
+# imports
+  imports = [ ./aliases.nix <home-manager/nixos> useHostConfig ];
 
-  # system.nix
+# system.nix
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
-    '';
+      '';
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "slack"
   ];
 
-  # locale
+# locale
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-    useXkbConfig = true;   # xkb options in tty
-  };
-
-  # fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" "FiraCode" "Hack" ]; })
-    nerdfonts font-awesome iosevka dejavu_fonts
-  ];
-
-  system.copySystemConfiguration = true;
-  system.stateVersion = "24.05";  # For upgrade security
-
-  # network.nix
-  networking = {
-    wireless.enable = true;   # Use wpa_supplicant for wireless
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 22000 ];
-      allowedUDPPorts = [ 21027 51280 ];
-    };
+    useXkbConfig = true;
   };
   time.timeZone = "Asia/Bangkok";
 
-  # home.nix
+# fonts
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" "FiraCode" "Hack" ]; })
+      nerdfonts font-awesome iosevka dejavu_fonts
+  ];
+
+  system.copySystemConfiguration = true;
+  system.stateVersion = "24.05";
+
+# network.nix
+  networking = {
+    wireless = {
+      enable = true;
+      networks = wifiSecret.wifiNetworks;
+    };
+
+    firewall = {
+      allowedTCPPorts = [ 22 80 443 22000 5222 5223 5269 5280 ];
+      allowedUDPPorts = [ 21027 51280 ];
+    };
+  };
+
+# home.nix
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = false;
 
@@ -56,26 +64,33 @@ in
     shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
 
-    # User-specific packages
+# User-specific packages
     packages = with pkgs; [
-      alacritty bspwm bun chromium dunst element-desktop gh google-cloud-sdk
-      i3lock-fancy-rapid keepassxc nodejs polybar rofi signal-desktop slack
-      sxhkd syncthing telegram-desktop tree xclip yarn
+      alacritty bspwm bun chromium dunst electrum element-desktop flameshot gh google-cloud-sdk
+        i3lock-fancy-rapid libssh keepassxc nodejs pavucontrol python313Full polybar
+        rofi signal-desktop slack sxhkd syncthing telegram-desktop tree xclip yarn
+        (python3.withPackages (ps: with ps; [ ansible pip ]))
     ];
   };
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
-    home.stateVersion = "24.05";  # For upgrade security
+    home.stateVersion = "24.05";
   };
 
-  # packages.nix
+# packages.nix
   environment.systemPackages = with pkgs; [
-    cargo gcc fd git lightdm lm_sensors neovim parted ripgrep rustup screen wget zellij zsh
+    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep rustup screen ssh-agents sshfs wget zellij zsh
   ];
+# environment.variables.SHELL = "/run/current-system/sw/bin/bash";
+  environment.variables.SHELL = pkgs.zsh;
 
-  # services.nix
+# services.nix
   programs = {
+#    ssh = {
+#      startAgent = true;
+#      agentTimeout = "1h";
+#    };
     mtr.enable = true;
     gnupg.agent = {
       enable = true;
@@ -85,15 +100,22 @@ in
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium-c
-        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-        "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
-        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
-        "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+          "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
+          "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+          "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
       ];
     };
   };
 
-  services = { openssh.enable = true;
+  services = { 
+    openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false; 
+        };
+      };
     xserver = {
       enable = true;
       xkb = {
@@ -107,12 +129,12 @@ in
     greenclip.enable = true;
   };
 
-  # activation.nix
+# activation.nix
   system.activationScripts.linkDotfiles = ''
-    # Create necessary directories
+# Create necessary directories
     mkdir -p /home/alice/.config
 
-    # Symlink files and directories
+# Symlink files and directories
     ln -sf /etc/nixos/dotfiles/zsh/.zshrc /home/alice/.zshrc
     ln -sfn /etc/nixos/dotfiles/nvim /home/alice/.config/nvim
     ln -sfn /etc/nixos/dotfiles/alacritty /home/alice/.config/alacritty
@@ -123,17 +145,12 @@ in
     ln -sfn /etc/nixos/dotfiles/sxhkd /home/alice/.config/sxhkd
     ln -sf /etc/nixos/dotfiles/greenclip.toml /home/alice/.config/greenclip.toml
 
-    # Symlink the wifi script
-    ln -sf /etc/nixos/dotfiles/wifi/.wifi /home/alice/.wifi
-
-    # Ensure ownership and permissions
+# Ensure ownership and permissions
     chown -R alice:users /home/alice/.config
     chown alice:users /home/alice/.zshrc
-    chown alice:users /home/alice/.wifi
 
-    # Set executable permissions on scripts if necessary
+# Set executable permissions on scripts if necessary
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
-    chmod +x /home/alice/.wifi
-  '';
+    '';
 }

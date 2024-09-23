@@ -5,6 +5,10 @@
     "${modulesPath}/installer/scan/not-detected.nix"
   ];
 
+# Networking settings
+  networking.hostName = "lenovo";
+  networking.useDHCP = lib.mkDefault true;
+
 # Bootloader and kernel settings
   boot.loader = {
     systemd-boot.enable = true;
@@ -19,6 +23,7 @@
     luks.devices.encrypted_partition.device = "/dev/disk/by-uuid/da1a7fdf-43a5-4f84-ac6f-7447243a2c31";
   };
 
+#  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "amd_pstate" "amdgpu" "kvm-amd" "acpi_cpufreq" "i2c_hid" "k10temp" "thinkpad_acpi" ];
   boot.extraModulePackages = [ pkgs.linuxPackages.acpi_call ];
 
@@ -70,9 +75,6 @@
   { device = "/dev/disk/by-uuid/6f3e1022-45d0-4378-bcf5-26e4bd42bfd4"; }
   ];
 
-# Networking settings
-  networking.useDHCP = lib.mkDefault true;
-
 # GPU Configuration for AMD Ryzen 7 (with integrated graphics)
   services.xserver.videoDrivers = [ "amdgpu" ];
   boot.kernelParams = [
@@ -100,6 +102,7 @@
   services.libinput = {
     enable = true;
     touchpad = {
+      naturalScrolling = false;
       tapping = true;              # Enable tap-to-click
       disableWhileTyping = true;   # Disable touchpad while typing
       scrollMethod = "twofinger";  # Use two-finger scrolling
