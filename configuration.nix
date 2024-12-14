@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  aliceSecret = import /etc/secrets/alice-hash.nix;
-  wifiSecret = import /etc/secrets/wifi-networks.nix;
+aliceSecret = import /etc/secrets/alice-hash.nix;
+wifiSecret = import /etc/secrets/wifi-networks.nix;
 
-  hostSpecificHardwareConfig = ./machines/lenovo.nix;
-  useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
+hostSpecificHardwareConfig = ./machines/lenovo.nix;
+useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
 in
 {
 # imports
@@ -81,9 +81,8 @@ in
 
 # packages.nix
   environment.systemPackages = with pkgs; [
-    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep
-    rustup screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11
-];
+    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep rustup
+      screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11
   ];
 # environment.variables.SHELL = "/run/current-system/sw/bin/bash";
   environment.shells = [ pkgs.zsh pkgs.bash ];
@@ -113,13 +112,16 @@ in
   };
 
   services = { 
+    logind = {
+      powerKey = "ignore";
+      };
     openssh = {
       enable = true;
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false; 
-        };
       };
+    };
     xserver = {
       enable = true;
       xkb = {
