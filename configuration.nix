@@ -69,6 +69,7 @@ in
       alacritty bspwm bun chromium dunst electrum element-desktop flameshot gh google-cloud-sdk
         i3lock-fancy-rapid libssh keepassxc nodejs pavucontrol python313Full polybar
         rofi signal-desktop slack sxhkd syncthing telegram-desktop tree xclip yarn
+        transmission-qt
         (python3.withPackages (ps: with ps; [ ansible pip ]))
     ];
   };
@@ -80,9 +81,12 @@ in
 
 # packages.nix
   environment.systemPackages = with pkgs; [
-    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep rustup screen ssh-agents sshfs wget zellij zsh
+    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep
+    rustup screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11
+];
   ];
 # environment.variables.SHELL = "/run/current-system/sw/bin/bash";
+  environment.shells = [ pkgs.zsh pkgs.bash ];
   environment.variables.SHELL = pkgs.zsh;
 
 # services.nix

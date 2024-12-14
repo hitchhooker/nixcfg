@@ -42,7 +42,7 @@
     enable = true;
     settings = {
       hwmon = [
-      { device = "/sys/class/hwmon/hwmon1/pwm1"; }
+      { device = "/sys/class/hwmon/hwmon9/pwm1"; }
       ];
       levels = [
       { temperature = 55; level = 0; }
