@@ -3,7 +3,6 @@
 let
 aliceSecret = import /etc/secrets/alice-hash.nix;
 wifiSecret = import /etc/secrets/wifi-networks.nix;
-
 hostSpecificHardwareConfig = ./machines/lenovo.nix;
 useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
 in
@@ -82,7 +81,7 @@ in
 # packages.nix
   environment.systemPackages = with pkgs; [
     bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep rustup
-      screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11
+      screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11 brightnessctl
   ];
 # environment.variables.SHELL = "/run/current-system/sw/bin/bash";
   environment.shells = [ pkgs.zsh pkgs.bash ];

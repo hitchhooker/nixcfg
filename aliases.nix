@@ -1,12 +1,10 @@
+# /etc/nixos/aliases.nix
 { config, pkgs, ... }:
-
 {
-  programs.zsh = {
-    enable = true;
-    shellAliases = {
-      vi = "nvim";
-      rbs = "sudo nixos-rebuild switch";
-      rbt = "sudo nixos-rebuild dry-build";
-    };
+  environment.shellAliases = {
+    vi = "nvim";
+    rbt = "sudo nixos-rebuild dry-build";
+    rbs = ''cd /etc/nixos && git add -A && git commit -m "force commit $(date +%s)" && sudo nixos-rebuild switch'';
+    nx = ''cd /etc/nixos/ && ls''
   };
 }
