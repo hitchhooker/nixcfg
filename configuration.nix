@@ -79,9 +79,36 @@ in
   };
 
 # packages.nix
+let
+  stable = import <nixos> { config = config.nixpkgs.config; };
+  unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+in
+{
   environment.systemPackages = with pkgs; [
-    bash cargo gcc fd git lightdm lm_sensors neovim openssh parted ripgrep rustup
-      screen ssh-agents sshfs wget zellij zsh pkg-config xorg.libX11 brightnessctl
+    # Unstable Packages
+    unstable.bash
+    unstable.cargo
+    unstable.gcc
+    unstable.fd
+    unstable.git
+    unstable.lm_sensors
+    unstable.neovim
+    unstable.openssh
+    unstable.ripgrep
+    unstable.rustup
+    unstable.wget
+    unstable.zellij
+    unstable.zsh
+    unstable.xorg.libX11
+    unstable.brightnessctl
+
+    # Stable Packages
+    stable.lightdm
+    stable.parted
+    stable.screen
+    stable.ssh-agents
+    stable.sshfs
+    stable.pkg-config
   ];
 # environment.variables.SHELL = "/run/current-system/sw/bin/bash";
   environment.shells = [ pkgs.zsh pkgs.bash ];
