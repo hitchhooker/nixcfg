@@ -5,6 +5,8 @@ aliceSecret = import /etc/secrets/alice-hash.nix;
 wifiSecret = import /etc/secrets/wifi-networks.nix;
 hostSpecificHardwareConfig = ./machines/lenovo.nix;
 useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
+stable = import <nixos> { config = config.nixpkgs.config; };
+unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
 in
 {
 # imports
@@ -63,13 +65,41 @@ in
     shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
 
-# User-specific packages
+    # User-specific packages
     packages = with pkgs; [
-      alacritty bspwm bun ungoogled-chromium dunst electrum element-desktop flameshot gh google-cloud-sdk
-        i3lock-fancy-rapid libssh keepassxc nodejs pavucontrol python313Full polybar
-        rofi signal-desktop slack sxhkd syncthing telegram-desktop tree xclip yarn
-        transmission-qt
-        (python3.withPackages (ps: with ps; [ ansible pip ]))
+      # Unstable Packages
+      unstable.alacritty
+      unstable.bspwm
+      unstable.bun
+      unstable.ungoogled-chromium
+      unstable.dunst
+      unstable.element-desktop
+      unstable.flameshot
+      unstable.gh
+      unstable.polybar
+      unstable.rofi
+      unstable.signal-desktop
+      unstable.sxhkd
+      unstable.syncthing
+      unstable.telegram-desktop
+      unstable.tree
+      unstable.zsh
+      unstable.yarn
+      unstable.transmission-qt
+
+      # Stable Packages
+      stable.electrum
+      stable.google-cloud-sdk
+      stable.i3lock-fancy-rapid
+      stable.libssh
+      stable.keepassxc
+      stable.nodejs
+      stable.pavucontrol
+      stable.python313Full
+      stable.xclip
+
+      # Stable Python Packages
+      (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
     ];
   };
 
@@ -79,11 +109,6 @@ in
   };
 
 # packages.nix
-let
-  stable = import <nixos> { config = config.nixpkgs.config; };
-  unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
-in
-{
   environment.systemPackages = with pkgs; [
     # Unstable Packages
     unstable.bash
