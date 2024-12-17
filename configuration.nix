@@ -99,7 +99,7 @@ in
       enable = true;
       enableSSHSupport = true;
     };
-    ungoogled-chromium = {
+    chromium = {
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium-c
