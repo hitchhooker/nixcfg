@@ -65,7 +65,7 @@ in
 
 # User-specific packages
     packages = with pkgs; [
-      alacritty bspwm bun chromium dunst electrum element-desktop flameshot gh google-cloud-sdk
+      alacritty bspwm bun ungoogled-chromium dunst electrum element-desktop flameshot gh google-cloud-sdk
         i3lock-fancy-rapid libssh keepassxc nodejs pavucontrol python313Full polybar
         rofi signal-desktop slack sxhkd syncthing telegram-desktop tree xclip yarn
         transmission-qt
@@ -93,12 +93,13 @@ in
 #      startAgent = true;
 #      agentTimeout = "1h";
 #    };
+    zsh.enable = true;
     mtr.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
     };
-    chromium = {
+    ungoogled-chromium = {
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium-c
