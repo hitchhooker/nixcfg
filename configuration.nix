@@ -126,6 +126,7 @@ in
     unstable.zsh
     unstable.xorg.libX11
     unstable.brightnessctl
+    unstable.home-manager
 
     # Stable Packages
     stable.lightdm
