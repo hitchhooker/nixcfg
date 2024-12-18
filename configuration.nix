@@ -112,7 +112,7 @@ in
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
-    unstable.gtk-engine-murrine unstable.qt5ct
+    unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
 
     # Stable packages
     stable.lightdm stable.parted stable.screen stable.ssh-agents
@@ -156,6 +156,10 @@ in
     };
     chromium = {
       enable = true;
+      extraFlags = [
+        "--enable-features=WebUIDarkMode"        # Enable dark mode in Chromium UI
+        "--force-dark-mode"                      # Force websites into dark mode
+      ];
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
