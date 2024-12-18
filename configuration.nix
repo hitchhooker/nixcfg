@@ -156,10 +156,6 @@ in
     };
     chromium = {
       enable = true;
-      extraFlags = [
-        "--enable-features=WebUIDarkMode"        # Enable dark mode in Chromium UI
-        "--force-dark-mode"                      # Force websites into dark mode
-      ];
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
