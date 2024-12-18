@@ -101,17 +101,22 @@ in
 
   # System packages
   environment.systemPackages = with pkgs; [
+    (pkgs.chromium.overrideAttrs (old: rec {
+                                  postInstall = old.postInstall or "" + ''
+                                  wrapProgram "$out/bin/chromium" --add-flags \
+                                  "--enable-features=WebUIDarkMode --force-dark-mode"
+                                  '';
+                                  }))
     # Unstable packages
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
+    unstable.gtk-engine-murrine unstable.qt5ct
 
     # Stable packages
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
-    gtk-engine-murrine               # GTK dark theme compatibility
-    qt5ct                            # Qt configuration for dark mode
   ];
 
   environment.shells = [ pkgs.zsh pkgs.bash ];
@@ -151,10 +156,6 @@ in
     };
     chromium = {
       enable = true;
-      extraFlags = [
-        "--enable-features=WebUIDarkMode"        # Enable dark mode in Chromium UI
-        "--force-dark-mode"                      # Force websites into dark mode
-      ];
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
