@@ -1,18 +1,20 @@
 { config, lib, pkgs, ... }:
 
 let
-aliceSecret = import /etc/secrets/alice-hash.nix;
-wifiSecret = import /etc/secrets/wifi-networks.nix;
-hostSpecificHardwareConfig = ./machines/lenovo.nix;
-useHostConfig = if builtins.pathExists hostSpecificHardwareConfig then hostSpecificHardwareConfig else ./machines/default.nix;
-stable = import <nixos> { config = config.nixpkgs.config; };
-unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+  aliceSecret = import /etc/secrets/alice-hash.nix;
+  wifiSecret = import /etc/secrets/wifi-networks.nix;
+  hostSpecificHardwareConfig = ./machines/lenovo.nix;
+  useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
+                  then hostSpecificHardwareConfig 
+                  else ./machines/default.nix;
+  stable = import <nixos> { config = config.nixpkgs.config; };
+  unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
 in
 {
-# imports
+  # imports
   imports = [ ./aliases.nix <home-manager/nixos> useHostConfig ];
 
-# system.nix
+  # Nix settings
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -24,7 +26,7 @@ in
     "slack"
   ];
 
-# locale
+  # Locale
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
@@ -32,16 +34,16 @@ in
   };
   time.timeZone = "Asia/Bangkok";
 
-# fonts
+  # Fonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" "FiraCode" "Hack" ]; })
-      nerdfonts font-awesome iosevka dejavu_fonts
+    nerdfonts font-awesome iosevka dejavu_fonts
   ];
 
   system.copySystemConfiguration = true;
   system.stateVersion = "24.05";
 
-# network.nix
+  # Networking
   networking = {
     wireless = {
       enable = true;
@@ -54,7 +56,15 @@ in
     };
   };
 
-# home.nix
+  # Environment Variables for Dark Mode
+  environment.variables = {
+    GTK_THEME = "Adwaita:dark";               # Forces GTK apps to use a dark theme
+    QT_QPA_PLATFORMTHEME = "gtk2";           # Ensures Qt apps follow GTK themes
+    XDG_CURRENT_DESKTOP = "BSPWM";           # Helps some apps detect the desktop environment
+    MOZ_ENABLE_WAYLAND = "1";                # Optional for Wayland setups
+  };
+
+  # User configuration
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = false;
 
@@ -67,38 +77,19 @@ in
 
     # User-specific packages
     packages = with pkgs; [
-      # Unstable Packages
-      unstable.alacritty
-      unstable.bspwm
-      unstable.bun
-      unstable.ungoogled-chromium
-      unstable.dunst
-      unstable.element-desktop
-      unstable.flameshot
-      unstable.gh
-      unstable.polybar
-      unstable.rofi
-      unstable.signal-desktop
-      unstable.sxhkd
-      unstable.syncthing
-      unstable.telegram-desktop
-      unstable.tree
-      unstable.zsh
-      unstable.yarn
-      unstable.transmission-qt
+      # Unstable packages
+      unstable.alacritty unstable.bspwm unstable.bun unstable.ungoogled-chromium
+      unstable.dunst unstable.element-desktop unstable.flameshot unstable.gh
+      unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
+      unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
+      unstable.yarn unstable.transmission-qt
 
-      # Stable Packages
-      stable.electrum
-      stable.google-cloud-sdk
-      stable.i3lock-fancy-rapid
-      stable.libssh
-      stable.keepassxc
-      stable.nodejs
-      stable.pavucontrol
-      stable.python313Full
-      stable.xclip
+      # Stable packages
+      stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
+      stable.libssh stable.keepassxc stable.nodejs stable.pavucontrol
+      stable.python313Full stable.xclip
 
-      # Stable Python Packages
+      # Stable Python packages
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
     ];
   };
@@ -108,71 +99,34 @@ in
     home.stateVersion = "24.05";
   };
 
-# packages.nix
+  # System packages
   environment.systemPackages = with pkgs; [
-    # Unstable Packages
-    unstable.bash
-    unstable.cargo
-    unstable.gcc
-    unstable.fd
-    unstable.git
-    unstable.lm_sensors
-    unstable.neovim
-    unstable.openssh
-    unstable.ripgrep
-    unstable.rustup
-    unstable.wget
-    unstable.zellij
-    unstable.zsh
-    unstable.xorg.libX11
-    unstable.brightnessctl
-    unstable.home-manager
+    # Unstable packages
+    unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
+    unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
+    unstable.rustup unstable.wget unstable.zellij unstable.zsh
+    unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
 
-    # Stable Packages
-    stable.lightdm
-    stable.parted
-    stable.screen
-    stable.ssh-agents
-    stable.sshfs
-    stable.pkg-config
+    # Stable packages
+    stable.lightdm stable.parted stable.screen stable.ssh-agents
+    stable.sshfs stable.pkg-config
+    gtk-engine-murrine               # GTK dark theme compatibility
+    qt5ct                            # Qt configuration for dark mode
   ];
-# environment.variables.SHELL = "/run/current-system/sw/bin/bash";
+
   environment.shells = [ pkgs.zsh pkgs.bash ];
   environment.variables.SHELL = pkgs.zsh;
 
-# services.nix
-  programs = {
-#    ssh = {
-#      startAgent = true;
-#      agentTimeout = "1h";
-#    };
-    zsh.enable = true;
-    mtr.enable = true;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-    chromium = {
-      enable = true;
-      extensions = [
-        "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium-c
-          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-          "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
-          "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
-          "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
-      ];
-    };
-  };
-
-  services = { 
+  # Services
+  services = {
     logind = {
       powerKey = "ignore";
-      };
+    };
     openssh = {
       enable = true;
       settings = {
         PermitRootLogin = "no";
-        PasswordAuthentication = false; 
+        PasswordAuthentication = false;
       };
     };
     xserver = {
@@ -188,12 +142,35 @@ in
     greenclip.enable = true;
   };
 
-# activation.nix
+  programs = {
+    zsh.enable = true;
+    mtr.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+    chromium = {
+      enable = true;
+      extraFlags = [
+        "--enable-features=WebUIDarkMode"        # Enable dark mode in Chromium UI
+        "--force-dark-mode"                      # Force websites into dark mode
+      ];
+      extensions = [
+        "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+        "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
+        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+        "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+      ];
+    };
+  };
+
+  # Activation script
   system.activationScripts.linkDotfiles = ''
-# Create necessary directories
+    # Create necessary directories
     mkdir -p /home/alice/.config
 
-# Symlink files and directories
+    # Symlink files and directories
     ln -sf /etc/nixos/dotfiles/zsh/.zshrc /home/alice/.zshrc
     ln -sfn /etc/nixos/dotfiles/nvim /home/alice/.config/nvim
     ln -sfn /etc/nixos/dotfiles/alacritty /home/alice/.config/alacritty
@@ -204,12 +181,12 @@ in
     ln -sfn /etc/nixos/dotfiles/sxhkd /home/alice/.config/sxhkd
     ln -sf /etc/nixos/dotfiles/greenclip.toml /home/alice/.config/greenclip.toml
 
-# Ensure ownership and permissions
+    # Ensure ownership and permissions
     chown -R alice:users /home/alice/.config
     chown alice:users /home/alice/.zshrc
 
-# Set executable permissions on scripts if necessary
+    # Set executable permissions on scripts if necessary
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
-    '';
+  '';
 }
