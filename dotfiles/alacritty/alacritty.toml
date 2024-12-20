@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 
 [colors.bright]
@@ -70,6 +71,6 @@ lines = 22
 x = 0
 y = 0
 
-[shell]
+[terminal.shell]
 program = "/run/current-system/sw/bin/zsh"  # Added explicit shell specification
 args = ["-l"]  # Added to ensure login shell
