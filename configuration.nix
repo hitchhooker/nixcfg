@@ -87,7 +87,7 @@ in
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
       stable.libssh stable.keepassxc stable.nodejs stable.pavucontrol
-      stable.python313Full stable.xclip stable.chromium
+      stable.python313Full stable.xclip stable.chromium stable.iamb
 
       # Stable Python packages
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
