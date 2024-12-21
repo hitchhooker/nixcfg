@@ -99,6 +99,7 @@ in
     extraConfig = ''
       alice ALL=(ALL) NOPASSWD: ALL
     '';
+  };
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
