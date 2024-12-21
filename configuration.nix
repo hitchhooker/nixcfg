@@ -82,7 +82,7 @@ in
       unstable.dunst unstable.element-desktop unstable.flameshot unstable.gh
       unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
       unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
-      unstable.yarn unstable.transmission-qt
+      unstable.yarn unstable.transmission_4-qt
 
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
@@ -101,12 +101,12 @@ in
 
   # System packages
   environment.systemPackages = with pkgs; [
-    (pkgs.chromium.overrideAttrs (old: rec {
-                                  postInstall = old.postInstall or "" + ''
-                                  wrapProgram "$out/bin/chromium" --add-flags \
-                                  "--enable-features=WebUIDarkMode --force-dark-mode"
-                                  '';
-                                  }))
+#    (pkgs.chromium.overrideAttrs (old: rec {
+#                                  postInstall = old.postInstall or "" + ''
+#                                  wrapProgram "$out/bin/chromium" --add-flags \
+#                                  "--enable-features=WebUIDarkMode --force-dark-mode"
+#                                  '';
+#                                  }))
     # Unstable packages
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
