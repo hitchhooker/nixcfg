@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  aliceSecret = import /etc/secrets/alice-hash.nix;
-  wifiSecret = import /etc/secrets/wifi-networks.nix;
   hostSpecificHardwareConfig = ./machines/lenovo.nix;
   useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
                   then hostSpecificHardwareConfig 
@@ -42,29 +40,6 @@ in
 
   system.copySystemConfiguration = true;
   system.stateVersion = "24.05";
-
-  # Networking
-  networking = {
-    wireless = {
-      enable = true;
-      networks = wifiSecret.wifiNetworks;
-    };
-
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 22000 5222 5223 5269 5280 ];
-      allowedUDPPorts = [ 21027 51280 ];
-    };
-# Add these DNS settings
-    nameservers = [
-      "9.9.9.9"
-        "149.112.112.112"
-        "2620:fe::fe"
-        "2620:fe::9"
-    ];
-    dhcpcd.extraConfig = "nohook resolv.conf";
-    # Or if you use NetworkManager
-    networkmanager.dns = "none";
-  };
 
   # Environment Variables for Dark Mode
   environment.variables = {
