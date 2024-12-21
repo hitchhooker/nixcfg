@@ -8,6 +8,12 @@
 # Networking settings
   networking.hostName = "lenovo";
   networking.useDHCP = lib.mkDefault true;
+  networking.nameservers = [
+    "9.9.9.9"
+    "149.112.112.112"
+    "2620:fe::fe"
+    "2620:fe::9"
+  ];
 
 # Bootloader and kernel settings
   boot.loader = {
@@ -86,7 +92,6 @@
 # "nosmt=force"  # Disable SMT if needed
       "amd_pstate=passive"  # Power management for AMD
   ];
-
 
 
 # Enable Bluetooth and Audio
