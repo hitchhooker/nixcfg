@@ -154,6 +154,18 @@ in
     greenclip.enable = true;
   };
 
+  systemd.user.services = {
+    i3lock-on-lid = {
+      description = "Lock screen on lid close";
+      serviceConfig = {
+        ExecStart = "${pkgs.i3lock}/bin/i3lock-fancy-rapid 3 5";
+      };
+      install = {
+        WantedBy = [ "sleep.target" ]; # Trigger on lid events
+      };
+    };
+  };
+
   programs = {
     zsh.enable = true;
     mtr.enable = true;
