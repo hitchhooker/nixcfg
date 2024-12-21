@@ -2,7 +2,6 @@
 
 
 let
-  aliceSecret = import /etc/secrets/alice-hash.nix;
   wifiSecret = import /etc/secrets/wifi-networks.nix;
 in {
     {
@@ -16,9 +15,9 @@ in {
       useDHCP = lib.mkDefault true;
       nameservers = [
         "9.9.9.9"
-          "149.112.112.112"
-          "2620:fe::fe"
-          "2620:fe::9"
+        "149.112.112.112"
+        "2620:fe::fe"
+        "2620:fe::9"
       ];
       dhcpcd.extraConfig = "nohook resolv.conf"; # disable local DNS
         wireless = {

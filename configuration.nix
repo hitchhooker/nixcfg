@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
+  aliceSecret = import ./secrets/alice-hash.nix;
   hostSpecificHardwareConfig = ./machines/lenovo.nix;
   useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
                   then hostSpecificHardwareConfig 
@@ -23,6 +24,11 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "slack"
   ];
+
+  networking.firewall = {
+    allowedTCPPorts = [ 22 80 443 22000 5222 5223 5269 5280 ];
+    allowedUDPPorts = [ 21027 51280 ];
+  };
 
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
