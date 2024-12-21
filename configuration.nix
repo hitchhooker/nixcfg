@@ -94,6 +94,12 @@ in
     ];
   };
 
+  security.sudo = {
+    enable = true;
+    extraConfig = ''
+      alice ALL=(ALL) NOPASSWD: ALL
+    '';
+
   home-manager.users.alice = {
     services.syncthing.enable = true;
     home.stateVersion = "24.05";
