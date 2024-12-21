@@ -82,12 +82,12 @@ in
       unstable.dunst unstable.element-desktop unstable.flameshot unstable.gh
       unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
       unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
-      unstable.yarn unstable.transmission_4-qt unstable.firefox
+      unstable.yarn unstable.transmission_4-qt unstable.firefox unstable.iamb
 
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
       stable.libssh stable.keepassxc stable.nodejs stable.pavucontrol
-      stable.python313Full stable.xclip stable.chromium stable.iamb
+      stable.python313Full stable.xclip stable.chromium
 
       # Stable Python packages
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
