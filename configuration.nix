@@ -156,11 +156,11 @@ in
 
   systemd.user.services = {
     i3lock-on-lid = {
-      description = "Lock screen on lid close";
+   j  description = "Lock screen on lid close";
       serviceConfig = {
         ExecStart = "${pkgs.i3lock}/bin/i3lock-fancy-rapid 3 5";
       };
-      wantedby = [ "sleep.target" ]; # Trigger on lid events
+      wantedBy = [ "sleep.target" ]; # Trigger on lid events
     };
   };
 
