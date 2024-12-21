@@ -155,7 +155,7 @@ in
   };
 
   systemd.user.services = {
-    i3lock-on-lid = {
+    i3lock = {
       description = "Lock screen on lid close";
       serviceConfig = {
         ExecStart = "${pkgs.i3lock}/bin/i3lock-fancy-rapid 3 5";
