@@ -78,16 +78,16 @@ in
     # User-specific packages
     packages = with pkgs; [
       # Unstable packages
-      unstable.alacritty unstable.bspwm unstable.bun unstable.ungoogled-chromium
+      unstable.alacritty unstable.bspwm unstable.bun #unstable.ungoogled-chromium
       unstable.dunst unstable.element-desktop unstable.flameshot unstable.gh
       unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
       unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
-      unstable.yarn unstable.transmission_4-qt
+      unstable.yarn unstable.transmission_4-qt unstable.firefox
 
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
       stable.libssh stable.keepassxc stable.nodejs stable.pavucontrol
-      stable.python313Full stable.xclip
+      stable.python313Full stable.xclip stable.chromium
 
       # Stable Python packages
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
