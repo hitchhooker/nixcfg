@@ -161,7 +161,7 @@ in
       serviceConfig = {
         ExecStart = "${pkgs.i3lock}/bin/i3lock-fancy-rapid 3 5";
       };
-      wantedBy = [ "sleep.target" ]; # Trigger on lid events
+      wantedBy = [ "suspend.target" ]; # Trigger on lid events
     };
   };
 
