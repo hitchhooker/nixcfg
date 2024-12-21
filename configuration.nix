@@ -54,6 +54,16 @@ in
       allowedTCPPorts = [ 22 80 443 22000 5222 5223 5269 5280 ];
       allowedUDPPorts = [ 21027 51280 ];
     };
+# Add these DNS settings
+    nameservers = [
+      "9.9.9.9"
+        "149.112.112.112"
+        "2620:fe::fe"
+        "2620:fe::9"
+    ];
+    dhcpcd.extraConfig = "nohook resolv.conf";
+    # Or if you use NetworkManager
+    networkmanager.dns = "none";
   };
 
   # Environment Variables for Dark Mode
