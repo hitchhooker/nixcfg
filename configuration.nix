@@ -155,10 +155,10 @@ in
     greenclip.enable = true;
     acpid = {
       enable = true;
-      extraRules = ''
-        event=button/lid.*
-        action=${pkgs.i3lock}/bin/i3lock 3 5
-        '';
+#      extraRules = ''
+#        event=button/lid.*
+#        action=${pkgs.i3lock}/bin/i3lock 3 5
+#        '';
     };
   };
 
