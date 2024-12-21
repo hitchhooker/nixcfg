@@ -133,7 +133,7 @@ in
   services = {
     logind = {
       powerKey = "ignore";
-      lidSwitch = "ignore";
+      # lidSwitch = "ignore";
     };
     openssh = {
       enable = true;
@@ -153,13 +153,20 @@ in
     };
     syncthing.enable = false;
     greenclip.enable = true;
+    acpid = {
+      enable = true;
+      extraRules = ''
+        event=button/lid.*
+        action=${pkgs.i3lock}/bin/i3lock 3 5
+        '';
+    };
   };
 
   systemd.user.services = {
     i3lock-on-lid = {
       description = "Lock screen on lid close";
       serviceConfig = {
-        ExecStart = "${pkgs.i3lock}/bin/i3lock-fancy-rapid 3 5";
+        ExecStart = "${pkgs.i3lock}/bin/i3lock 3 5";
       };
       wantedBy = [ "suspend.target" ]; # Trigger on lid events
     };
