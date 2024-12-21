@@ -133,6 +133,7 @@ in
   services = {
     logind = {
       powerKey = "ignore";
+      handleLidSwitch = "ignore";
     };
     openssh = {
       enable = true;
