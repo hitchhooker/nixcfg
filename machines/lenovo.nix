@@ -19,11 +19,25 @@ in
         "2620:fe::fe"
         "2620:fe::9"
     ];
-    dhcpcd.extraConfig = "nohook resolv.conf"; # disable local DNS
-      wireless = {
-        enable = true;
-        networks = wifiSecret.wifiNetworks;
-      };
+    resolvconf = {
+      enable = true;
+      extraOptions = [
+        "edns0"            # Enable DNS extensions
+        "trust-ad"         # Accept authenticated data flag for DNSSEC
+        "rotate"           # Rotate through nameservers for load balancing
+        "timeout:2"        # Faster timeout for DNS queries
+        "attempts:3"       # Number of retries
+      ];
+    };
+    networkmanager.dns = "none";  # Prevent NetworkManager from managing DNS
+    dhcpcd.extraConfig = ''
+      nohook resolv.conf # disable local DNS
+      noipv4ll  # disable IPv4 Link-Local
+    '';
+    wireless = {
+      enable = true;
+      networks = wifiSecret.wifiNetworks;
+    };
     firewall = {
       allowedTCPPorts = [ 22 80 443 22000 5222 5223 5269 5280 ];
       allowedUDPPorts = [ 21027 51280 ];
