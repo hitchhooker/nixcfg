@@ -70,12 +70,14 @@ in
   system.copySystemConfiguration = true;
   system.stateVersion = "24.05";
 
-  # Environment Variables for Dark Mode
+  environment.shells = [ pkgs.zsh pkgs.bash ];
   environment.variables = {
     GTK_THEME = "Adwaita:dark";               # Forces GTK apps to use a dark theme
     QT_QPA_PLATFORMTHEME = "gtk2";           # Ensures Qt apps follow GTK themes
     XDG_CURRENT_DESKTOP = "BSPWM";           # Helps some apps detect the desktop environment
     MOZ_ENABLE_WAYLAND = "1";                # Optional for Wayland setups
+    SHELL = pkgs.zsh;
+
   };
 
   # User configuration
@@ -97,10 +99,11 @@ in
       unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
       unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
       unstable.yarn unstable.transmission_4-qt unstable.firefox unstable.iamb
+      unstable.keepassxc
 
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
-      stable.libssh stable.keepassxc stable.nodejs stable.pavucontrol
+      stable.libssh stable.nodejs stable.pavucontrol
       stable.python313Full stable.xclip stable.chromium
 
       # Stable Python packages
@@ -134,14 +137,12 @@ in
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
+    unstable.slack
 
     # Stable packages
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
   ];
-
-  environment.shells = [ pkgs.zsh pkgs.bash ];
-  environment.variables.SHELL = pkgs.zsh;
 
   # Services
   services = {
@@ -175,7 +176,6 @@ in
 #        '';
     };
   };
-
   systemd.user.services = {
     i3lock-on-lid = {
       description = "Lock screen on lid close";
@@ -187,12 +187,6 @@ in
   };
 
   programs = {
-    zsh.enable = true;
-    mtr.enable = true;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
     chromium = {
       enable = true;
       extensions = [
@@ -203,6 +197,12 @@ in
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
       ];
     };
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+    mtr.enable = true;
+    zsh.enable = true;
   };
 
   # Activation script
