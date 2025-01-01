@@ -1,0 +1,77 @@
+diff --git a/aliases.nix b/aliases.nix
+index 7531991..03d8f58 100644
+--- a/aliases.nix
++++ b/aliases.nix
+@@ -6,6 +6,7 @@
+     rbt = "sudo nixos-rebuild dry-build";
+     rbs = ''
+       cd /etc/nixos && \
++      echo "rbs executing" \
+       nixos_version=$(nixos-version) && \
+       build_output=$(sudo nixos-rebuild switch 2>&1) && \
+       build_path=$(echo "$build_output" | grep -oE "/nix/store/[a-z0-9]{32}-nixos-system-[^ ]+") && \
+diff --git a/configuration.nix b/configuration.nix
+index 8f6b997..3816ceb 100644
+--- a/configuration.nix
++++ b/configuration.nix
+@@ -137,7 +137,7 @@ in
+     unstable.rustup unstable.wget unstable.zellij unstable.zsh
+     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
+     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
+-    unstable.slack
++    unstable.slack unstable.mpv
+ 
+     # Stable packages
+     stable.lightdm stable.parted stable.screen stable.ssh-agents
+diff --git a/dotfiles/iamb/config.toml b/dotfiles/iamb/config.toml
+new file mode 100644
+index 0000000..e69de29
+diff --git a/hardware/lenovo.nix b/hardware/lenovo.nix
+index 1a41c77..dad1789 100644
+--- a/hardware/lenovo.nix
++++ b/hardware/lenovo.nix
+@@ -87,18 +87,38 @@ in
+ # GPU Configuration for AMD Ryzen 7 (with integrated graphics)
+   services.xserver.videoDrivers = [ "amdgpu" ];
+   boot.kernelParams = [
++    # "nosmt=force"  # Disable SMT if needed
+     "radeon.si_support=0"
+-      "amdgpu.si_support=1"
+-      "radeon.cik_support=0"
+-      "amdgpu.cik_support=1"
+-      "amdgpu.dc=1"  # Enable display core support
+-# "nosmt=force"  # Disable SMT if needed
+-      "amd_pstate=passive"  # Power management for AMD
++    "amdgpu.si_support=1"
++    "radeon.cik_support=0"
++    "amdgpu.cik_support=1"
++    "amdgpu.dc=1"
++    "amdgpu.dcfeaturemask=0xFF"  # Enable all DC features
++    "amd_pstate=passive"
++#    "video=HDMI-A-1:1920x1080@60"
+   ];
+ 
+ 
+ # Enable Bluetooth and Audio
+   hardware.bluetooth.enable = true;
++  hardware.opengl = {
++    enable = true;
++    driSupport = true;
++    driSupport32Bit = true;
++    extraPackages = with pkgs; [
++      rocm-opencl-icd
++        rocm-opencl-runtime
++        amdvlk
++        vaapiVdpau
++        libvdpau-va-gl
++    ];
++    extraPackages32 = with pkgs; [
++      driversi686Linux.amdvlk
++    ];
++  };
++
++# Add VA-API support
++  hardware.pulseaudio.support32Bit = true;
+ 
+ # Sound (PipeWire)
+   services.pipewire = {

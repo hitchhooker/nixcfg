@@ -14,5 +14,5 @@
 }
 // builtins.mapAttrs (n: v: {
   imports = v._module.args.modules;
-  inherit (self.machines.${n}) deployment;
+  inherit (self.hardware.${n}) deployment;
 }) self.nixosConfigurations

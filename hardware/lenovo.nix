@@ -84,7 +84,6 @@ in
   { device = "/dev/disk/by-uuid/6f3e1022-45d0-4378-bcf5-26e4bd42bfd4"; }
   ];
 
-# GPU Configuration for AMD Ryzen 7 (with integrated graphics)
   services.xserver.videoDrivers = [ "amdgpu" ];
   boot.kernelParams = [
     "radeon.si_support=0"
@@ -92,13 +91,28 @@ in
       "radeon.cik_support=0"
       "amdgpu.cik_support=1"
       "amdgpu.dc=1"  # Enable display core support
-# "nosmt=force"  # Disable SMT if needed
+      "nosmt=force"  # Disable SMT if needed
       "amd_pstate=passive"  # Power management for AMD
   ];
 
 
 # Enable Bluetooth and Audio
   hardware.bluetooth.enable = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      rocm-opencl-icd
+        rocm-opencl-runtime
+        amdvlk
+        vaapiVdpau
+        libvdpau-va-gl
+    ];
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+    ];
+  };
 
 # Sound (PipeWire)
   services.pipewire = {

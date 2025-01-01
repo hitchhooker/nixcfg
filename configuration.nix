@@ -2,10 +2,10 @@
 
 let
   aliceSecret = import ./secrets/alice-hash.nix;
-  hostSpecificHardwareConfig = ./machines/lenovo.nix;
+  hostSpecificHardwareConfig = ./hardware/lenovo.nix;
   useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
                   then hostSpecificHardwareConfig 
-                  else ./machines/default.nix;
+                  else ./hardware/default.nix;
   stable = import <nixos> { config = config.nixpkgs.config; };
   unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
 in
