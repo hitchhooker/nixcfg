@@ -11,7 +11,8 @@
       build_path=$(echo "$build_output" | grep -oE "/nix/store/[a-z0-9]{32}-nixos-system-[^ ]+" | head -n1) && \
       git add -A && \
       git commit -m "$build_path" && \
-      exec $SHELL
+      source /etc/zshrc && \
+      source /etc/bashrc
     '';
     nx = ''cd /etc/nixos/ && ls'';
   };
