@@ -11,7 +11,7 @@ let
 in
 {
   # imports
-  imports = [ ./aliases.nix <home-manager/nixos> useHostConfig ];
+  imports = [ ./shell.nix <home-manager/nixos> useHostConfig ];
 
   # Nix settings
   nix = {
@@ -70,18 +70,15 @@ in
   system.copySystemConfiguration = true;
   system.stateVersion = "24.05";
 
-  environment.shells = [ pkgs.zsh pkgs.bash ];
   environment.variables = {
     GTK_THEME = "Adwaita:dark";               # Forces GTK apps to use a dark theme
     QT_QPA_PLATFORMTHEME = "gtk2";           # Ensures Qt apps follow GTK themes
     XDG_CURRENT_DESKTOP = "BSPWM";           # Helps some apps detect the desktop environment
     MOZ_ENABLE_WAYLAND = "1";                # Optional for Wayland setups
     SHELL = pkgs.zsh;
-
   };
 
   # User configuration
-  users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = false;
 
   users.users.alice = {
