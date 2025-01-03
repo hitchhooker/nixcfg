@@ -96,12 +96,12 @@ in
       unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
       unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
       unstable.yarn unstable.transmission_4-qt unstable.firefox unstable.iamb
-      unstable.keepassxc unstable.mpv
+      unstable.keepassxc
 
       # Stable packages
       stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
       stable.libssh stable.nodejs stable.pavucontrol
-      stable.python313Full stable.xclip stable.chromium
+      stable.python313Full stable.xclip stable.chromium stable.mpv
 
       # Stable Python packages
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
