@@ -101,8 +101,6 @@ in
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-#      rocm-opencl-icd
-#        rocm-opencl-runtime
         amdvlk
         vaapiVdpau
         libvdpau-va-gl
@@ -123,7 +121,7 @@ in
     enable = true;
     touchpad = {
       naturalScrolling = false;
-      tapping = true;              # Enable tap-to-click
+      tapping = true;                # Enable tap-to-click
         disableWhileTyping = true;   # Disable touchpad while typing
         scrollMethod = "twofinger";  # Use two-finger scrolling
     };
