@@ -121,7 +121,7 @@ XF86AudioRaiseVolume
 
 # Lower volume
 XF86AudioLowerVolume
-  amixer -q set Master 5%- unmute
+  amixer -c 1 set Master 5%- unmute
 
 # Mute/unmute volume
 XF86AudioMute

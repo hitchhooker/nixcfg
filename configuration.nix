@@ -12,10 +12,11 @@ in
 {
   # imports
   imports = [ ./shell.nix <home-manager/nixos> useHostConfig ];
+  nixpkgs.config.allowUnfree = true;
 
   # Nix settings
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
       '';
@@ -23,6 +24,7 @@ in
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "slack"
+    "libsciter"
   ];
 
   networking = {
@@ -35,14 +37,14 @@ in
     resolvconf = {
       enable = true;
       extraOptions = [
-        "edns0"            # Enable DNS extensions
-        "trust-ad"         # Accept authenticated data flag for DNSSEC
-        "rotate"           # Rotate through nameservers for load balancing
-        "timeout:2"        # Faster timeout for DNS queries
-        "attempts:3"       # Number of retries
+        "edns0"            # enable DNS extensions
+        "trust-ad"         # accept authenticated data flag for DNSSEC
+        "rotate"           # rotate through nameservers for load balancing
+        "timeout:2"        # faster timeout for DNS queries
+        "attempts:3"       # number of retries
       ];
     };
-    networkmanager.dns = "none";  # Prevent NetworkManager from managing DNS
+    networkmanager.dns = "none";  # prevent NetworkManager from managing DNS
     dhcpcd.extraConfig = ''
       nohook resolv.conf # disable local DNS
       noipv4ll  # disable IPv4 Link-Local
@@ -61,20 +63,14 @@ in
   };
   time.timeZone = "Asia/Bangkok";
 
-  # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" "FiraCode" "Hack" ]; })
-    nerdfonts font-awesome iosevka dejavu_fonts
-  ];
-
   system.copySystemConfiguration = true;
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   environment.variables = {
-    GTK_THEME = "Adwaita:dark";               # Forces GTK apps to use a dark theme
-    QT_QPA_PLATFORMTHEME = "gtk2";           # Ensures Qt apps follow GTK themes
-    XDG_CURRENT_DESKTOP = "BSPWM";           # Helps some apps detect the desktop environment
-    MOZ_ENABLE_WAYLAND = "1";                # Optional for Wayland setups
+    GTK_THEME = "Adwaita:dark";              # forces GTK apps to use a dark theme
+    QT_QPA_PLATFORMTHEME = "gtk2";           # ensures Qt apps follow GTK themes
+    XDG_CURRENT_DESKTOP = "BSPWM";           # helps some apps detect the desktop environment
+    #MOZ_ENABLE_WAYLAND = "1";                # optional for Wayland setups
     SHELL = pkgs.zsh;
   };
 
@@ -89,21 +85,21 @@ in
     extraGroups = [ "wheel" ];
 
     # User-specific packages
-    packages = with pkgs; [
-      # Unstable packages
-      unstable.alacritty unstable.bspwm unstable.bun #unstable.ungoogled-chromium
-      unstable.dunst unstable.element-desktop unstable.flameshot unstable.gh
-      unstable.polybar unstable.rofi unstable.signal-desktop unstable.sxhkd
-      unstable.syncthing unstable.telegram-desktop unstable.tree unstable.zsh
-      unstable.yarn unstable.transmission_4-qt unstable.firefox unstable.iamb
-      unstable.keepassxc
-
-      # Stable packages
-      stable.electrum stable.google-cloud-sdk stable.i3lock-fancy-rapid
-      stable.libssh stable.nodejs stable.pavucontrol
-      stable.python313Full stable.xclip stable.chromium stable.mpv
-
-      # Stable Python packages
+    packages = with pkgs; 
+    (with unstable; [
+     alacritty bspwm bun # ungoogled-chromium
+     dunst element-desktop flameshot gh
+     polybar rofi signal-desktop sxhkd
+     syncthing telegram-desktop tree zsh
+     yarn transmission_4-qt firefox iamb
+     keepassxc beeper slack iamb
+    ] ++
+    (with stable; [
+     electrum google-cloud-sdk i3lock-fancy-rapid
+     libssh nodejs pavucontrol alsa-utils
+     python313Full xclip chromium mpv
+     rustdesk
+    ])) ++ [
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
     ];
   };
@@ -117,7 +113,7 @@ in
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
-    home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
   };
 
   # System packages
@@ -134,7 +130,6 @@ in
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
-    unstable.slack
 
     # Stable packages
     stable.lightdm stable.parted stable.screen stable.ssh-agents
