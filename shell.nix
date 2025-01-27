@@ -13,7 +13,7 @@
         build_path=$(grep -oE "/nix/store/[a-z0-9]{32}-nixos-system-[^ ]+" nixos-build.log | head -n1)
         rm nixos-build.log
         git add -A 
-        git commit -m "$build_path"
+        git commit -m "update: $build_path"
         '';
       nx = "cd /etc/nixos/ && ls";
     };
