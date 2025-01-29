@@ -18,6 +18,14 @@ in
       networks = wifiSecret.wifiNetworks;
     };
   };
+
+  security.sudo = {
+    enable = true;
+    extraConfig = ''
+      alice ALL=(ALL) NOPASSWD: ALL
+      '';
+  };
+
 # Bootloader and kernel settings
   boot.loader = {
     systemd-boot.enable = true;
