@@ -131,7 +131,6 @@ in
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
-    unstable.nvidia-smi
 
     # Stable packages
     stable.lightdm stable.parted stable.screen stable.ssh-agents
