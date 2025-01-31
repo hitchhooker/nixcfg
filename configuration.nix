@@ -126,7 +126,7 @@ in
 #                                  '';
 #                                  }))
     # Unstable packages
-    unstable.bash unstable.sh unstable.cargo unstable.gcc unstable.fd unstable.git
+    unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
