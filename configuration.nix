@@ -69,6 +69,8 @@ in
   environment.variables = {
     GTK_THEME = "Adwaita:dark";              # forces GTK apps to use a dark theme
     QT_QPA_PLATFORMTHEME = "gtk2";           # ensures Qt apps follow GTK themes
+    BROWSER_DARK_MODE = "1";                 # darkm
+    FORCE_DARK_MODE = "1";                   # dakrm
     XDG_CURRENT_DESKTOP = "BSPWM";           # helps some apps detect the desktop environment
     #MOZ_ENABLE_WAYLAND = "1";                # optional for Wayland setups
     SHELL = pkgs.zsh;
@@ -126,6 +128,7 @@ in
 #                                  '';
 #                                  }))
     # Unstable packages
+    unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
@@ -138,8 +141,22 @@ in
     stable.sshfs stable.pkg-config
   ];
 
+  location = {
+    latitude = 13.7563;
+    longitude = 99.5018;
+  };
+
   # Services
   services = {
+   # location.provider = "geoclue2";
+    redshift = {
+      enable = true;
+      temperature = {
+        day = 2900;
+        night = 2700;
+      };
+      # Bangkok coordinates
+    };
     logind = {
       powerKey = "ignore";
       # lidSwitch = "ignore";
@@ -171,6 +188,9 @@ in
     };
   };
   systemd.user.services = {
+    tailscale = {
+      enable = true;
+      };
     i3lock-on-lid = {
       description = "Lock screen on lid close";
       serviceConfig = {
