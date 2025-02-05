@@ -95,7 +95,7 @@ in
      syncthing telegram-desktop tree zsh
      yarn transmission_4-qt firefox iamb
      keepassxc beeper slack iamb
-     tailscale jq websocat
+     tailscale jq websocat busybox
     ] ++
     (with stable; [
      electrum google-cloud-sdk i3lock-fancy-rapid
