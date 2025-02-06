@@ -96,6 +96,7 @@ in
      yarn transmission_4-qt firefox iamb
      keepassxc beeper slack iamb
      tailscale jq websocat busybox
+     thunderbird
     ] ++
     (with stable; [
      electrum google-cloud-sdk i3lock-fancy-rapid
@@ -209,6 +210,8 @@ in
         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
         "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+        "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain
       ];
     };
     gnupg.agent = {
@@ -219,7 +222,7 @@ in
     zsh.enable = true;
   };
 
-  # Activation script
+  # activation script
   system.activationScripts.linkDotfiles = ''
     # Create necessary directories
     mkdir -p /home/alice/.config
