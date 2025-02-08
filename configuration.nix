@@ -55,6 +55,17 @@ in
     };
   };
 
+  # fonts
+  fonts = {
+    packages = with pkgs; [
+#      nerd-fonts
+      nerd-fonts.iosevka
+      nerd-fonts.fira-code
+#     icons 
+      font-awesome
+    ];
+  };
+
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -117,7 +128,9 @@ in
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
-    home.stateVersion = "24.11";
+#    home.stateVersion = "25.11";
+    home.stateVersion = "25.05";
+    home.enableNixpkgsReleaseCheck = false; # Disable warning
   };
 
   # System packages
@@ -136,8 +149,10 @@ in
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
     unstable.thunderbird-latest-unwrapped unstable.tailscale
+    unstable.openssh
 
     # Stable packages
+    stable.ssh-agents
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
   ];
@@ -216,7 +231,7 @@ in
     };
     gnupg.agent = {
       enable = true;
-      enableSSHSupport = true;
+      enableSSHSupport = false;
     };
     mtr.enable = true;
     zsh.enable = true;
