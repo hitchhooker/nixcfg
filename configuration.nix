@@ -113,7 +113,6 @@ in
      electrum google-cloud-sdk i3lock-fancy-rapid
      libssh nodejs pavucontrol alsa-utils
      python313Full xclip chromium mpv
-     rustdesk
     ])) ++ [
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
     ];
@@ -165,6 +164,7 @@ in
   # Services
   services = {
    # location.provider = "geoclue2";
+    tailscale = { enable = true; };
     redshift = {
       enable = true;
       temperature = {
@@ -204,9 +204,6 @@ in
     };
   };
   systemd.user.services = {
-    tailscale = {
-      enable = true;
-      };
     i3lock-on-lid = {
       description = "Lock screen on lid close";
       serviceConfig = {
