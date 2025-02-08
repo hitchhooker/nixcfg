@@ -101,18 +101,25 @@ in
     packages = with pkgs; 
     (with unstable; [
      alacritty bspwm bun # ungoogled-chromium
-     dunst element-desktop flameshot gh
-     polybar rofi signal-desktop sxhkd
-     syncthing telegram-desktop tree zsh
-     yarn transmission_4-qt firefox iamb
+     dunst element-desktop electrum
+     flameshot gh polybar rofi 
+     signal-desktop sxhkd syncthing 
+     telegram-desktop tree zsh yarn 
+     transmission_4-qt firefox iamb
      keepassxc beeper slack iamb
      tailscale jq websocat busybox
      thunderbird
     ] ++
     (with stable; [
-     electrum google-cloud-sdk i3lock-fancy-rapid
+     google-cloud-sdk i3lock-fancy-rapid
      libssh nodejs pavucontrol alsa-utils
-     python313Full xclip chromium mpv
+     python313Full xclip mpv
+     (chromium.override {
+      commandLineArgs = [
+      "--force-dark-mode"
+      "--enable-features=WebUIDarkMode"
+      ];
+      })
     ])) ++ [
       (stable.python3.withPackages (ps: with ps; [ ps.ansible ps.pip ]))
     ];
@@ -134,12 +141,6 @@ in
 
   # System packages
   environment.systemPackages = with pkgs; [
-#    (pkgs.chromium.overrideAttrs (old: rec {
-#                                  postInstall = old.postInstall or "" + ''
-#                                  wrapProgram "$out/bin/chromium" --add-flags \
-#                                  "--enable-features=WebUIDarkMode --force-dark-mode"
-#                                  '';
-#                                  }))
     # Unstable packages
     unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
@@ -148,7 +149,6 @@ in
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
     unstable.thunderbird-latest-unwrapped unstable.tailscale
-    unstable.openssh
 
     # Stable packages
     stable.ssh-agents
