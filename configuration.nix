@@ -237,7 +237,7 @@ in
 
   virtualisation.docker = {
     enable = true;
-    compose.enable = true;
+    #compose.enable = true;
   };
 
   # activation script
