@@ -142,7 +142,6 @@ in
   # System packages
   environment.systemPackages = with pkgs; [
     # Unstable packages
-    unstable.docker #unstable.docker-compose
     unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
@@ -152,6 +151,7 @@ in
     unstable.tailscale
 
     # Stable packages
+    stable.docker stable.docker-compose
     stable.ssh-agents
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
@@ -163,10 +163,6 @@ in
   };
 
   # Services
-  services.docker = {
-    enable = true;
-    enableDockerCompose = true; # For Docker Compose v2
-  };
   services = {
    # location.provider = "geoclue2";
     tailscale = { enable = true; };
