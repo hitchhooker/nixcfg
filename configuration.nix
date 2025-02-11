@@ -95,7 +95,7 @@ in
     home = "/home/alice";
     hashedPassword = aliceSecret.hashedPassword;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
 
     # User-specific packages
     packages = with pkgs; 
@@ -134,6 +134,7 @@ in
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
+    services.docker.enable = true;
 #    home.stateVersion = "25.11";
     home.stateVersion = "25.05";
     home.enableNixpkgsReleaseCheck = false; # Disable warning
@@ -142,6 +143,7 @@ in
   # System packages
   environment.systemPackages = with pkgs; [
     # Unstable packages
+    unstable.docker unstable.docker-compose
     unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
