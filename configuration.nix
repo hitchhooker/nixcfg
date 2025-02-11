@@ -235,6 +235,11 @@ in
     zsh.enable = true;
   };
 
+  virtualisation.docker = {
+    enable = true;
+    compose.enable = true;
+  };
+
   # activation script
   system.activationScripts.linkDotfiles = ''
     # Create necessary directories
