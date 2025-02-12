@@ -101,7 +101,7 @@ in
     packages = with pkgs; 
     (with unstable; [
      alacritty bspwm bun # ungoogled-chromium
-     dunst #element-desktop electrum
+     dunst
      flameshot gh polybar rofi 
      signal-desktop sxhkd syncthing 
      telegram-desktop tree zsh yarn 
@@ -113,7 +113,7 @@ in
     (with stable; [
      google-cloud-sdk i3lock-fancy-rapid
      libssh nodejs pavucontrol alsa-utils
-     python313Full xclip mpv
+     python313Full xclip mpv element-desktop
      (chromium.override {
       commandLineArgs = [
       "--force-dark-mode"
