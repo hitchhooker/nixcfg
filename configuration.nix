@@ -61,6 +61,7 @@ in
 #      nerd-fonts
       nerd-fonts.iosevka
       nerd-fonts.fira-code
+      iosevka
 #     icons 
       font-awesome
     ];

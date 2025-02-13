@@ -26,10 +26,10 @@ bottom = false
 fixed-center = true
 
 width = 100%
-height = 48 
+height = 48
 
-offset-x = 
-offset-y =  
+offset-x =
+offset-y =
 
 ; Background ARGB color (e.g. #f00, #ff992a, #ddff1023)
 background = ${colors.bg}
@@ -43,7 +43,7 @@ line-color = #fff
 ; Number of spaces to add at the beginning/end of the bar
 ; Individual side values can be defined using:
 ;   padding-{left,right}
-padding-right = 1 
+padding-right = 1
 padding-left = 0
 
 ; Number of spaces to add before/after each module
@@ -56,7 +56,7 @@ font-1 = "Iosevka Term:pixelsize=8;1"
 
 ; Define modules fot the bar
 ; All modules need not be added here
-modules-left = powermenu bspwm sps keyhint
+modules-left = powermenu bspwm sps keyhint sps pomodoro
 modules-center = title
 modules-right = backlight sps battery sps pulseaudio sps memory sps cpu sps caps sps num sps scroll sps date
 ; Following modules are not enabled by default in cha OS Bspwm Edition
@@ -139,13 +139,13 @@ enable-click = true
 ; Default: true
 enable-scroll = true
 
-; Set the scroll cycle direction 
+; Set the scroll cycle direction
 ; Default: true
 reverse-scroll = false
 
-; Use fuzzy (partial) matching on labels when assigning 
+; Use fuzzy (partial) matching on labels when assigning
 ; icons to workspaces
-; Example: code;♚ will apply the icon to all workspaces 
+; Example: code;♚ will apply the icon to all workspaces
 ; containing 'code' in the label
 ; Default: false
 fuzzy-match = true
@@ -153,16 +153,16 @@ fuzzy-match = true
 ; ws-icon-[0-9]+ = <label>;<icon>
 ; Note that the <label> needs to correspond with the bspwm workspace name
 ; Neither <label> nor <icon> can contain a semicolon (;)
-ws-icon-0 = "I;%{T1}   %{T-}"
-ws-icon-1 = "II;%{T1}   %{T-}"
-ws-icon-2 = "III;%{T1}   %{T-}"
+ws-icon-0 = "I;%{T1}  %{T-}"
+ws-icon-1 = "II;%{T1}  %{T-}"
+ws-icon-2 = "III;%{T1}  %{T-}"
 ws-icon-3 = "IV;%{T1}  %{T-}"
 ws-icon-4 = "V;%{T1}  %{T-}"
-ws-icon-5 = "VI;%{T1}  %{T-}"
+ws-icon-5 = "VI;%{T1}  %{T-}"
 ws-icon-6 = "VII;%{T1}  %{T-}"
 ws-icon-7 = "VIII;%{T1}  %{T-}"
 ws-icon-8 = "IX;%{T1}  %{T-}"
-ws-icon-9 = "X;%{T1}  %{T-}"
+ws-icon-9 = "X;%{T1}  %{T-}"
 ws-icon-default = %{T1}  %{T-}
 
 ; Available tags:
@@ -270,7 +270,25 @@ type = internal/memory
 interval = 0.5
 format = <label>
 
-label = %{T1} %{T-}%{T2} %gb_used%%{T-}
+; Available tokens:
+;   %percentage_used% (default)
+;   %percentage_free%
+;   %gb_used%
+;   %gb_free%
+;   %gb_total%
+;   %mb_used%
+;   %mb_free%
+;   %mb_total%
+;   %percentage_swap_used%
+;   %percentage_swap_free%
+;   %mb_swap_total%
+;   %mb_swap_free%
+;   %mb_swap_used%
+;   %gb_swap_total%
+;   %gb_swap_free%
+;   %gb_swap_used%
+
+label = %{T1}%{T-}%{T2} %gb_used%%{T-}
 
 label-foreground = ${colors.cyan}
 
@@ -307,8 +325,8 @@ label-offline = "MPD is offline"
 
 ; Only applies if <icon-X> is used
 icon-play = %{T1}奈%{T-}
-icon-pause = %{T1} %{T-}
-icon-stop = %{T1} %{T-}
+icon-pause = %{T1}%{T-}
+icon-stop = %{T1}%{T-}
 icon-prev = %{T1}ﭣ%{T-}
 icon-next = %{T1}ﭡ%{T-}
 
@@ -415,7 +433,7 @@ card = intel_backlight
 ; NOTE: This may require additional configuration on some systems. Polybar will
 ; write to `/sys/class/backlight/${self.card}/brightness` which requires polybar
 ; to have write access to that file.
-; DO NOT RUN POLYBAR AS ROOT. 
+; DO NOT RUN POLYBAR AS ROOT.
 ; The recommended way is to add the user to the
 ; `video` group and give that group write-privileges for the `brightness` file.
 ; See the ArchWiki for more information:
@@ -493,7 +511,7 @@ label-discharging-foreground = ${colors.magenta}
 ; Available tokens:
 ;   %percentage% (default) - is set to 100 if full-at is reached
 ;   %percentage_raw%
-label-full = %{T1}%{T-} %{T2} Full!%{T-}
+label-full = %{T1}%{T-} %{T2}Full!%{T-}
 label-full-foreground = ${colors.magenta}
 
 [settings]
@@ -519,7 +537,7 @@ format-foreground = ${colors.magenta}
 
 [module/powermenu]
 type = custom/text
-content = "⏻"
+content = "襤"
 click-left = ~/.config/rofi/powermenu.sh
 content-background = ${colors.pink}
 content-foreground = ${colors.white}
@@ -539,3 +557,12 @@ type = custom/script
 interval = 900s
 exec = ~/.config/polybar/scripts/checkupdates.sh
 format-foreground = ${colors.magenta}
+
+[module/pomodoro]
+type = custom/script
+exec = ~/.config/polybar/scripts/get_pomodoro.sh
+interval = 1
+format-prefix = " "
+format-prefix-foreground = #C9E3DB
+format-foreground = #56F39A
+
