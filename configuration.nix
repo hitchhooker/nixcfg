@@ -109,7 +109,7 @@ in
      transmission_4-qt firefox iamb
      keepassxc beeper slack iamb
      tailscale jq websocat busybox
-     thunderbird tigervnc
+     thunderbird turbovnc
     ] ++
     (with stable; [
      google-cloud-sdk i3lock-fancy-rapid
