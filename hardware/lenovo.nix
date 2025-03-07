@@ -7,7 +7,6 @@
 {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
-    (builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz")
   ];
 
 # Networking settings
