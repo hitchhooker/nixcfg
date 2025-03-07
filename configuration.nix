@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  aliceSecret = import ./secrets/alice-hash.nix;
   hostSpecificHardwareConfig = ./hardware/lenovo.nix;
   useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
                   then hostSpecificHardwareConfig 
@@ -11,8 +10,19 @@ let
 in
 {
   # imports
-  imports = [ ./shell.nix <home-manager/nixos> useHostConfig ];
+  imports = [ ./shell.nix <home-manager/nixos> useHostConfig
+  (builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz")
+  ];
+
+  age.secrets.alice-hash = {
+    file = ./secrets/alice-hash.age;
+    owner = "root";
+    group = "root";
+    mode = "0400";
+  };
+
   nixpkgs.config.allowUnfree = true;
+
 
   # Nix settings
   nix = {
@@ -94,7 +104,7 @@ in
   users.users.alice = {
     isNormalUser = true;
     home = "/home/alice";
-    hashedPassword = aliceSecret.hashedPassword;
+    hashedPassword = lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path);
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "docker" ];
 
@@ -154,7 +164,7 @@ in
 
     # Stable packages
     stable.docker stable.docker-compose
-    stable.ssh-agents
+    stable.ssh-agents #stable.agenix
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
   ];
@@ -224,6 +234,7 @@ in
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
         "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+        "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
         "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
         "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain

@@ -1,12 +1,13 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 
-let
-wifiSecret = import /etc/secrets/wifi-networks.nix;
-in
+#let
+#wifiSecret = import /etc/secrets/wifi-networks.nix;
+#in
 {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
+    (builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz")
   ];
 
 # Networking settings
@@ -15,8 +16,17 @@ in
     useDHCP = lib.mkDefault true;
     wireless = {
       enable = true;
-      networks = wifiSecret.wifiNetworks;
+#      networks = wifiSecret.wifiNetworks;
+      networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
     };
+  };
+
+  # secret to be managed by agenix
+  age.secrets.wifi-networks = {
+    file = ./secrets/wifi-networks.age;
+    owner = "root";
+    group = "root";
+    mode = "0400";
   };
 
   security.sudo = {
