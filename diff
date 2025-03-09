@@ -1,0 +1,139 @@
+diff --git a/configuration.nix b/configuration.nix
+index ac03175..fe0045f 100644
+--- a/configuration.nix
++++ b/configuration.nix
+@@ -1,7 +1,6 @@
+ { config, lib, pkgs, ... }:
+ 
+ let
+-  aliceSecret = import ./secrets/alice-hash.nix;
+   hostSpecificHardwareConfig = ./hardware/lenovo.nix;
+   useHostConfig = if builtins.pathExists hostSpecificHardwareConfig 
+                   then hostSpecificHardwareConfig 
+@@ -11,9 +10,20 @@ let
+ in
+ {
+   # imports
+-  imports = [ ./shell.nix <home-manager/nixos> useHostConfig ];
++  imports = [ ./shell.nix <home-manager/nixos> useHostConfig
++  (builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz")
++  ];
++
++  age.secrets.alice-hash = {
++    file = ./secrets/alice-hash.age;
++    owner = "root";
++    group = "root";
++    mode = "0400";
++  };
++
+   nixpkgs.config.allowUnfree = true;
+ 
++
+   # Nix settings
+   nix = {
+     package = pkgs.nixVersions.stable;
+@@ -94,7 +104,7 @@ in
+   users.users.alice = {
+     isNormalUser = true;
+     home = "/home/alice";
+-    hashedPassword = aliceSecret.hashedPassword;
++    hashedPassword = lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path);
+     shell = pkgs.zsh;
+     extraGroups = [ "wheel" "docker" ];
+ 
+@@ -154,7 +164,7 @@ in
+ 
+     # Stable packages
+     stable.docker stable.docker-compose
+-    stable.ssh-agents
++    stable.ssh-agents #stable.agenix
+     stable.lightdm stable.parted stable.screen stable.ssh-agents
+     stable.sshfs stable.pkg-config
+   ];
+@@ -224,11 +234,13 @@ in
+         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
+         "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
++        "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
+         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+         "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+         "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain
+       ];
+     };
++    programs.ssh.startAgent = true;
+     gnupg.agent = {
+       enable = true;
+       enableSSHSupport = false;
+diff --git a/hardware/lenovo.nix b/hardware/lenovo.nix
+index 7541a0e..c7e9c3b 100644
+--- a/hardware/lenovo.nix
++++ b/hardware/lenovo.nix
+@@ -1,9 +1,9 @@
+ { config, lib, pkgs, modulesPath, ... }:
+ 
+ 
+-let
+-wifiSecret = import /etc/secrets/wifi-networks.nix;
+-in
++#let
++#wifiSecret = import /etc/secrets/wifi-networks.nix;
++#in
+ {
+   imports = [
+     "${modulesPath}/installer/scan/not-detected.nix"
+@@ -15,10 +15,19 @@ in
+     useDHCP = lib.mkDefault true;
+     wireless = {
+       enable = true;
+-      networks = wifiSecret.wifiNetworks;
++#      networks = wifiSecret.wifiNetworks;
++      networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
+     };
+   };
+ 
++  # secret to be managed by agenix
++  age.secrets.wifi-networks = {
++    file = ./secrets/wifi-networks.age;
++    owner = "root";
++    group = "root";
++    mode = "0400";
++  };
++
+   security.sudo = {
+     enable = true;
+     extraConfig = ''
+diff --git a/secrets.nix b/secrets.nix
+new file mode 100644
+index 0000000..49c1918
+--- /dev/null
++++ b/secrets.nix
+@@ -0,0 +1,12 @@
++let
++  alice = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOqvYP5qw5cBB4c518QBzdfpiYKBERZptdTxa1JgRMqM";
++  allKeys = [alice];
++in
++{
++  "wifi-networks.age" = {
++    publicKeys = allKeys;
++  };
++  "alice-hash.age" = {
++    publicKeys = allKeys;
++  };
++}
+diff --git a/secrets/alice-hash.age b/secrets/alice-hash.age
+new file mode 100644
+index 0000000..e23dc6b
+Binary files /dev/null and b/secrets/alice-hash.age differ
+diff --git a/secrets/alice-hash.nix b/secrets/alice-hash.nix
+deleted file mode 100644
+index 6df5799..0000000
+--- a/secrets/alice-hash.nix
++++ /dev/null
+@@ -1,3 +0,0 @@
+-{
+-  hashedPassword = "$6$ESicLiqJHWULLQ8P$EyWtLxoPeKOv5curP5/CpzN4X2wP26.IloPVXTm3OnTLztqYvXmPXlIAnUuQCwOXcGp0k4lRSuv8nJlDKhHoc1";
+-}
+diff --git a/secrets/wifi-networks.age b/secrets/wifi-networks.age
+new file mode 100644
+index 0000000..174c3e5
+Binary files /dev/null and b/secrets/wifi-networks.age differ
