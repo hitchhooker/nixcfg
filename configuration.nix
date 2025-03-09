@@ -7,11 +7,12 @@ let
                   else ./hardware/default.nix;
   stable = import <nixos> { config = config.nixpkgs.config; };
   unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+  agenix-src = builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz";
+  agenix = import agenix-src {};
 in
 {
   # imports
-  imports = [ ./shell.nix <home-manager/nixos> useHostConfig
-  (builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz")
+  imports = [ ./shell.nix <home-manager/nixos> useHostConfig agenix
   ];
 
   age.secrets.alice-hash = {
