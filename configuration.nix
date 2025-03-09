@@ -239,7 +239,7 @@ in
         "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain
       ];
     };
-    programs.ssh.startAgent = true;
+    ssh.startAgent = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
