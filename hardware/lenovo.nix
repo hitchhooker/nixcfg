@@ -15,8 +15,7 @@
     useDHCP = lib.mkDefault true;
     wireless = {
       enable = true;
-#      networks = wifiSecret.wifiNetworks;
-      networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
+      networking.wireless.networks = builtins.readFile config.age.secrets.wifi-networks.path;
     };
   };
 
