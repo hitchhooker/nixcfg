@@ -13,7 +13,7 @@ in
   imports = [ ./shell.nix <home-manager/nixos> useHostConfig <agenix/modules/age.nix>
   ];
 
-  agenix.secrets.alice-hash = {
+  age.secrets.alice-hash = {
     file = ./secrets/alice-hash.age;
     owner = "root";
     group = "root";
@@ -163,7 +163,7 @@ in
 
     # Stable packages
     stable.docker stable.docker-compose
-    stable.ssh-agents #stable.agenix
+    stable.ssh-agents stable.agenix
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
   ];
