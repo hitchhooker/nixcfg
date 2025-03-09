@@ -21,7 +21,7 @@
   };
 
   # secret to be managed by agenix
-  age.secrets.wifi-networks = {
+  agenix.secrets.wifi-networks = {
     file = ./secrets/wifi-networks.age;
     owner = "root";
     group = "root";

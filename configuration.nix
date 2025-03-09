@@ -14,7 +14,7 @@ in
   imports = [ ./shell.nix <home-manager/nixos> useHostConfig (import agenix-src)
   ];
 
-  age.secrets.alice-hash = {
+  agenix.secrets.alice-hash = {
     file = ./secrets/alice-hash.age;
     owner = "root";
     group = "root";
