@@ -103,7 +103,7 @@ in
   users.users.alice = {
     isNormalUser = true;
     home = "/home/alice";
-    hashedPassword = lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path);
+    #hashedPassword = lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path);
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "docker" ];
 
