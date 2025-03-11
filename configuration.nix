@@ -163,7 +163,7 @@ in
 
     # Stable packages
     stable.docker stable.docker-compose
-    stable.ssh-agents stable.agenix
+    stable.ssh-agents #stable.agenix
     stable.lightdm stable.parted stable.screen stable.ssh-agents
     stable.sshfs stable.pkg-config
   ];
