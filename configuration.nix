@@ -7,6 +7,7 @@ let
                   else ./hardware/default.nix;
   stable = import <nixos> { config = config.nixpkgs.config; };
   unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+  aliceSecret = import ./secrets/alice-hash.nix;
 in
 {
   # imports
@@ -104,6 +105,7 @@ in
     isNormalUser = true;
     home = "/home/alice";
     #hashedPassword = lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path);
+    hashedPassword = aliceSecret.hashedPassword;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "docker" ];
 
