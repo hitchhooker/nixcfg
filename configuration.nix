@@ -98,13 +98,13 @@ in
   };
 
   # User configuration
-  users.mutableUsers = false;
+  users.mutableUsers = true;
 
   users.users.alice = {
     isNormalUser = true;
     home = "/home/alice";
-    hashedPassword = lib.mkIf (builtins.pathExists config.age.secrets.alice-hash.path)
-      (lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path));
+    #hashedPassword = lib.mkIf (builtins.pathExists config.age.secrets.alice-hash.path)
+    #  (lib.strings.removeSuffix "\n" (builtins.readFile config.age.secrets.alice-hash.path));
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "docker" ];
 
