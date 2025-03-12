@@ -15,14 +15,6 @@
     };
   };
 
-  # secret to be managed by agenix
-  age.secrets.wifi-networks = {
-    file = ./secrets/wifi-networks.age;
-    owner = "root";
-    group = "root";
-    mode = "0400";
-  };
-
   security.sudo = {
     enable = true;
     extraConfig = ''

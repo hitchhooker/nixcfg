@@ -13,13 +13,6 @@ in
   imports = [ ./shell.nix <home-manager/nixos> useHostConfig <agenix/modules/age.nix>
   ];
 
-  age.secrets.alice-hash = {
-    file = ./secrets/alice-hash.age;
-    owner = "root";
-    group = "root";
-    mode = "0400";
-  };
-
   nixpkgs.config.allowUnfree = true;
 
 
