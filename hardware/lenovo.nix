@@ -1,9 +1,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 
-#let
-#wifiSecret = import /etc/secrets/wifi-networks.nix;
-#in
 {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
@@ -15,7 +12,7 @@
     useDHCP = lib.mkDefault true;
     wireless = {
       enable = true;
-      #networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
+      networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
     };
   };
 
