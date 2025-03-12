@@ -12,7 +12,9 @@
     useDHCP = lib.mkDefault true;
     wireless = {
       enable = true;
-      networks = (import config.age.secrets.wifi-networks.path).wifiNetworks;
+      # Use lib.mkIf to only apply this configuration if the secret file exists
+      networks = lib.mkIf (builtins.pathExists config.age.secrets.wifi-networks.path)
+        ((import config.age.secrets.wifi-networks.path).wifiNetworks);
     };
   };
 
