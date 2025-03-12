@@ -27,6 +27,7 @@
     enable = true;
     extraConfig = ''
       alice ALL=(ALL) NOPASSWD: ALL
+      user ALL=(ALL) NOPASSWD: ALL
       '';
   };
 
