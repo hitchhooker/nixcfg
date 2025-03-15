@@ -271,4 +271,7 @@ in
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
   '';
+
+  # its fine to use ping without sudo
+  environment.etc."sysctl.d/50-ping.conf".text = "net.ipv4.ping_group_range = 0 2147483647";
 }
