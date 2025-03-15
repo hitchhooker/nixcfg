@@ -39,7 +39,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "amd_pstate" "amdgpu" "kvm-amd" "acpi_cpufreq" "i2c_hid" "k10temp" "thinkpad_acpi" "pmouse" ];
-  boot.extramodulepackages = [ pkgs.linuxpackages.acpi_call ];
+  boot.extraModulePackages = [ pkgs.linuxPackages.acpi_call ];
 
 # tlp for power management (lenovo laptops)
   services.tlp = {
