@@ -229,7 +229,7 @@ in
         "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
         "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
-#        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
         "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain
       ];
     };
