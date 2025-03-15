@@ -37,7 +37,7 @@
     luks.devices.encrypted_partition.device = "/dev/disk/by-uuid/da1a7fdf-43a5-4f84-ac6f-7447243a2c31";
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_13;
+  #boot.kernelPackages = pkgs.linuxPackages_6_13;
   boot.kernelModules = [ "amd_pstate" "amdgpu" "kvm-amd" "acpi_cpufreq" "i2c_hid" "k10temp" "thinkpad_acpi" "pmouse" ];
   boot.extraModulePackages = [ pkgs.linuxPackages.acpi_call ];
 
