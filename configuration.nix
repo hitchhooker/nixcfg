@@ -149,7 +149,7 @@ in
     # Unstable packages
     unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
-    unstable.lm_sensors unstable.neovim-master unstable.openssh unstable.ripgrep
+    unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
@@ -159,7 +159,7 @@ in
     stable.docker stable.docker-compose
     stable.ssh-agents #stable.agenix
     stable.lightdm stable.parted stable.screen stable.ssh-agents
-    stable.sshfs stable.pkg-config
+    stable.sshfs stable.pkg-config stable.vim
   ];
 
   location = {
