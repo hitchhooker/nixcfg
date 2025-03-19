@@ -136,6 +136,12 @@ in
       alice ALL=(ALL) NOPASSWD: ALL
     '';
   };
+  security.wrappers.ping = {
+    source = "${pkgs.iputils}/bin/ping";
+    owner = "root";
+    group = "root";
+    setuid = true;
+  };
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
