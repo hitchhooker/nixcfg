@@ -149,7 +149,7 @@ in
     # Unstable packages
     unstable.redshift
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
-    unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
+    unstable.lm_sensors unstable.neovim-master unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
@@ -203,10 +203,10 @@ in
     greenclip.enable = true;
     acpid = {
       enable = true;
-#      extraRules = ''
-#        event=button/lid.*
-#        action=${pkgs.i3lock}/bin/i3lock 3 5
-#        '';
+      #extraRules = ''
+      #  event=button/lid.*
+      #  action=${pkgs.i3lock}/bin/i3lock 3 5
+      #  '';
     };
   };
   systemd.user.services = {
