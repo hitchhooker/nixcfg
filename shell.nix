@@ -16,6 +16,7 @@
         git commit -m "update: $build_path"
         '';
       nx = "cd /etc/nixos/ && ls";
+      ping = "/run/wrappers/bin/ping";
     };
   };
 
