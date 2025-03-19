@@ -146,7 +146,7 @@ in
   # System packages
   environment.systemPackages = with pkgs; [
     # Unstable packages
-    unstable.redshift
+    unstable.redshift unstable.iputils
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
@@ -243,7 +243,6 @@ in
 
   virtualisation.docker = {
     enable = true;
-    #compose.enable = true;
   };
 
   # activation script
@@ -270,7 +269,4 @@ in
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
   '';
-
-  # its fine to use ping without sudo
-  environment.etc."sysctl.d/50-ping.conf".text = "net.ipv4.ping_group_range = 0 2147483647";
 }
