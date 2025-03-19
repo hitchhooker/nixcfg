@@ -253,6 +253,9 @@ in
 
   # activation script
   system.activationScripts.linkDotfiles = ''
+    # faster keyboardscroll
+    xset r rate 200 50
+
     # Create necessary directories
     mkdir -p /home/alice/.config
 

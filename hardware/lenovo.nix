@@ -145,7 +145,16 @@
   };
 
   # Peripheral device support
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;         # Power up Bluetooth adapter on boot
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+          Experimental = true;    # Enable experimental features
+        };
+      };
+  };
   services.udev.packages = with pkgs; [
     headsetcontrol
   ];

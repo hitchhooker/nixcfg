@@ -74,3 +74,6 @@ y = 0
 [terminal.shell]
 program = "/run/current-system/sw/bin/zsh"  # Added explicit shell specification
 args = ["-l"]  # Added to ensure login shell
+
+[scrolling]
+multiplier = 5  # Increase this for faster scrolling
