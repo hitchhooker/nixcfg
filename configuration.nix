@@ -152,7 +152,7 @@ in
   # System packages
   environment.systemPackages = with pkgs; [
     # Unstable packages
-    unstable.redshift unstable.iputils
+    unstable.redshift unstable.iputils unstable.headsetcontrol
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
