@@ -174,7 +174,8 @@ in
 
   # Services
   services = {
-   # location.provider = "geoclue2";
+    dbus.packages = [ pkgs.xfce.tumbler ];
+    # location.provider = "geoclue2";
     tailscale = { enable = true; };
     redshift = {
       enable = true;
