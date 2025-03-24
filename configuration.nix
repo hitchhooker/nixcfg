@@ -158,7 +158,15 @@ in
     unstable.rustup unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
-    unstable.tailscale unstable.pcmanfm unstable.gvfs unstable.xfce.tumbler
+    unstable.tailscale
+    unstable.yazi
+    unstable.pcmanfm              # file-explorer
+    unstable.gvfs                 # mounting 
+    unstable.xfce.tumbler         # thumbnails
+    unstable.ffmpegthumbnailer    # video thumbnails
+    unstable.poppler              # PDF thumbnails
+    unstable.libopenraw           # RAW image support
+    unstable.shared-mime-info     # extra MIME types
 
     # Stable packages
     stable.docker stable.docker-compose
