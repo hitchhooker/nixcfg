@@ -286,5 +286,8 @@ in
     # Set executable permissions on scripts if necessary
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
+
+    # nixos is a little bit retarded and needs some assistance
+    sudo ln -s /run/current-system/sw/bin/bash /bin/bash
   '';
 }

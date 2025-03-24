@@ -152,7 +152,7 @@ super + w
 
 # File manager
 super + e
-  thunar
+  pcmanfm
 
 # terminal emulator - alacritty
 super + Return
@@ -188,7 +188,7 @@ super + b
 
 # power-menu
 super + x
-  ~/.config/rofi/bin/powermenu.sh
+  alacritty -e yazi
 
 # Change keyboard language
 super + space
