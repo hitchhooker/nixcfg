@@ -263,7 +263,7 @@ in
   # activation script
   system.activationScripts.linkDotfiles = ''
     # faster keyboardscroll
-    xset r rate 200 50
+    # xset r rate 200 50
 
     # Create necessary directories
     mkdir -p /home/alice/.config
@@ -288,6 +288,6 @@ in
     chmod -R u+x /home/alice/.config/sxhkd/scripts
 
     # nixos is a little bit retarded and needs some assistance
-    sudo ln -s /run/current-system/sw/bin/bash /bin/bash
+    ln -s /run/current-system/sw/bin/bash /bin/bash
   '';
 }
