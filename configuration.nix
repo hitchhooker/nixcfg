@@ -105,7 +105,7 @@ in
     packages = with pkgs; 
     (with unstable; [
      alacritty bspwm bun # ungoogled-chromium
-     dunst dmidecode
+     discord dunst dmidecode
      flameshot gh polybar rofi 
      signal-desktop sxhkd syncthing 
      telegram-desktop tree zsh yarn 
