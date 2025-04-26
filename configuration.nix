@@ -244,7 +244,7 @@ in
         "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
         "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
-        "jgjhgpeaejjahlbcgijdibooomicdcfi" # manage tabs by domain
+        "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
       ];
     };
     ssh.startAgent = true;
