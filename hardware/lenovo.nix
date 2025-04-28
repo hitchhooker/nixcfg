@@ -52,10 +52,11 @@
       "radeon.cik_support=0"
       "amdgpu.cik_support=1"
       "amdgpu.dc=1"
-      
+      # touchpad bug
+      "psmouse.synaptics_intertouch=0"
       # CPU configuration
-      "nosmt=force"        # Disable simultaneous multithreading for security
-      "amd_pstate=passive" # Power management
+      "nosmt=force" # disable simultaneous multithreading(HT/smt)
+      "amd_pstate=passive" # power management
     ];
   };
 
