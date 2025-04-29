@@ -31,7 +31,8 @@
     };
     
     # Kernel configuration
-    # kernelPackages = pkgs.linuxPackages_6_13; # Uncomment to enable newer kernel
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
     kernelModules = [ 
       "kvm-amd"      # Virtualization
       "amd_pstate"   # Power management
