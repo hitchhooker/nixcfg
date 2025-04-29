@@ -55,6 +55,7 @@
       "amdgpu.dc=1"
       # touchpad bug
       "psmouse.synaptics_intertouch=0"
+      "psmouse.resetafter=0"
       # CPU configuration
       "nosmt=force" # disable simultaneous multithreading(HT/smt)
       "amd_pstate=passive" # power management
@@ -108,6 +109,8 @@
       tapping = true;
       disableWhileTyping = true;
       scrollMethod = "twofinger";
+      clickMethod = "clickfinger";  # Try this setting
+      accelSpeed = 0.5;  # Adjust as needed
     };
   };
 
