@@ -62,6 +62,9 @@
     ];
   };
 
+  hardware.enableRedistributableFirmware = true;
+  services.xserver.libinput.enable = true;
+
   # File systems
   fileSystems = {
     "/" = {
@@ -110,7 +113,6 @@
       disableWhileTyping = true;
       scrollMethod = "twofinger";
       clickMethod = "clickfinger";  # Try this setting
-      accelSpeed = 0.5;  # Adjust as needed
     };
   };
 
