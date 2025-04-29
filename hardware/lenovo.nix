@@ -176,6 +176,16 @@
     wireless.enable = true;
   };
 
+  systemd.services.fix-touchpad = {
+    description = "Fix touchpad after resume";
+    after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
+    wantedBy = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.kmod}/bin/rmmod psmouse && ${pkgs.kmod}/bin/modprobe psmouse'";
+    };
+  };
+
   # SECURITY
   # --------
   
