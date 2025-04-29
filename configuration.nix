@@ -269,7 +269,6 @@ in
     mkdir -p /home/alice/.config
 
     # Symlink files and directories
-    [ -e /bin/bash ] || ln -s /run/current-system/sw/bin/bash /bin/bash
     ln -sf /etc/nixos/dotfiles/zsh/.zshrc /home/alice/.zshrc
     ln -sfn /etc/nixos/dotfiles/nvim /home/alice/.config/nvim
     ln -sfn /etc/nixos/dotfiles/alacritty /home/alice/.config/alacritty
@@ -288,7 +287,5 @@ in
     chmod -R u+x /home/alice/.config/bspwm/scripts
     chmod -R u+x /home/alice/.config/sxhkd/scripts
 
-    # nixos is a little bit retarded and needs some assistance
-    ln -s /run/current-system/sw/bin/bash /bin/bash
   '';
 }
