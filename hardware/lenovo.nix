@@ -176,13 +176,32 @@
     wireless.enable = true;
   };
 
+
+  # First, make sure these packages are installed
+  environment.systemPackages = with pkgs; [
+    xorg.xinput
+    evtest
+  ];
+
+  # Create a systemd service to fix the touchpad after resume
   systemd.services.fix-touchpad = {
     description = "Fix touchpad after resume";
     after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
     wantedBy = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
+    environment = {
+      DISPLAY = ":0";
+      XAUTHORITY = "/home/alice/.Xauthority";
+    };
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.kmod}/bin/rmmod psmouse && ${pkgs.kmod}/bin/modprobe psmouse'";
+      User = "alice";
+      ExecStart = "${pkgs.bash}/bin/bash -c '\
+        TOUCHPAD_ID=$(${pkgs.xorg.xinput}/bin/xinput list | ${pkgs.gnugrep}/bin/grep -i touchpad | ${pkgs.gnused}/bin/sed \"s/.*id=\\([0-9]*\\).*/\\1/\") && \
+        ${pkgs.xorg.xinput}/bin/xinput disable $TOUCHPAD_ID && \
+        sleep 1 && \
+        ${pkgs.xorg.xinput}/bin/xinput enable $TOUCHPAD_ID && \
+        ${pkgs.udev}/bin/udevadm trigger --subsystem-match=input \
+      '";
     };
   };
 
