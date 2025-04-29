@@ -63,7 +63,6 @@
   };
 
   hardware.enableRedistributableFirmware = true;
-  services.xserver.libinput.enable = true;
 
   # File systems
   fileSystems = {

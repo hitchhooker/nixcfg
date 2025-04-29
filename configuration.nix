@@ -269,6 +269,7 @@ in
     mkdir -p /home/alice/.config
 
     # Symlink files and directories
+    [ -e /bin/bash ] || ln -s /run/current-system/sw/bin/bash /bin/bash
     ln -sf /etc/nixos/dotfiles/zsh/.zshrc /home/alice/.zshrc
     ln -sfn /etc/nixos/dotfiles/nvim /home/alice/.config/nvim
     ln -sfn /etc/nixos/dotfiles/alacritty /home/alice/.config/alacritty
