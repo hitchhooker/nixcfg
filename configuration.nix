@@ -15,7 +15,6 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-
   # Nix settings
   nix = {
     package = pkgs.nixVersions.stable;
@@ -247,12 +246,13 @@ in
         "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
       ];
     };
-    ssh.startAgent = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
     };
     mtr.enable = true;
+    nix-ld.enable = true;
+    ssh.startAgent = true;
     zsh.enable = true;
   };
 
