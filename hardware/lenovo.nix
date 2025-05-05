@@ -59,6 +59,9 @@
       # CPU configuration
       "nosmt=force" # disable simultaneous multithreading(HT/smt)
       "amd_pstate=passive" # power management
+      # Thermal optimization
+      "processor.max_cstate=5" # Optimize CPU power states
+      "pcie_aspm=force" # Force PCIe power savings
     ];
   };
 
@@ -111,38 +114,48 @@
       tapping = true;
       disableWhileTyping = true;
       scrollMethod = "twofinger";
-      clickMethod = "clickfinger";  # Try this setting
+      clickMethod = "clickfinger";
     };
   };
 
   # SYSTEM SERVICES
   # ---------------
   
-  # Power management (ThinkPad-specific)
+  # Enhanced TLP configuration for better thermal management
   services.tlp = {
     enable = true;
     settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      # CPU settings - reduce power and heat
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 70;   # Limit max performance to 70%
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 50;  # Limit even more on battery
+      
+      # Platform profile settings
+      PLATFORM_PROFILE_ON_AC = "quiet";
+      PLATFORM_PROFILE_ON_BAT = "quiet";
+      
+      # PCIe power savings
+      PCIE_ASPM_ON_AC = "powersave";
+      PCIE_ASPM_ON_BAT = "powersave";
+      
+      # AMD GPU power management
+      RADEON_DPM_PERF_LEVEL_ON_AC = "low";
+      RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
+      RADEON_POWER_PROFILE_ON_AC = "low";
+      RADEON_POWER_PROFILE_ON_BAT = "low";
+      
+      # Restore device state on startup to ensure settings persist
       RESTORE_DEVICE_STATE_ON_STARTUP = true;
     };
   };
-
-  # Fan control (ThinkPad-specific)
-  services.thinkfan = {
-    enable = true;
-    settings = {
-      hwmon = [
-        { device = "/sys/class/hwmon/hwmon9/pwm1"; }
-      ];
-      levels = [
-        { temperature = 55; level = 0; }
-        { temperature = 60; level = 1; }
-        { temperature = 70; level = 2; }
-        { temperature = 80; level = 7; }
-      ];
-    };
-  };
+  
+  # Enable thermald for thermal monitoring and management
+  services.thermald.enable = true;
 
   # Audio with PipeWire
   services.pipewire = {
@@ -153,18 +166,18 @@
   # Peripheral device support
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;         # Power up Bluetooth adapter on boot
-      settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-          Experimental = true;    # Enable experimental features
-        };
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+        Experimental = true;
+        EnableIsoSockets = true;
       };
+    };
   };
   services.udev.packages = with pkgs; [
     headsetcontrol
   ];
-
 
   # NETWORKING
   # ----------
@@ -173,13 +186,18 @@
     hostName = "lenovo";
     useDHCP = lib.mkDefault true;
     wireless.enable = true;
+    dhcpcd.extraConfig = "noipv6";
   };
-
 
   # First, make sure these packages are installed
   environment.systemPackages = with pkgs; [
     xorg.xinput
     evtest
+    openssh
+    lm_sensors  # For temperature monitoring
+    powertop    # For power usage analysis
+    bc          # Used in temperature monitoring script
+    libnotify   # For desktop notifications
   ];
 
   # Create a systemd service to fix the touchpad after resume
@@ -203,12 +221,32 @@
       '";
     };
   };
+  
+  # Create a systemd service to monitor temperatures and notify if too high
+  systemd.services.temp-monitor = {
+    description = "Monitor system temperatures";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.bash}/bin/bash -c '\
+        while true; do \
+          CPU_TEMP=$(${pkgs.lm_sensors}/bin/sensors | grep \"Tctl\" | awk \"{print \\$2}\" | tr -d \"+°C\"); \
+          if (( $(echo \"$CPU_TEMP > 80\" | ${pkgs.bc}/bin/bc -l) )); then \
+            ${pkgs.libnotify}/bin/notify-send -u critical \"High CPU Temperature\" \"CPU temperature is $CPU_TEMP°C!\"; \
+          fi; \
+          sleep 60; \
+        done \
+      '";
+      Restart = "always";
+      RestartSec = "10s";
+      User = "alice";
+    };
+    wantedBy = ["multi-user.target"];
+  };
 
   # SECURITY
   # --------
   
   # sudo configuration - SECURITY ISSUE: passwordless sudo is a security risk
-  # Recommendation: Replace with more restrictive rules or proper authentication
   security.sudo = {
     enable = true;
     extraConfig = ''
