@@ -125,6 +125,9 @@
   services.tlp = {
     enable = true;
     settings = {
+      # Enable conservation mode via TLP (caps at ~60%)
+      STOP_CHARGE_THRESH_BAT0 = 1;  # Enable conservation mode
+
       # CPU settings - reduce power and heat
       CPU_SCALING_GOVERNOR_ON_AC = "powersave";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
@@ -151,6 +154,37 @@
       
       # Restore device state on startup to ensure settings persist
       RESTORE_DEVICE_STATE_ON_STARTUP = true;
+    };
+  };
+ 
+# Battery alert service and timer
+  systemd.user.services.battery-alert = {
+    description = "Battery Critical Warning";
+    wantedBy = [ "graphical-session.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash /etc/nixos/scripts/battery-alert.sh";
+      Environment = "DISPLAY=:0";
+    };
+
+    path = with pkgs; [
+      xorg.xrandr
+        libnotify
+        gnugrep
+        gnused
+        coreutils
+    ];
+  };
+
+  systemd.user.timers.battery-alert = {
+    description = "Battery Check Timer";
+    wantedBy = [ "timers.target" ];
+
+    timerConfig = {
+      OnBootSec = "1m";
+      OnUnitActiveSec = "30s";
+      AccuracySec = "1s";
     };
   };
   
