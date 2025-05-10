@@ -170,7 +170,7 @@ in
     # Stable packages
     stable.docker stable.docker-compose
     stable.ssh-agents #stable.agenix
-    stable.lightdm stable.parted stable.screen stable.ssh-agents
+    stable.lightdm stable.parted stable.screen
     stable.sshfs stable.pkg-config stable.vim
   ];
 
@@ -252,8 +252,21 @@ in
     };
     mtr.enable = true;
     nix-ld.enable = true;
-    ssh.startAgent = true;
+    #ssh.startAgent = true;
     zsh.enable = true;
+  };
+
+  systemd.user.services.ssh-agent = {
+    description = "SSH authentication agent";
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.openssh}/bin/ssh-agent -a %t/ssh-agent.socket -D";
+      Type = "simple";
+    };
+  };
+
+  environment.sessionVariables = {
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
   virtualisation.docker = {
