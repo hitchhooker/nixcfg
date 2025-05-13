@@ -109,7 +109,7 @@ in
      signal-desktop sxhkd syncthing 
      telegram-desktop tree zsh yarn 
      transmission_4-qt firefox iamb
-     keepassxc beeper slack iamb
+     keepassxc beeper slack iamb ncspot
      tailscale jq websocat busybox
      thunderbird turbovnc whatsie
     ] ++
