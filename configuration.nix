@@ -103,7 +103,7 @@ in
     # User-specific packages
     packages = with pkgs; 
     (with unstable; [
-     alacritty bspwm bun # ungoogled-chromium
+     alacritty bspwm bun bottom
      discord dunst dmidecode
      flameshot gh polybar rofi 
      signal-desktop sxhkd syncthing 
