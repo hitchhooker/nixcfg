@@ -104,10 +104,10 @@ in
     packages = with pkgs; 
     (with unstable; [
      alacritty bspwm bun bottom
-     discord dunst dmidecode
-     flameshot gh polybar rofi 
-     signal-desktop sxhkd syncthing 
-     telegram-desktop tree zsh yarn 
+     discord dunst dmidecode julia
+     flameshot gh polybar rofi
+     signal-desktop sxhkd syncthing
+     telegram-desktop tree zsh yarn
      transmission_4-qt firefox iamb
      keepassxc beeper slack iamb ncspot
      tailscale jq websocat busybox
