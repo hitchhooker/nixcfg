@@ -1,11 +1,12 @@
 # /etc/nixos/shell.nix
-# /etc/nixos/shell.nix
 { config, pkgs, ... }:
 {
   programs.zsh = {
     enable = true;
-    # these are system-wide zsh aliases
+    # these are system-wide zsh aliases.
+    # for user-specific aliases, consider home-manager configuration.
     shellAliases = {
+      # existing aliases
       vi = "nvim";
       rbt = "sudo nixos-rebuild dry-build";
       rbs = ''
@@ -19,6 +20,52 @@
       '';
       nx = "cd /etc/nixos/ && ls";
       ping = "/run/wrappers/bin/ping"; # uses the setuid wrapper for ping
+
+      # git aliases
+      g = "git";
+      ga = "git add";
+      gaa = "git add --all";
+      gap = "git add --patch"; # add with patch mode (interactive)
+      gb = "git branch";
+      gba = "git branch -a"; # all branches (local and remote tracking)
+      gcb = "git checkout -b"; # create and checkout new branch
+      gco = "git checkout";
+      gcm = "git checkout main"; # checkout main (or master)
+      gc = "git commit -v"; # commit verbose
+      "gc!" = "git commit -v --amend"; # amend previous commit
+      gcn = "git commit -v --no-edit --amend"; # amend previous commit without editing message
+      gca = "git commit -v -a"; # add all tracked changes and commit
+      "gca!" = "git commit -v -a --amend"; # add all tracked changes and amend
+      gcam = "git commit -am"; # add all tracked changes and commit with message (prompts for message)
+      gm = "git commit -m"; # <<< --- new alias for commit with message
+      gcs = "git commit -s"; # signed commit
+      gcss = "git commit -S"; # gpg signed commit
+      gd = "git diff";
+      gds = "git diff --staged"; # diff staged changes
+      gdv = "git difftool -y"; # use difftool
+      gf = "git fetch";
+      gfa = "git fetch --all --prune --tags"; # fetch all, prune deleted, get tags
+      gl = "git pull";
+      glr = "git pull --rebase";
+      gp = "git push";
+      gpd = "git push --dry-run";
+      gpf = "git push --force-with-lease"; # force push with lease (safer)
+      gpl = "git pull"; # alias for pull
+      gpu = "git push -u origin head"; # push current branch and set upstream
+      gs = "git status -sb"; # status short branch
+      gss = "git status -s"; # status short
+      gst = "git status"; # standard status
+      gsh = "git show";
+      glog = "git log --oneline --decorate --graph"; # pretty log
+      gloga = "git log --oneline --decorate --graph --all"; # pretty log all branches
+      grh = "git reset --hard";
+      grhh = "git reset --hard head"; # reset hard to head
+      grm = "git rm";
+      grmc = "git rm --cached"; # remove from index
+      gstash = "git stash";
+      gstasha = "git stash apply";
+      gstashp = "git stash pop";
+      gstashd = "git stash drop";
     };
   };
 
