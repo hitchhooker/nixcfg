@@ -239,11 +239,12 @@ in
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
-        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
         "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
-        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
         "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
+        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+        "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
       ];
     };
     gnupg.agent = {
