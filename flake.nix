@@ -4,7 +4,7 @@
 
   inputs = {
     # Main Nixpkgs (you can choose a specific branch like nixos-24.05)
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-stable"; # Or "github:NixOS/nixpkgs/nixos-24.05"
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05"; # Or "github:NixOS/nixpkgs/nixos-24.05"
 
     # Unstable Nixpkgs
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
