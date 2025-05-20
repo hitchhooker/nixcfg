@@ -148,9 +148,9 @@ in
     home.enableNixpkgsReleaseCheck = false; # Disable warning
   };
 
-  # System packages
+  # system packages
   environment.systemPackages = with pkgs; [
-    # Unstable packages
+    # unstable packages
     unstable.redshift unstable.iputils unstable.headsetcontrol
     unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
@@ -167,11 +167,20 @@ in
     unstable.libopenraw           # RAW image support
     unstable.shared-mime-info     # extra MIME types
 
-    # Stable packages
-    stable.docker stable.docker-compose
-    stable.ssh-agents #stable.agenix
-    stable.lightdm stable.parted stable.screen
-    stable.sshfs stable.pkg-config stable.vim
+    unstable.ledger-live-desktop  # ledger live desktop application
+    unstable.age-plugin-ledger    # if you use age encryption with your ledger
+    unstable.ledger-agent         # use ledger as hardware ssh/pgp agent
+
+    # stable packages
+    stable.docker
+    stable.docker-compose
+    stable.ssh-agents
+    stable.lightdm
+    stable.parted
+    stable.screen
+    stable.sshfs
+    stable.pkg-config
+    stable.vim
   ];
 
   location = {
@@ -182,6 +191,9 @@ in
   # Services
   services = {
     dbus.packages = [ pkgs.xfce.tumbler ];
+    udev.packages = [
+      pkgs.ledger-udev-rules # ensures ledger devices are recognized
+    ];
     # location.provider = "geoclue2";
     tailscale = { enable = true; };
     redshift = {
