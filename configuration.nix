@@ -270,17 +270,14 @@ in
   };
 
   systemd.user.services.ssh-agent = {
-    description = "SSH authentication agent";
-      description = "ssh authentication agent";
-      wantedBy = [ "default.target" ]; # starts the agent with your user session
-      serviceConfig = {
-        # this command starts the agent, makes it listen on a predictable socket,
-        # and keeps it in the foreground for systemd.
-        # %t expands to the user's runtime directory (e.g., /run/user/1000)
-        ExecStart = "${pkgs.openssh}/bin/ssh-agent -a %t/ssh-agent.socket -D";
-        Type = "simple";
-      };
+    description = "ssh authentication agent";
+    enable = true;
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.openssh}/bin/ssh-agent -a %t/ssh-agent.socket -D";
     };
+  };
 
   environment.sessionVariables = {
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
