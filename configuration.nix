@@ -290,11 +290,19 @@ in
     enable = true;
   };
 
+  # faster keyboardscroll
+  systemd.user.services.xset-repeat = {
+    description = "Set xset keyboard repeat rate";
+    after = [ "graphical-session.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.xorg.xset}/bin/xset r rate 200 50";
+      Type = "oneshot";
+    };
+  };
+
   # activation script
   system.activationScripts.linkDotfiles = ''
-    # faster keyboardscroll
-    # xset r rate 200 50
-
     # Create necessary directories
     mkdir -p /home/alice/.config
 
