@@ -87,6 +87,9 @@ in
     XDG_CURRENT_DESKTOP = "BSPWM";           # helps some apps detect the desktop environment
     #MOZ_ENABLE_WAYLAND = "1";                # optional for Wayland setups
     SHELL = pkgs.zsh;
+    # Rust development environment variables
+    CARGO_HOME = "$HOME/.cargo";
+    RUSTUP_HOME = "$HOME/.rustup";
   };
 
   # User configuration
@@ -112,6 +115,10 @@ in
      keepassxc beeper slack iamb ncspot
      tailscale jq websocat busybox
      thunderbird turbovnc whatsie
+     # Rust development tools
+     rust-analyzer
+     rustfmt
+     clippy
     ] ++
     (with stable; [
      google-cloud-sdk i3lock-fancy-rapid
@@ -152,9 +159,9 @@ in
   environment.systemPackages = with pkgs; [
     # unstable packages
     unstable.redshift unstable.iputils unstable.headsetcontrol
-    unstable.bash unstable.cargo unstable.gcc unstable.fd unstable.git
+    unstable.bash unstable.gcc unstable.fd unstable.git
     unstable.lm_sensors unstable.neovim unstable.openssh unstable.ripgrep
-    unstable.rustup unstable.wget unstable.zellij unstable.zsh
+    unstable.wget unstable.zellij unstable.zsh
     unstable.xorg.libX11 unstable.brightnessctl unstable.home-manager
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
     unstable.tailscale
@@ -171,6 +178,20 @@ in
     unstable.age-plugin-ledger    # if you use age encryption with your ledger
     unstable.ledger-agent         # use ledger as hardware ssh/pgp agent
 
+    # Rust development environment
+    unstable.rustc                # Rust compiler
+    unstable.cargo                # Rust package manager
+    unstable.rustup               # Rust toolchain manager
+    unstable.gcc                  # C compiler (needed for some Rust crates)
+    unstable.binutils             # Binary utilities
+    unstable.glibc                # C library
+    unstable.pkg-config           # For finding libraries
+    unstable.openssl              # Often needed for Rust projects
+    unstable.libiconv             # Character encoding library
+    unstable.cmake                # Build tool (some crates need this)
+    unstable.gnumake              # Make tool
+    unstable.llvmPackages.clang   # Clang compiler (some crates prefer this)
+
     # stable packages
     stable.docker
     stable.docker-compose
@@ -179,7 +200,6 @@ in
     stable.parted
     stable.screen
     stable.sshfs
-    stable.pkg-config
     stable.vim
   ];
 
