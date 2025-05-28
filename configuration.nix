@@ -117,7 +117,7 @@ in
      google-cloud-sdk i3lock-fancy-rapid
      libssh nodejs pavucontrol alsa-utils
      python313Full xclip mpv element-desktop
-     jmtpfs
+     jmtpfs tigervnc
      (chromium.override {
       commandLineArgs = [
       "--force-dark-mode"

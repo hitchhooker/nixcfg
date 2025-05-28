@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="chaos"
 
-zstyle ':omz:update' mode disabled  # disable automatic updates
+#zstyle ':omz:update' mode disabled  # disable automatic updates
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
 
