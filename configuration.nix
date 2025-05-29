@@ -166,6 +166,7 @@ in
     unstable.gtk-engine-murrine unstable.libsForQt5.qt5ct
     unstable.tailscale
     unstable.yazi
+    unstable.appimage-run         # appimage
     unstable.pcmanfm              # file-explorer
     unstable.gvfs                 # mounting 
     unstable.xfce.tumbler         # thumbnails
@@ -241,8 +242,8 @@ in
         layout = "us,fi";
         options = "grp:win_space_toggle";
       };
-      windowManager.bspwm.enable = true;
       displayManager.lightdm.enable = true;
+      windowManager.bspwm.enable = true;
     };
     syncthing.enable = false;
     greenclip.enable = true;
@@ -265,6 +266,10 @@ in
   };
 
   programs = {
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
     chromium = {
       enable = true;
       extensions = [
