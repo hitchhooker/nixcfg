@@ -126,6 +126,7 @@ in
      python313Full xclip mpv element-desktop
      jmtpfs tigervnc
      (chromium.override {
+      enableWideVine = true;
       commandLineArgs = [
       "--force-dark-mode"
       "--enable-features=WebUIDarkMode"
