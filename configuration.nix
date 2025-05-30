@@ -105,17 +105,8 @@ let
       };
       after = [ "graphical-session.target" ];
     };
-    i3lock-on-lid = {
-      description = "Lock screen on lid close";
-      exec = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 5 3";
-      };
-      targets = [ "suspend.target" ];
-    };
   };
   security.pam.services.i3lock = {};
-
 # Dotfile mappings
   dotfiles = {
     ".zshrc" = "zsh/.zshrc";
@@ -256,10 +247,26 @@ in {
       windowManager.bspwm.enable = true;
     };
     
-    acpid.enable = true;
+    #acpid.enable = true;
+    acpid = {
+      enable = true;
+#      extraRules = ''
+#        event=button/lid.*
+#        action=${pkgs.i3lock}/bin/i3lock 3 5
+#        '';
+    };
   };
 
   systemd.user.services = lib.mapAttrs mkUserService userServices;
+  systemd.user.services.i3lock-on-lid = {
+    description = "Lock screen on lid close";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.i3lock}/bin/i3lock";
+    };
+    wantedBy = [ "suspend.target" ];
+  };
+
 
   programs = {
     appimage = { enable = true; binfmt = true; };
