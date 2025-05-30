@@ -107,12 +107,16 @@ let
     };
     i3lock-on-lid = {
       description = "Lock screen on lid close";
-      exec.ExecStart = "${pkgs.i3lock}/bin/i3lock 3 5";
-        targets = [ "suspend.target" ];
+      exec = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 5 3";
+      };
+      targets = [ "suspend.target" ];
     };
   };
-  
-  # Dotfile mappings
+  security.pam.services.i3lock = {};
+
+# Dotfile mappings
   dotfiles = {
     ".zshrc" = "zsh/.zshrc";
     ".config/nvim" = "nvim";
