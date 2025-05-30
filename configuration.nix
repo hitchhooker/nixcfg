@@ -108,7 +108,7 @@ let
     i3lock-on-lid = {
       description = "Lock screen on lid close";
       exec.ExecStart = "${pkgs.i3lock}/bin/i3lock 3 5";
-      targets = [ "suspend.target" ];
+        targets = [ "suspend.target" ];
     };
   };
   
