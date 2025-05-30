@@ -15,7 +15,7 @@
         sudo nixos-rebuild switch | tee nixos-build.log
         build_path=$(grep -oe "/nix/store/[a-z0-9]{32}-nixos-system-[^ ]+" nixos-build.log | head -n1)
         rm nixos-build.log
-        git add -a
+        git add -A
         git commit -m "update: $build_path"
       '';
       nx = "cd /etc/nixos/ && ls";
