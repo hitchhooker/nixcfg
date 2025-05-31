@@ -3,22 +3,22 @@
 let
   inherit (lib) mkIf optional optionals;
   inherit (builtins) pathExists elem readFile;
-  
+
   # Package sets
   stable = import <nixos> { inherit (config.nixpkgs) config; };
   unstable = import <nixos-unstable> { inherit (config.nixpkgs) config; };
-  
+
   # Hardware config selection
   hwConfig = let
     specific = ./hardware/lenovo.nix;
   in if pathExists specific then specific else ./hardware/default.nix;
-  
+
   # DNS configuration
   dns = {
     servers = [ "9.9.9.9" "149.112.112.112" "2620:fe::fe" "2620:fe::9" ];
     options = [ "edns0" "trust-ad" "rotate" "timeout:2" "attempts:3" ];
   };
-  
+
   # User packages organized by category
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
@@ -27,7 +27,8 @@ let
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media = [ flameshot mpv ncspot ];
     system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat busybox ];
-    browsers = [ firefox ];
+    # Estonian ID packages
+    estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
   } // {
     stable = with stable; [
       (chromium.override {
@@ -41,7 +42,7 @@ let
       python313Full
     ];
   };
-  
+
   # System packages
   sysPkgs = {
     unstable = with unstable; [
@@ -65,7 +66,7 @@ let
       ssh-agents sshfs vim
     ];
   };
-  
+
   # Environment variables
   envVars = {
     GTK_THEME = "Adwaita:dark";
@@ -78,17 +79,15 @@ let
     RUSTUP_HOME = "$HOME/.rustup";
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
-  
+
   # Service configurations
   mkUserService = name: cfg: {
-    ${name} = {
-      inherit (cfg) description;
-      serviceConfig = cfg.exec;
-      wantedBy = cfg.targets or [ "default.target" ];
-      after = cfg.after or [];
-    };
+    inherit (cfg) description;
+    serviceConfig = cfg.exec;
+    wantedBy = cfg.targets or [ "default.target" ];
+    after = cfg.after or [];
   };
-  
+
   userServices = {
     ssh-agent = {
       description = "ssh authentication agent";
@@ -106,8 +105,10 @@ let
       after = [ "graphical-session.target" ];
     };
   };
+  
   security.pam.services.i3lock = {};
-# Dotfile mappings
+  
+  # Dotfile mappings
   dotfiles = {
     ".zshrc" = "zsh/.zshrc";
     ".config/nvim" = "nvim";
@@ -121,10 +122,10 @@ let
   };
 
 in {
-  imports = [ 
-    ./shell.nix 
-    <home-manager/nixos> 
-    hwConfig 
+  imports = [
+    ./shell.nix
+    <home-manager/nixos>
+    hwConfig
     <agenix/modules/age.nix>
   ];
 
@@ -167,7 +168,7 @@ in {
     font = "Lat2-Terminus16";
     useXkbConfig = true;
   };
-  
+
   time.timeZone = "Asia/Bangkok";
   location = { latitude = 13.7563; longitude = 99.5018; };
 
@@ -180,6 +181,10 @@ in {
     variables = envVars;
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable;
+    # Estonian ID authentication modules
+    etc."pkcs11/modules/opensc-pkcs11".text = ''
+      module: ${pkgs.opensc}/lib/opensc-pkcs11.so
+    '';
   };
 
   users = {
@@ -217,18 +222,21 @@ in {
   services = {
     dbus.packages = [ pkgs.xfce.tumbler ];
     udev.packages = [ pkgs.ledger-udev-rules ];
-    
+
     tailscale.enable = true;
     greenclip.enable = true;
     syncthing.enable = false;
     
+    # Estonian ID card support
+    pcscd.enable = true;
+
     redshift = {
       enable = true;
       temperature = { day = 2900; night = 2700; };
     };
-    
+
     logind.powerKey = "ignore";
-    
+
     openssh = {
       enable = true;
       settings = {
@@ -236,7 +244,7 @@ in {
         PasswordAuthentication = false;
       };
     };
-    
+
     xserver = {
       enable = true;
       xkb = {
@@ -246,7 +254,7 @@ in {
       displayManager.lightdm.enable = true;
       windowManager.bspwm.enable = true;
     };
-    
+
     acpid = {
       enable = true;
     };
@@ -270,6 +278,40 @@ in {
         "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
       ];
     };
+    
+    # LibreWolf with Estonian ID support
+    firefox = {
+      enable = true;
+      package = pkgs.librewolf;
+      nativeMessagingHosts.packages = [ pkgs.web-eid-app ];
+      policies = {
+        SecurityDevices.p11-kit-proxy = "${pkgs.p11-kit}/lib/p11-kit-proxy.so";
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        Preferences = {
+          "cookiebanners.service.mode.privateBrowsing" = 2;
+          "cookiebanners.service.mode" = 2;
+          "privacy.donottrackheader.enabled" = true;
+          "privacy.fingerprintingProtection" = true;
+          "privacy.resistFingerprinting" = false; # Disable to allow Estonian ID
+          "privacy.trackingprotection.emailtracking.enabled" = true;
+          "privacy.trackingprotection.enabled" = true;
+          "privacy.trackingprotection.fingerprinting.enabled" = true;
+          "privacy.trackingprotection.socialtracking.enabled" = true;
+          # Estonian ID specific
+          "webgl.disabled" = false;
+          "privacy.clearOnShutdown.cookies" = false;
+          "network.cookie.lifetimePolicy" = 0;
+        };
+        ExtensionSettings = {
+          "uBlock0@raymondhill.net" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
+      };
+    };
+    
     gnupg.agent = { enable = true; enableSSHSupport = false; };
     mtr.enable = true;
     nix-ld.enable = true;
@@ -280,7 +322,7 @@ in {
 
   system.activationScripts.linkDotfiles = ''
     mkdir -p /home/alice/.config
-    ${lib.concatStringsSep "\n" (lib.mapAttrsToList (dest: src: 
+    ${lib.concatStringsSep "\n" (lib.mapAttrsToList (dest: src:
       "ln -sf${if lib.hasSuffix "/" dest then "n" else ""} /etc/nixos/dotfiles/${src} /home/alice/${dest}"
     ) dotfiles)}
     chown -R alice:users /home/alice/.config /home/alice/.zshrc
