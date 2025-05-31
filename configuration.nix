@@ -26,7 +26,7 @@ let
     dev = [ bun gh julia rust-analyzer rustfmt clippy yarn ];
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media = [ flameshot mpv ncspot ];
-    system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat busybox ];
+    system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     # Estonian ID packages
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
   } // {
@@ -66,6 +66,8 @@ let
       ssh-agents sshfs vim
     ];
   };
+
+# nothing else touched
 
   # Environment variables
   envVars = {
@@ -181,10 +183,15 @@ in {
     variables = envVars;
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable;
-    # Estonian ID authentication modules
-    etc."pkcs11/modules/opensc-pkcs11".text = ''
-      module: ${pkgs.opensc}/lib/opensc-pkcs11.so
-    '';
+    etc = {
+      "pkcs11/modules/opensc-pkcs11".text = ''
+        module: ${pkgs.opensc}/lib/opensc-pkcs11.so
+        '';
+      "chromium/native-messaging-hosts/eu.webeid.json".source = 
+        "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
+      "opt/chrome/native-messaging-hosts/eu.webeid.json".source = 
+        "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
+    };
   };
 
   users = {
