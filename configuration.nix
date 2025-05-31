@@ -111,13 +111,13 @@ let
   # Dotfile mappings
   dotfiles = {
     ".zshrc" = "zsh/.zshrc";
-    ".config/nvim" = "nvim";
-    ".config/alacritty" = "alacritty";
-    ".config/dunst" = "dunst";
-    ".config/rofi" = "rofi";
-    ".config/polybar" = "polybar";
-    ".config/bspwm" = "bspwm";
-    ".config/sxhkd" = "sxhkd";
+    ".config/nvim/" = "nvim";
+    ".config/alacritty/" = "alacritty";
+    ".config/dunst/" = "dunst";
+    ".config/rofi/" = "rofi";
+    ".config/polybar/" = "polybar";
+    ".config/bspwm/" = "bspwm";
+    ".config/sxhkd/" = "sxhkd";
     ".config/greenclip.toml" = "greenclip.toml";
   };
 
