@@ -50,9 +50,12 @@ let
       bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
-      ledger-agent ledger-live-desktop lm_sensors mdbook redshift
-      nvme-cli stress-ng
-      tailscale yazi
+      ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
+      # Hardware monitoring
+      lm_sensors nvme-cli dmidecode ryzenadj stress-ng s-tui btop bottom
+      nvtop radeontop powertop turbostat intel-gpu-tools sysbench
+      geekbench phoronix-test-suite inxi hwinfo cpu-x memtest86-efi
+      hdparm smartmontools iotop iostat
       # GUI/Desktop
       gtk-engine-murrine libsForQt5.qt5ct xorg.libX11
       # File management
@@ -67,8 +70,6 @@ let
       ssh-agents sshfs vim
     ];
   };
-
-# nothing else touched
 
   # Environment variables
   envVars = {
