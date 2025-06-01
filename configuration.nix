@@ -277,7 +277,7 @@ in {
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
-        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+        "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin lite
         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
         "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
