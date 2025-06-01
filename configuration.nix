@@ -55,7 +55,7 @@ let
       lm_sensors nvme-cli dmidecode ryzenadj stress-ng s-tui btop bottom
       radeontop powertop turbostat intel-gpu-tools sysbench
       geekbench phoronix-test-suite inxi hwinfo cpu-x memtest86-efi
-      hdparm smartmontools iotop iostat
+      hdparm smartmontools iotop sysstat iostat
       # GUI/Desktop
       gtk-engine-murrine libsForQt5.qt5ct xorg.libX11
       # File management
