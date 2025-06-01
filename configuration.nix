@@ -23,7 +23,7 @@ let
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
     wm = [ bspwm dunst polybar rofi sxhkd ];
-    dev = [ bun gh julia rust-analyzer rustfmt clippy yarn ];
+    dev = [ bun gh julia rust-analyzer rustfmt clippy yarn polkadot ];
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media = [ flameshot mpv ncspot ];
     system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
