@@ -53,7 +53,7 @@ let
       ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
       # Hardware monitoring
       lm_sensors nvme-cli dmidecode ryzenadj stress-ng s-tui btop bottom
-      nvtop radeontop powertop turbostat intel-gpu-tools sysbench
+      radeontop powertop turbostat intel-gpu-tools sysbench
       geekbench phoronix-test-suite inxi hwinfo cpu-x memtest86-efi
       hdparm smartmontools iotop iostat
       # GUI/Desktop
