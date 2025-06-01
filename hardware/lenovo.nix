@@ -125,37 +125,36 @@
   services.tlp = {
     enable = true;
     settings = {
-      # Enable conservation mode via TLP (caps at ~60%)
-      STOP_CHARGE_THRESH_BAT0 = 1;  # Enable conservation mode
-
-      # CPU settings - reduce power and heat
-      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+      # CPU settings - performance when plugged in
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
       CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 70;   # Limit max performance to 70%
+      CPU_MAX_PERF_ON_AC = 100;   # Full performance on AC
       CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;  # Limit even more on battery
-      
+      CPU_MAX_PERF_ON_BAT = 50;
+
       # Platform profile settings
-      PLATFORM_PROFILE_ON_AC = "quiet";
+      PLATFORM_PROFILE_ON_AC = "performance";
       PLATFORM_PROFILE_ON_BAT = "quiet";
-      
-      # PCIe power savings
-      PCIE_ASPM_ON_AC = "powersave";
-      PCIE_ASPM_ON_BAT = "powersave";
-      
+
       # AMD GPU power management
-      RADEON_DPM_PERF_LEVEL_ON_AC = "low";
+      RADEON_DPM_PERF_LEVEL_ON_AC = "high";
       RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
-      RADEON_POWER_PROFILE_ON_AC = "low";
+      RADEON_POWER_PROFILE_ON_AC = "high";
       RADEON_POWER_PROFILE_ON_BAT = "low";
-      
+
+      # PCIe power savings
+      PCIE_ASPM_ON_AC = "default";
+      PCIE_ASPM_ON_BAT = "powersave";
+
       # Restore device state on startup to ensure settings persist
       RESTORE_DEVICE_STATE_ON_STARTUP = true;
     };
   };
+
+  services.power-profiles-daemon.enable = false;
  
 # Battery alert service and timer
   systemd.user.services.battery-alert = {
