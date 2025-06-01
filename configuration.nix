@@ -51,6 +51,7 @@ let
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
       ledger-agent ledger-live-desktop lm_sensors mdbook redshift
+      nvme-cli stress-ng
       tailscale yazi
       # GUI/Desktop
       gtk-engine-murrine libsForQt5.qt5ct xorg.libX11
