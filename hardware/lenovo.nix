@@ -58,10 +58,12 @@
       "psmouse.resetafter=0"
       # CPU configuration
       "nosmt=force" # disable simultaneous multithreading(HT/smt)
-      "amd_pstate=passive" # power management
-      # Thermal optimization
-      "processor.max_cstate=5" # Optimize CPU power states
-      "pcie_aspm=force" # Force PCIe power savings
+      "amd_pstate=guided" # Let TLP control pstate
+      # Remove these - conflicts with TLP:
+      # "processor.max_cstate=5"
+      # "pcie_aspm=force" 
+      # "amd_pstate_epp=performance"
+      # "processor.ignore_ppc=1"
     ];
   };
 
