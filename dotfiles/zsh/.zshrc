@@ -1,5 +1,7 @@
 # CHAOSzsh
+# Minimal zshrc - pure zsh implementation
 
+# PATH
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # SSH agent
@@ -8,8 +10,8 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # Prompt
 setopt PROMPT_SUBST
-git_prompt() { [[ -d .git ]] && echo "±" || echo "🕸" }
-PROMPT='%F{green}%B%n@%m%b%f %F{cyan}%~%f $(git_prompt) %# '
+git_prompt() { [[ -d .git ]] && echo "± " || echo "$ " }
+PROMPT='%F{green}%B%n@%m%b%f %F{cyan}%~%f $(git_prompt)'
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -40,7 +42,7 @@ alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ls -la'
 
-# Git aliases
+# Git aliases  
 alias g='git'
 alias ga='git add'
 alias gc='git commit'
