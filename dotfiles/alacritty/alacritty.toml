@@ -1,6 +1,10 @@
 [general]
 live_config_reload = true
 
+# Add this section
+[selection]
+save_to_clipboard = true
+
 [colors.bright]
 black = "0x555555"
 blue = "0xe6007a"
@@ -31,49 +35,58 @@ foreground = "0xF8229B"
 
 [cursor]
 unfocused_hollow = false
+blink_interval = 750  # milliseconds
+blink_timeout = 0     # never stop blinking
 
 [cursor.style]
-blinking = "on"
+blinking = "On"
 shape = "Block"
 
 [env]
-TERM = "alacritty"  # Changed from "xterm-256color"
+TERM = "xterm-256color"
+WINIT_X11_SCALE_FACTOR = "1"  # disable DPI scaling issues
 
 [font]
-size = 8.0
+size = 11.0
+builtin_box_drawing = true  # faster box drawing
 
 [font.bold]
+family = "monospace"
 style = "Bold"
 
-[font.glyph_offset]
-x = 0
-y = 0
-
 [font.normal]
+family = "monospace"
 style = "Regular"
-
-[font.offset]
-x = 0
-y = 0
 
 [window]
 decorations = "full"
-dynamic_padding = true
-dynamic_title = true
-opacity = 1
+dynamic_padding = false  # static is faster
+dynamic_title = false    # less overhead
+opacity = 1.0
 startup_mode = "Windowed"
+resize_increments = true  # snap to cell grid
 
 [window.dimensions]
 columns = 84
 lines = 22
 
 [window.padding]
-x = 0
-y = 0
+x = 2
+y = 2
 
 [terminal.shell]
-program = "/run/current-system/sw/bin/zsh"  # Added explicit shell specification
-args = ["-l"]  # Added to ensure login shell
+program = "/run/current-system/sw/bin/zsh"
+args = ["-l"]
 
 [scrolling]
-multiplier = 5  # Increase this for faster scrolling
+history = 10000
+multiplier = 3
+
+# Performance critical
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+]
+
+[terminal]
