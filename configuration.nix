@@ -22,7 +22,7 @@ let
   # User packages organized by category
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
-    wm = [ bspwm dunst polybar rofi sxhkd ];
+    wm = [ bspwm dunst (polybar.override { pulseSupport = true; }) rofi sxhkd ];
     dev = [ bun gh julia rust-analyzer rustfmt clippy yarn polkadot ];
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media = [ flameshot mpv ncspot ];
@@ -165,6 +165,7 @@ in {
     nerd-fonts.fira-code
     iosevka
     font-awesome
+    font-awesome_6
   ];
 
   i18n.defaultLocale = "en_US.UTF-8";
