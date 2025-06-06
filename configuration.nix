@@ -283,7 +283,7 @@ in {
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
         "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin lite
         "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
-        "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
+#        "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
         "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
         "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
         "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js

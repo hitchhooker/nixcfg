@@ -1,7 +1,7 @@
 /* chaOS Rofi Theme - 100% Dynamic, No Pixels */
 
 configuration {
-    modi: "drun,run,window,ssh,filebrowser,power:~/.config/rofi/power-menu.sh,keys:~/.config/rofi/keyboard_layout.sh";
+    modi: "drun,run,window,ssh,filebrowser,power:~/.config/rofi/power-menu.sh";
     show-icons: true;
     font: "monospace 10";
     drun-display-format: "{name}";

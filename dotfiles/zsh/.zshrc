@@ -159,7 +159,7 @@ alias scr='systemctl restart'
 # quick edits
 alias zshrc='vi ~/.zshrc'
 alias vimrc='vi ~/.vimrc'
-alias nixconf='sudo vi /etc/nixos/configuration.nix'
+alias nixconf='sudo nvim /etc/nixos/configuration.nix'
 
 # rsync
 alias rs='rsync -avh --progress'

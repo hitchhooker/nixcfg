@@ -20,7 +20,7 @@ super + alt + {r,q}
 
 # Lock screen
 super + shift + x
-    i3lock-fancy-rapid 5 3
+    i2lock-fancy-rapid 5 3
 
 # ──────────────────────────────────────────
 # Window Management
