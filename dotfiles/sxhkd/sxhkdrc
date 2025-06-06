@@ -142,9 +142,9 @@ super + c
 super + b
     rofi -modi "clipboard:greenclip print" -show clipboard
 
-# Keyboard layout
+# Intercept Win+Space to show notification after XKB switches
 super + space
-    rofi -show keys -theme-str 'window {width: 20%; height: 15%;}'
+    xdotool key --clearmodifiers "Super_L+space" && sleep 0.1 && ~/.config/rofi/keyboard-status.sh
 
 # Notification history
 super + n
