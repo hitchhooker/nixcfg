@@ -70,8 +70,10 @@ bindkey '^Z' vi-cmd-mode # enter normal mode
 # ctrl + arrow keys
 bindkey '^[[1;5C' forward-word        # ctrl+right
 bindkey '^[[1;5D' backward-word       # ctrl+left
-bindkey '^[[1;5A' history-search-backward  # ctrl+up
-bindkey '^[[1;5B' history-search-forward   # ctrl+down
+# bindkey '^[[1;5A' history-search-backward  # ctrl+up
+# bindkey '^[[1;5B' history-search-forward   # ctrl+down
+bindkey '^[[A' history-beginning-search-backward # ctrl+up
+bindkey '^[[B' history-beginning-search-forward # ctrl+down
 
 # plain arrows for substring search
 bindkey '^[[A' up-line-or-search      # up arrow
