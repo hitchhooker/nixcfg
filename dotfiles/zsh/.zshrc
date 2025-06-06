@@ -1,6 +1,10 @@
 # CHAOSzsh
 # f.g. user@hostname /etc/
 
+# terminal
+export TERMINAL=alacritty
+export EDITOR=nvim
+
 # PATH
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 

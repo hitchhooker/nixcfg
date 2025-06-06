@@ -183,7 +183,9 @@ in {
   };
 
   environment = {
-    variables = envVars;
+    variables = envVars // {
+      TERMINAL = "${pkgs.alacritty}/bin/alacritty";
+    };
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable;
     etc = {
@@ -340,5 +342,10 @@ in {
     ) dotfiles)}
     chown -R alice:users /home/alice/.config /home/alice/.zshrc
     chmod -R u+x /home/alice/.config/{bspwm,sxhkd}/scripts
+  '';
+
+  system.activationScripts.terminalEmulator = ''
+    mkdir -p /usr/bin
+    ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
   '';
 }

@@ -1,9 +1,9 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 #
 # ┌─┐┬ ┬┌─┐╔═╗╔═╗  ┬ ┬┌─┐┌┬┐┬┌─┌─┐┬ ┬┌─┐
 # │  ├─┤├─┤║ ║╚═╗  ├─┤│ │ │ ├┴┐├┤ └┬┘└─┐
-# └─┘┴ ┴┴ ┴╚═╝╚═╝  ┴ ┴└─┘ ┴ ┴ ┴└─┘ ┴ └─┘
+# └─┘┴ ┴┴ ┴╚═╝╚═╝  ┴ ┴└─┘ ┴ ┴ ┴ ┴└─┘ ┴ └─┘
 #
 
 # ──────────────────────────────────────────
@@ -106,9 +106,9 @@ super + Return
 super + d
     rofi -show drun
 
-# Run command
+# Run command (in terminal)
 super + r
-    rofi -show run
+    bash -c 'cmd=$(rofi -dmenu -p "Run: "); [ -n "$cmd" ] && alacritty -e bash -c "$cmd; read -p \"Press enter to close...\""'
 
 # Window switcher
 alt + Tab
@@ -136,7 +136,7 @@ super + x
 
 # SSH connections
 super + c
-    rofi -show ssh
+    TERMINAL=alacritty rofi -show ssh
 
 # Clipboard history
 super + b
@@ -184,7 +184,7 @@ ctrl + Print
 
 # ──────────────────────────────────────────
 # Special Modes
-# ──────────────────────────────────────────
+# ──────────────────────────────────────────────
 
 # Disable sxhkd (press F6 to re-enable)
 super + alt + g ; F6
