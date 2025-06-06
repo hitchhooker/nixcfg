@@ -1,207 +1,191 @@
+#!/usr/bin/env sh
+
 #
-# chaOS hotkeys
+# ┌─┐┬ ┬┌─┐╔═╗╔═╗  ┬ ┬┌─┐┌┬┐┬┌─┌─┐┬ ┬┌─┐
+# │  ├─┤├─┤║ ║╚═╗  ├─┤│ │ │ ├┴┐├┤ └┬┘└─┐
+# └─┘┴ ┴┴ ┴╚═╝╚═╝  ┴ ┴└─┘ ┴ ┴ ┴└─┘ ┴ └─┘
 #
 
-# reload sxhkd configs
+# ──────────────────────────────────────────
+# System Control
+# ──────────────────────────────────────────
+
+# Reload sxhkd config
 super + Escape
-	pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd
 
-# Alt + Super + g to enter disable sxhkd keys, F6 to enable
-super + alt + g: F6
-    pkill -ALRM sxhkd
+# Restart/quit bspwm
+super + alt + {r,q}
+    bspc {wm -r,quit}
 
-#
-# bspwm hotkeys
-#
+# Lock screen
+super + shift + x
+    i3lock-fancy-rapid 5 3
 
-# quit/restart bspwm
-super + alt + {q,r}
-	bspc {quit,wm -r}
+# ──────────────────────────────────────────
+# Window Management
+# ──────────────────────────────────────────
 
-# close and kill
+# Close/kill window
 super + {_,shift + }q
-	bspc node -{c,k}
+    bspc node -{c,k}
 
-# alternate between the tiled and monocle layout
+# Window states
+super + {t,shift + t,f,shift + f}
+    bspc node -t {tiled,pseudo_tiled,fullscreen,floating}
+
+# Toggle monocle layout
 super + m
-	bspc desktop -l next
+    bspc desktop -l next
 
-# send the newest marked node to the newest preselected node
-super + y
-  i3lock 8 8
-
-# swap the current node and the biggest window
+# Swap current node with biggest
 super + g
-	bspc node -s biggest.window
+    bspc node -s biggest.window
 
-#
-# state/flags
-#
+# ──────────────────────────────────────────
+# Focus & Movement
+# ──────────────────────────────────────────
 
-# set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-# set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
-
-#
-# focus/swap
-#
-
-# focus the node in the given direction
+# Focus/move window in direction
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+    bspc node -{f,s} {west,south,north,east}
 
-# focus the next/previous window in the current desktop
+# Focus next/previous window
 super + {_,shift + }Tab
-	bspc node -f {next,prev}.local.!hidden.window
+    bspc node -f {next,prev}.local.!hidden.window
 
-# focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
-
-# focus the next/previous desktop in the current monitor
-alt + {_,shift + }Tab
-	bspc desktop -f {next,prev}.local
-
-# focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
-
-# focus or send to the given desktop
+# Focus/send to desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+    bspc {desktop -f,node -d} '^{1-9,10}'
 
-#
-# preselect
-#
+# Focus next/previous desktop
+super + bracket{left,right}
+    bspc desktop -f {prev,next}.local
 
-# preselect the direction
-super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
+# ──────────────────────────────────────────
+# Window Resizing
+# ──────────────────────────────────────────
 
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + space
-	bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-
-#
-# move/resize
-#
-
-# expand a window by moving one of its side outward
+# Expand window
 super + alt + {h,j,k,l}
-	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
-# contract a window by moving one of its side inward
+# Contract window
 super + alt + shift + {h,j,k,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
-# move a floating window
+# Move floating window
 super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
-#
-# Special hotkeys
-#
+    bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# Higher volume
-XF86AudioRaiseVolume
-  sh -c 'amixer -q set Master 5%+ unmute; dunstify --urgency=low --timeout=450 -- "5%+ volume"'
+# ──────────────────────────────────────────
+# Preselection
+# ──────────────────────────────────────────
 
-# Lower volume
-XF86AudioLowerVolume
-  sh -c 'amixer -q set Master 5%- unmute; dunstify --urgency=low --timeout=450 -- "5%- volume"'
+# Preselect direction
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
 
-# Mute/unmute volume
-XF86AudioMute
-  amixer -D pulse sset Master toggle-mute
-  
-# amixer -q set Master toggle
-# Simple amixer command seems to have problems unmuting device
+# Preselect ratio
+super + ctrl + {1-9}
+    bspc node -o 0.{1-9}
 
-# Brightness up
-XF86MonBrightnessUp
-  xbacklight -inc 5
-  # sexbacklight for nvidia-prime setups
-  # using xrandr to control brightness
-  # ~/scripts/sexbacklight -inc 5 
+# Cancel preselection
+super + ctrl + space
+    bspc node -p cancel
 
-# Brightness down
-XF86MonBrightnessDown
-  xbacklight -dec 5
-  # ./scripts/sexbacklight -dec 5
+# ──────────────────────────────────────────
+# Applications
+# ──────────────────────────────────────────
 
-# Take screenshot -menu
-Print
-  flameshot gui
-
-# Open browser
-super + w 
-  chromium
-
-# File manager
-super + e
-  pcmanfm
-
-# terminal emulator - alacritty
+# Terminal
 super + Return
-  alacritty
+    alacritty
 
-# program launcher
+# App launcher
 super + d
-  rofi \
-    -show drun -terminal alacritty \
-    -theme "$HOME/.config/rofi/applets/launcher/default.rasi" \
-    -font "Unbounded Normal 10"
+    rofi -show drun
 
-# connect to ssh servers
+# Run command
 super + r
-  rofi \
-    -show run -terminal alacritty \
-    -theme "$HOME/.config/rofi/applets/launcher/default.rasi" \
-    -font "Unbounded Normal 10"
+    rofi -show run
 
-# connect to ssh servers
-super + c
-  rofi \
-    -show ssh -terminal alacritty \.rasi
-    -theme "$HOME/.config/rofi/applets/launcher/default.rasi" \
-    -font "Unbounded Normal 10"
+# Window switcher
+alt + Tab
+    rofi -show window
 
-super + b
-  rofi \ 
-    -modi "clipboard:greenclip print" \
-    -show clipboard -run-command '{cmd}' \
-    -theme "$HOME/.config/rofi/bin/utils/clipboard.rasi" \
-    -font "Unbounded Light 10"
+# Browser
+super + w
+    chromium
 
-# power-menu
+# File manager (GUI)
+super + e
+    pcmanfm
+
+# File manager (TUI)
+super + shift + e
+    alacritty -e yazi
+
+# ──────────────────────────────────────────
+# Rofi Menus
+# ──────────────────────────────────────────
+
+# Power menu
 super + x
-  alacritty -e yazi
+    rofi -show power
 
-# Change keyboard language
+# SSH connections
+super + c
+    rofi -show ssh
+
+# Clipboard history
+super + b
+    rofi -modi "clipboard:greenclip print" -show clipboard
+
+# Keyboard layout
 super + space
-  ~/.config/rofi/bin/utils/keyboard_layout.sh
+    rofi -show keys -theme-str 'window {width: 20%; height: 15%;}'
 
-super + F1
-  ~/.config/rofi/bin/utils/keybindings.sh
+# Notification history
+super + n
+    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications -theme-str 'window {width: 50%; height: 60%;} listview {lines: 20;}'
 
-# change picom style
-super + backslash
-  rofi \
-  -show picom-changer \
-  -modi "picom-changer:~/.config/rofi/bin/settings/picom-changer.sh" \
-  -run-command '{cmd}' \
-  -theme "$HOME/.config/rofi/bin/utils/clipboard.rasi" \
-  -font "Unbounded Light 10"
+# ──────────────────────────────────────────
+
+# ──────────────────────────────────────────
+# Media & System Keys
+# ──────────────────────────────────────────
+
+# Volume control
+XF86Audio{Raise,Lower}Volume
+    amixer -q set Master 5%{+,-} && \
+    dunstify "Volume" "$(amixer get Master | grep -o '[0-9]*%' | head -1)" -t 1000 -r 9999
+
+XF86AudioMute
+    amixer -q set Master toggle && \
+    dunstify "Volume" "$(amixer get Master | grep '\[on\]' > /dev/null && echo 'Unmuted' || echo 'Muted')" -t 1000 -r 9999
+
+# Brightness control
+XF86MonBrightness{Up,Down}
+    brightnessctl s 5%{+,-} && \
+    dunstify "Brightness" "$(brightnessctl g)%" -t 1000 -r 9998
+
+# Screenshot
+Print
+    flameshot gui
+
+# Screenshot full screen
+shift + Print
+    flameshot full -c
+
+# Screenshot to file
+ctrl + Print
+    flameshot full -p ~/Pictures/Screenshots/
+
+# ──────────────────────────────────────────
+# Special Modes
+# ──────────────────────────────────────────
+
+# Disable sxhkd (press F6 to re-enable)
+super + alt + g ; F6
+    pkill -ALRM sxhkd

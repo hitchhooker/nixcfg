@@ -1,0 +1,278 @@
+/* chaOS Rofi Theme - 100% Dynamic, No Pixels */
+
+configuration {
+    modi: "drun,run,window,ssh,filebrowser,power:~/.config/rofi/power-menu.sh,keys:~/.config/rofi/keyboard_layout.sh";
+    show-icons: true;
+    font: "monospace 10";
+    drun-display-format: "{name}";
+    window-format: "{w} {t}";
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    display-ssh: " SSH";
+    display-filebrowser: " Files";
+    display-power: " Power";
+    display-keys: " Layout";
+    display-keys: " Layout";
+    sidebar-mode: true;
+    steal-focus: true;
+    matching: "fuzzy";
+    scroll-method: 0;
+    disable-history: false;
+    show-match: true;
+    
+    /* Performance */
+    threads: 0;
+    click-to-exit: true;
+    cache-dir: "/tmp/rofi-cache";
+}
+
+* {
+    /* chaOS colors */
+    bg: #000000CC;
+    bg-alt: #1A1B26FF;
+    fg: #F8229B;
+    pink: #E6007A;
+    green: #56F39A;
+    yellow: #D3FF33;
+    cyan: #00FFE1;
+    purple: #552BBF;
+    white: #FFFFFF;
+    black: #000000;
+    
+    /* Applied colors */
+    background-color: @bg;
+    text-color: @fg;
+    border-color: @pink;
+    separatorcolor: @pink;
+    
+    /* Global properties - NO PIXELS */
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+    
+    /* Color mappings */
+    selected-normal-foreground: @black;
+    selected-normal-background: @pink;
+    selected-active-foreground: @black;
+    selected-active-background: @green;
+    selected-urgent-foreground: @black;
+    selected-urgent-background: @yellow;
+    
+    normal-foreground: @fg;
+    normal-background: transparent;
+    active-foreground: @green;
+    active-background: transparent;
+    urgent-foreground: @yellow;
+    urgent-background: transparent;
+    
+    alternate-normal-foreground: @fg;
+    alternate-normal-background: #1A1B2611;
+    alternate-active-foreground: @green;
+    alternate-active-background: #1A1B2611;
+    alternate-urgent-foreground: @yellow;
+    alternate-urgent-background: #1A1B2611;
+}
+
+/* Main window - fully dynamic */
+window {
+    background-color: @bg;
+    border: 0.2em;           /* Em-based border */
+    border-color: @pink;
+    border-radius: 0.5em;    /* Em-based radius */
+    padding: 1.5em;          /* Em-based padding */
+    width: 40%;              /* Percentage width */
+    height: 50%;             /* Percentage height */
+    location: center;
+    anchor: center;
+    transparency: "real";
+}
+
+/* Power menu window - top left, smaller */
+window.power {
+    width: 20%;
+    height: 30%;
+    location: northwest;
+    anchor: northwest;
+    x-offset: 2%;            /* Percentage offset */
+    y-offset: 5%;            /* From top bar */
+}
+
+mainbox {
+    background-color: transparent;
+    spacing: 1em;            /* Em-based spacing */
+    children: [ inputbar, message, listview, mode-switcher ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 0.3em;    /* Em-based radius */
+    padding: 0.8em 1.2em;    /* Em-based padding */
+    spacing: 0.5em;          /* Em-based spacing */
+    children: [ prompt, textbox-prompt-colon, entry, num-filtered-rows, textbox-slash, num-rows ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @pink;
+    enabled: true;
+}
+
+textbox-prompt-colon {
+    background-color: transparent;
+    expand: false;
+    str: ":";
+    text-color: @pink;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder: "Type to search...";
+    placeholder-color: #666;
+    expand: true;
+    horizontal-align: 0;
+    blink: true;
+}
+
+num-filtered-rows {
+    background-color: transparent;
+    text-color: @cyan;
+    expand: false;
+}
+
+textbox-slash {
+    background-color: transparent;
+    text-color: @cyan;
+    expand: false;
+    str: "/";
+}
+
+num-rows {
+    background-color: transparent;
+    text-color: @cyan;
+    expand: false;
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 10;               /* Lines, not pixels */
+    spacing: 0.5em;          /* Em-based spacing */
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    fixed-height: false;
+    layout: vertical;
+    reverse: false;
+}
+
+scrollbar {
+    width: 0.3em;            /* Em-based width */
+    border: 0;
+    handle-width: 0.3em;     /* Em-based handle */
+    handle-color: @pink;
+    background-color: @bg-alt;
+    padding: 0;
+}
+
+element {
+    background-color: transparent;
+    padding: 0.6em 1em;      /* Em-based padding */
+    border-radius: 0.3em;    /* Em-based radius */
+    orientation: horizontal;
+    spacing: 0.5em;          /* Em-based spacing */
+}
+
+element normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected {
+    background-color: @pink;
+    text-color: @black;
+}
+
+element active {
+    background-color: transparent;
+    text-color: @green;
+}
+
+element urgent {
+    background-color: transparent;
+    text-color: @yellow;
+}
+
+element alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color: @alternate-normal-foreground;
+}
+
+element-icon {
+    size: 1.2em;             /* Em-based size */
+    margin: 0 0.5em 0 0;     /* Em-based margins */
+    background-color: transparent;
+    text-color: inherit;
+}
+
+element-text {
+    highlight: bold;
+    vertical-align: 0.5;
+    background-color: transparent;
+    text-color: inherit;
+    expand: true;
+    horizontal-align: 0;
+}
+
+mode-switcher {
+    background-color: @bg-alt;
+    border-radius: 0.3em;    /* Em-based radius */
+    padding: 0.5em;          /* Em-based padding */
+    spacing: 0.5em;          /* Em-based spacing */
+    expand: false;
+}
+
+button {
+    background-color: transparent;
+    text-color: @fg;
+    padding: 0.5em 1em;      /* Em-based padding */
+    border-radius: 0.3em;    /* Em-based radius */
+    cursor: pointer;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+button selected {
+    background-color: @pink;
+    text-color: @black;
+}
+
+message {
+    background-color: @bg-alt;
+    border-radius: 0.3em;    /* Em-based radius */
+    padding: 1em;            /* Em-based padding */
+    margin: 1em 0 0 0;       /* Em-based margin */
+    border: 0.1em;           /* Em-based border */
+    border-color: @pink;
+}
+
+textbox {
+    background-color: transparent;
+    text-color: @fg;
+    vertical-align: 0.5;
+    horizontal-align: 0;
+    highlight: none;
+    blink: true;
+    markup: true;
+}
+
+error-message {
+    background-color: @yellow;
+    text-color: @black;
+    padding: 1em;            /* Em-based padding */
+    border-radius: 0.3em;    /* Em-based radius */
+}
+
+/* vim:ft=css */

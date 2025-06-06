@@ -67,7 +67,7 @@ let
     ];
     stable = with stable; [
       docker docker-compose lightdm parted screen
-      ssh-agents sshfs vim
+      ssh-agents sshfs vim xdotool
     ];
   };
 
