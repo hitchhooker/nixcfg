@@ -51,6 +51,7 @@ let
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
       ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
+      inetutils
       # Hardware monitoring
       lm_sensors nvme-cli dmidecode ryzenadj stress-ng s-tui btop bottom
       radeontop powertop intel-gpu-tools sysbench fwupd
