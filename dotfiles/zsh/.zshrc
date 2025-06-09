@@ -140,10 +140,10 @@ alias sbkk='ssh -i ~/.ssh/unlabored/ansible_mikrotik'
 # file operations
 alias rmrf='rm -rf'
 alias mkdp='mkdir -p'
-# safety nets
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# safety nets #TODO: just create .bak files with 24h deletion timer
+# alias rm='rm -i'
+# alias cp='cp -i'
+# alias mv='mv -i'
 
 # process management
 alias psg='pgrep -af'
