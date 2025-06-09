@@ -193,7 +193,13 @@ in {
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
     };
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
-    systemPackages = sysPkgs.unstable ++ sysPkgs.stable;
+    systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
+      (pkgs.writeShellScriptBin "cargo" ''
+       export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
+       export OPENSSL_DIR="${pkgs.openssl.dev}"
+       exec ${pkgs.cargo}/bin/cargo "$@"
+       '')
+    ];
     etc = {
       "pkcs11/modules/opensc-pkcs11".text = ''
         module: ${pkgs.opensc}/lib/opensc-pkcs11.so
@@ -246,10 +252,10 @@ in {
     syncthing.enable = false;
 
     fwupd.enable   = true;   # fwupd daemon + fwupdmgr client
-    udisks2.enable = true;   # fwupd uses UDisks2 to locate the ESP
-    
-    # Estonian ID card support
-    pcscd.enable = true;
+      udisks2.enable = true;   # fwupd uses UDisks2 to locate the ESP
+
+# Estonian ID card support
+      pcscd.enable = true;
 
     redshift = {
       enable = true;
@@ -289,18 +295,18 @@ in {
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
-        "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin lite
-        "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
+          "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin lite
+          "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
 #        "khccbhhbocaaklceanjginbdheafklai" # Substrate connect
-        "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
-        "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
-        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
-        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
-        "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
+          "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+          "gobmdjdemnlkgfcgmhmmojgaebfediog" # manage tabs by domain mv3
+          "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+          "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+          "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
       ];
     };
-    
-    # LibreWolf with Estonian ID support
+
+# LibreWolf with Estonian ID support
     firefox = {
       enable = true;
       package = pkgs.librewolf;
@@ -315,11 +321,11 @@ in {
           "privacy.donottrackheader.enabled" = true;
           "privacy.fingerprintingProtection" = true;
           "privacy.resistFingerprinting" = false; # Disable to allow Estonian ID
-          "privacy.trackingprotection.emailtracking.enabled" = true;
+            "privacy.trackingprotection.emailtracking.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
           "privacy.trackingprotection.fingerprinting.enabled" = true;
           "privacy.trackingprotection.socialtracking.enabled" = true;
-          # Estonian ID specific
+# Estonian ID specific
           "webgl.disabled" = false;
           "privacy.clearOnShutdown.cookies" = false;
           "network.cookie.lifetimePolicy" = 0;
@@ -332,7 +338,7 @@ in {
         };
       };
     };
-    
+
     gnupg.agent = { enable = true; enableSSHSupport = false; };
     mtr.enable = true;
     nix-ld.enable = true;
@@ -344,14 +350,14 @@ in {
   system.activationScripts.linkDotfiles = ''
     mkdir -p /home/alice/.config
     ${lib.concatStringsSep "\n" (lib.mapAttrsToList (dest: src:
-      "ln -sf${if lib.hasSuffix "/" dest then "n" else ""} /etc/nixos/dotfiles/${src} /home/alice/${dest}"
-    ) dotfiles)}
-    chown -R alice:users /home/alice/.config /home/alice/.zshrc
+          "ln -sf${if lib.hasSuffix "/" dest then "n" else ""} /etc/nixos/dotfiles/${src} /home/alice/${dest}"
+          ) dotfiles)}
+  chown -R alice:users /home/alice/.config /home/alice/.zshrc
     chmod -R u+x /home/alice/.config/{bspwm,sxhkd}/scripts
-  '';
+    '';
 
   system.activationScripts.terminalEmulator = ''
     mkdir -p /usr/bin
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
-  '';
+    '';
 }
