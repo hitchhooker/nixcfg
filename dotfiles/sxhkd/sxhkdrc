@@ -159,16 +159,16 @@ super + n
 # Volume control
 XF86Audio{Raise,Lower}Volume
     amixer -q set Master 5%{+,-} && \
-    dunstify "Volume" "$(amixer get Master | grep -o '[0-9]*%' | head -1)" -t 1000 -r 9999
+    dunstify "Vol $(amixer get Master | grep -o '[0-9]*%' | head -1)" -t 1000 -r 9999
 
 XF86AudioMute
     amixer -q set Master toggle && \
-    dunstify "Volume" "$(amixer get Master | grep '\[on\]' > /dev/null && echo 'Unmuted' || echo 'Muted')" -t 1000 -r 9999
+    dunstify "Vol $(amixer get Master | grep '\[on\]' > /dev/null && echo 'Unmuted' || echo 'Muted')" -t 1000 -r 9999
 
 # Brightness control
 XF86MonBrightness{Up,Down}
     brightnessctl s 5%{+,-} && \
-    dunstify "Brightness" "$(brightnessctl g)%" -t 1000 -r 9998
+    dunstify "Brightness $(brightnessctl g)%" -t 1000 -r 9998
 
 # Screenshot
 Print

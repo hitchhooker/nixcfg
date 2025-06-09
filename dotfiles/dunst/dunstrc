@@ -53,21 +53,21 @@
     mouse_left_click = close_current
     mouse_middle_click = context
     mouse_right_click = close_all
-    
+
 [experimental]
     per_monitor_dpi = true
 
 [urgency_low]
     background = "#000000"
-    foreground = "#cccccc"
-    frame_color = "#333333"
+    foreground = "#FFFFFF"
+    frame_color = "#555555"
     timeout = 2
     override_pause_level = 30
     format = "ℹ️ <b>%a</b>\n%s\n<small>%b</small>"
 
 [urgency_normal]
     background = "#000000"
-    foreground = "#ffffff"
+    foreground = "#F8229B"
     frame_color = "#e6007a"
     timeout = 3
     override_pause_level = 40
@@ -75,8 +75,8 @@
 
 [urgency_critical]
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#ff0000"
+    foreground = "#FFFFFF"
+    frame_color = "#552BBF"
     timeout = 0
     override_pause_level = 50
     format = "🚨 <b>%a</b>\n%s\n<small>%b</small>"
@@ -89,62 +89,62 @@
 
 [discord]
     desktop_entry = discord
-    frame_color = "#5865F2"
+    frame_color = "#0077ff"
     timeout = 2
     format = "💬 <b>Discord</b>\n%s\n<small>%b</small>"
 
 [beeper]
     desktop_entry = beeper
-    frame_color = "#00D4AA"
+    frame_color = "#56F39A"
     timeout = 2
     format = "💭 <b>Beeper</b>\n%s\n<small>%b</small>"
 
 [signal]
     desktop_entry = signal
-    frame_color = "#3A76F0"
+    frame_color = "#00B2FF"
     timeout = 2
     format = "🔒 <b>Signal</b>\n%s\n<small>%b</small>"
 
 [telegram]
     desktop_entry = telegram
-    frame_color = "#2AABEE"
+    frame_color = "#00ffe1"
     timeout = 2
     format = "✈️ <b>Telegram</b>\n%s\n<small>%b</small>"
 
 [slack]
     desktop_entry = slack
-    frame_color = "#4A154B"
+    frame_color = "#552BBF"
     timeout = 2
     format = "💼 <b>Slack</b>\n%s\n<small>%b</small>"
 
 [thunderbird]
     desktop_entry = thunderbird
-    frame_color = "#0A84FF"
+    frame_color = "#0077ff"
     timeout = 3
     format = "📧 <b>Mail</b>\n%s\n<small>%b</small>"
 
 [element]
     desktop_entry = element
-    frame_color = "#0DBD8B"
+    frame_color = "#56F39A"
     timeout = 2
     format = "💎 <b>Element</b>\n%s\n<small>%b</small>"
 
 [flameshot]
     appname = flameshot
-    frame_color = "#FF6600"
+    frame_color = "#D3FF33"
     timeout = 1
     urgency = low
     format = "📸 <b>Screenshot</b>\n%s"
 
 [transmission]
     desktop_entry = transmission
-    frame_color = "#DA0000"
+    frame_color = "#552BBF"
     timeout = 3
     format = "⬇️ <b>Transmission</b>\n%s\n<small>%b</small>"
 
 [syncthing]
     appname = syncthing
-    frame_color = "#0891D1"
+    frame_color = "#00ffe1"
     timeout = 2
     format = "🔄 <b>Syncthing</b>\n%s\n<small>%b</small>"
 
@@ -153,10 +153,10 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#a6e3a1"
+    foreground = "#F8229B"
+    frame_color = "#56F39A"
     set_stack_tag = "volume"
-    format = "🔊 %s"
+    format = "🔊 %s: %b"
 
 [volume-up]
     summary = "*Volume*"
@@ -164,10 +164,10 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#a6e3a1"
+    foreground = "#F8229B"
+    frame_color = "#56F39A"
     set_stack_tag = "volume"
-    format = "🔊 %s ↑"
+    format = "🔊 %b ↑"
 
 [volume-down]
     summary = "*Volume*"
@@ -175,10 +175,10 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#a6e3a1"
+    foreground = "#F8229B"
+    frame_color = "#56F39A"
     set_stack_tag = "volume"
-    format = "🔈 %s ↓"
+    format = "🔈 %b ↓"
 
 [volume-mute]
     summary = "*Volume*"
@@ -186,8 +186,8 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#f38ba8"
+    foreground = "#F8229B"
+    frame_color = "#552BBF"
     set_stack_tag = "volume"
     format = "🔇 Muted"
 
@@ -196,10 +196,10 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#f9e2af"
+    foreground = "#F8229B"
+    frame_color = "#D3FF33"
     set_stack_tag = "brightness"
-    format = "☀️ %s"
+    format = "☀️ %s: %b"
 
 [brightness-up]
     summary = "*Brightness*"
@@ -207,10 +207,10 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#f9e2af"
+    foreground = "#F8229B"
+    frame_color = "#D3FF33"
     set_stack_tag = "brightness"
-    format = "☀️ %s ↑"
+    format = "☀️ %b ↑"
 
 [brightness-down]
     summary = "*Brightness*"
@@ -218,17 +218,17 @@
     history_ignore = yes
     timeout = 1
     background = "#000000"
-    foreground = "#ffffff"
-    frame_color = "#f9e2af"
+    foreground = "#F8229B"
+    frame_color = "#D3FF33"
     set_stack_tag = "brightness"
-    format = "🌙 %s ↓"
+    format = "🌙 %b ↓"
 
 [battery-low]
     summary = "*battery*"
     body = "*[0-1][0-9]%*"
     urgency = critical
     timeout = 30
-    frame_color = "#ff0000"
+    frame_color = "#552BBF"
     format = "🔋 <b>%s</b>\n%b"
 
 [battery-critical]
@@ -236,42 +236,42 @@
     body = "*[0-9]%*"
     urgency = critical
     timeout = 0
-    frame_color = "#ff0000"
+    frame_color = "#552BBF"
     format = "⚠️ <b>%s</b>\n%b"
 
 [usb]
     summary = "USB*"
-    frame_color = "#94e2d5"
+    frame_color = "#00ffe1"
     timeout = 3
     format = "💾 %s\n<small>%b</small>"
 
 [network]
     appname = "NetworkManager"
-    frame_color = "#a6adc8"
+    frame_color = "#0077ff"
     timeout = 2
     format = "🌐 <b>Network</b>\n%s"
 
 [tailscale]
     appname = tailscale
-    frame_color = "#1E1E1E"
+    frame_color = "#555555"
     timeout = 2
     format = "🔗 <b>Tailscale</b>\n%s"
 
 [ssh]
     summary = "*SSH*"
-    frame_color = "#fab387"
+    frame_color = "#D3FF33"
     timeout = 3
     format = "🔐 <b>SSH</b>\n%s\n<small>%b</small>"
 
 [git]
     appname = "git*"
-    frame_color = "#f38ba8"
+    frame_color = "#e6007a"
     timeout = 2
     format = "🌿 <b>Git</b>\n%s"
 
 [package-manager]
     summary = "*package*"
-    frame_color = "#74c7ec"
+    frame_color = "#00B2FF"
     timeout = 3
     format = "📦 %s\n<small>%b</small>"
 
