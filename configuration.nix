@@ -186,6 +186,11 @@ in {
   environment = {
     variables = envVars // {
       TERMINAL = "${pkgs.alacritty}/bin/alacritty";
+      # to fix rust
+      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
     };
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable;
