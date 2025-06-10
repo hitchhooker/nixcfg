@@ -35,9 +35,9 @@ let
         enableWideVine = true;
         commandLineArgs = [ "--force-dark-mode" "--enable-features=WebUIDarkMode" ];
       })
-      element-desktop google-cloud-sdk i3lock-fancy-rapid
+      element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
-      tigervnc xclip alsa-utils
+      tigervnc xclip alsa-utils toybox
       (python3.withPackages (ps: [ ps.ansible ps.pip ]))
       python313Full
     ];
@@ -63,7 +63,7 @@ let
       appimage-run gvfs pcmanfm shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
       # Rust toolchain
-      rustc cargo rustup binutils glibc pkg-config openssl
+      rustc rustup binutils glibc pkg-config openssl
       libiconv cmake gnumake llvmPackages.clang
     ];
     stable = with stable; [
@@ -194,10 +194,10 @@ in {
     };
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
-      (pkgs.writeShellScriptBin "cargo" ''
+      (pkgs.writeShellScriptBin "cargo-wrapped" ''
        export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
        export OPENSSL_DIR="${pkgs.openssl.dev}"
-       exec ${pkgs.cargo}/bin/cargo "$@"
+       exec ${unstable.cargo}/bin/cargo "$@"
        '')
     ];
     etc = {
@@ -321,7 +321,7 @@ in {
           "privacy.donottrackheader.enabled" = true;
           "privacy.fingerprintingProtection" = true;
           "privacy.resistFingerprinting" = false; # Disable to allow Estonian ID
-            "privacy.trackingprotection.emailtracking.enabled" = true;
+          "privacy.trackingprotection.emailtracking.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
           "privacy.trackingprotection.fingerprinting.enabled" = true;
           "privacy.trackingprotection.socialtracking.enabled" = true;

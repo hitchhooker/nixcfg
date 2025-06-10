@@ -4,6 +4,7 @@
 # terminal
 export TERMINAL=alacritty
 export EDITOR=nvim
+source /etc/set-environment
 
 # PATH
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
@@ -15,6 +16,10 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 # vim mode with indicators
 bindkey -v
 export KEYTIMEOUT=1
+
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
 
 # cursor shape for different modes
 function zle-keymap-select {
@@ -76,8 +81,10 @@ bindkey '^[[A' history-beginning-search-backward # ctrl+up
 bindkey '^[[B' history-beginning-search-forward # ctrl+down
 
 # plain arrows for substring search
-bindkey '^[[A' up-line-or-search      # up arrow
-bindkey '^[[B' down-line-or-search    # down arrow
+# bindkey '^[[A' up-line-or-search      # up arrow
+# bindkey '^[[B' down-line-or-search    # down arrow
+bindkey '^[[A' up-line-or-beginning-search    # up arrow
+bindkey '^[[B' down-line-or-beginning-search  # down arrow
 
 # history
 HISTFILE="$HOME/.zsh_history"

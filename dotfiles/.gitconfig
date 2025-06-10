@@ -1,0 +1,15 @@
+[user]
+	email = tommi@niemi.lol
+	name = hitchhooker
+[credential "https://github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/alice/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/alice/bin/gh auth git-credential
+[pager]
+	diff = false
+	log = false
+	show = false
+[core]
+	pager = cat
