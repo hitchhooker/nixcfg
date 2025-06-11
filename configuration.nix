@@ -23,9 +23,10 @@ let
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
     wm = [ bspwm dunst (polybar.override { pulseSupport = true; }) rofi sxhkd ];
-    dev = [ bun gh julia rust-analyzer rustfmt clippy yarn polkadot ];
+    dev = [ bun gh julia rust-analyzer rustfmt yarn polkadot ];
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media = [ flameshot mpv ncspot ];
+    ai = [ ollama ];
     system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     # Estonian ID packages
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
@@ -37,7 +38,7 @@ let
       })
       element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
-      tigervnc xclip alsa-utils toybox
+      tigervnc xclip alsa-utils toybox pgcli
       (python3.withPackages (ps: [ ps.ansible ps.pip ]))
       python313Full
     ];
