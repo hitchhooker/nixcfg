@@ -3,8 +3,6 @@
 {
   programs.zsh = {
     enable = true;
-    # these are system-wide zsh aliases.
-    # for user-specific aliases, consider home-manager configuration.
     shellAliases = {
       # existing aliases
       vi = "nvim";
@@ -19,19 +17,25 @@
         git commit -m "update: $build_path"
       '';
       nx = "cd /etc/nixos/ && ls";
-      ping = "/run/wrappers/bin/ping"; # uses the setuid wrapper for ping
+      ping = "/run/wrappers/bin/ping";
+      cargo = "cargo-wrapped";  # use wrapper by default
     };
   };
-
-  environment.shells = [ pkgs.zsh pkgs.bash ]; # available shells
-  users.defaultUserShell = pkgs.zsh; # default shell for new users
-
-  # global interactive shell init
+  
+  environment.shells = [ pkgs.zsh pkgs.bash ];
+  users.defaultUserShell = pkgs.zsh;
+  
   environment.interactiveShellInit = ''
-    # ensures ssh_auth_sock is set if the systemd user service is running and created the socket,
-    # and if the variable wasn't already set by the session environment.
-    if [[ -z "$ssh_auth_sock" && -s "$xdg_runtime_dir/ssh-agent.socket" ]]; then
-      export ssh_auth_sock="$xdg_runtime_dir/ssh-agent.socket"
+    if [[ -z "$SSH_AUTH_SOCK" && -s "$XDG_RUNTIME_DIR/ssh-agent.socket" ]]; then
+      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
     fi
+    
+    # Rust development environment
+    export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig''${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    export OPENSSL_DIR="${pkgs.openssl.dev}"
+    export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+    export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+    export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
+    export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
   '';
 }
