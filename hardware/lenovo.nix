@@ -57,7 +57,8 @@
       "psmouse.synaptics_intertouch=0"
       "psmouse.resetafter=0"
       # CPU configuration
-      "nosmt=force" # disable simultaneous multithreading(HT/smt)
+      #"nosmt=force" # disable simultaneous multithreading(HT/smt)
+      #
       "amd_pstate=guided" # Let TLP control pstate
       # Remove these - conflicts with TLP:
       # "processor.max_cstate=5"
