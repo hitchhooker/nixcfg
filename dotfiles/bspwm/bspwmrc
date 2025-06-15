@@ -112,6 +112,8 @@ bspc rule -a "*:*:Choose Files" state=floating center=on
 bspc rule -a "*:*:Preferences" state=floating center=on
 bspc rule -a "*:*:Settings" state=floating center=on
 
+bspc rule -a Alacritty:clipboard state=floating rectangle=800x400+560+340 center=on
+
 # Browser extension popups (wallets, etc)
 bspc rule -a "Chromium:chromium:*" state=floating center=on
 bspc rule -a "Chromium-browser:chromium:*" state=floating center=on

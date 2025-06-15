@@ -68,6 +68,8 @@ let
       # Rust toolchain
       rustc rustup binutils glibc pkg-config openssl
       libiconv cmake gnumake llvmPackages.clang
+      # githubi
+      act
     ];
     stable = with stable; [
       docker docker-compose lightdm parted screen
