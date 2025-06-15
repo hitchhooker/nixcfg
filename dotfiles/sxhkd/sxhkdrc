@@ -148,7 +148,7 @@ super + space
 
 # Notification history
 super + n
-    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications -theme notifications
+    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications
 
 # ──────────────────────────────────────────
 

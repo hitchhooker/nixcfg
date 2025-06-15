@@ -50,7 +50,7 @@ let
       # db
       sqlite pgcli
       # Core
-      bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh
+      bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh fzf
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
       ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
