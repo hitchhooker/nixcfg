@@ -85,10 +85,10 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-    "/home/alice/Downloads" = {
-      device = "/dev/disk/by-uuid/779e5b85-ffce-4a76-b86d-04d8a364bae7";
-      fsType = "ext4";
-    };
+  "/home/alice/Downloads" = {
+    device = "/dev/disk/by-uuid/779e5b85-ffce-4a76-b86d-04d8a364bae7";
+    fsType = "ext4";
+  };
   };
 
   # Swap

@@ -13,7 +13,7 @@ configuration {
     display-filebrowser: " Files";
     display-power: " Power";
     display-keys: " Layout";
-    display-keys: " Layout";
+    display-notifications: " Notifications";
     sidebar-mode: true;
     steal-focus: true;
     matching: "fuzzy";
@@ -97,6 +97,12 @@ window.power {
     anchor: northwest;
     x-offset: 2%;            /* Percentage offset */
     y-offset: 5%;            /* From top bar */
+}
+
+/* Notifications window */
+window.notifications {
+    width: 50%;
+    height: 60%;
 }
 
 mainbox {

@@ -128,6 +128,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias rotko='cd ~/rotko'
 alias nixos='cd /etc/nixos'
+alias cargo2='~/.cargo/bin/cargo +nightly'
 
 # common commands
 alias v='vi'

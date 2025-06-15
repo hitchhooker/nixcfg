@@ -12,7 +12,7 @@
 
 # Reload sxhkd config
 super + Escape
-    pkill -USR1 -x sxhkd
+    pkill -10 -x sxhkd
 
 # Restart/quit bspwm
 super + alt + {r,q}
@@ -140,7 +140,7 @@ super + c
 
 # Clipboard history
 super + b
-    rofi -modi "clipboard:greenclip print" -show clipboard
+    ~/.local/bin/nocb print | rofi -dmenu -i -p "clipboard" | ~/.local/bin/nocb copy
 
 # Intercept Win+Space to show notification after XKB switches
 super + space
@@ -148,7 +148,7 @@ super + space
 
 # Notification history
 super + n
-    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications -theme-str 'window {width: 50%; height: 60%;} listview {lines: 20;}'
+    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications -theme notifications
 
 # ──────────────────────────────────────────
 
