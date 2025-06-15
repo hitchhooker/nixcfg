@@ -140,8 +140,8 @@ super + c
 
 # Clipboard history
 super + b
-#    ~/.local/bin/nocb print | rofi -dmenu -i -p "clipboard" | ~/.local/bin/nocb copy
-    alacritty --class clipboard,Alacritty -o window.dimensions.columns=100 -o window.dimensions.lines=20 -e sh -c '~/.local/bin/nocb print | fzf | ~/.local/bin/nocb copy'
+    ~/.local/bin/nocb print | rofi -dmenu -i -p "clipboard" | ~/.local/bin/nocb copy
+#    alacritty --class clipboard,Alacritty -o window.dimensions.columns=100 -o window.dimensions.lines=20 -e sh -c '~/.local/bin/nocb print | fzf | ~/.local/bin/nocb copy'
 
 # Intercept Win+Space to show notification after XKB switches
 super + space
