@@ -219,6 +219,16 @@
     headsetcontrol
   ];
 
+  # video/acc
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    extraPackages = with pkgs; [
+      mesa.drivers
+        libvdpau-va-gl
+    ];
+  };
+
   # NETWORKING
   # ----------
   
