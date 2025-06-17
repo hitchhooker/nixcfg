@@ -107,6 +107,7 @@
       amdvlk
       vaapiVdpau
       libvdpau-va-gl
+      mesa
     ];
     extraPackages32 = with pkgs; [
       driversi686Linux.amdvlk
@@ -218,15 +219,6 @@
   services.udev.packages = with pkgs; [
     headsetcontrol
   ];
-
-  # video/acc
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      mesa
-        libvdpau-va-gl
-    ];
-  };
 
 # NETWORKING
   # ----------
