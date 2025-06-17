@@ -31,10 +31,17 @@ let
     # Estonian ID packages
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
   } // {
-    stable = with stable; [
+      stable = with stable; [
       (chromium.override {
         enableWideVine = true;
-        commandLineArgs = [ "--force-dark-mode" "--enable-features=WebUIDarkMode" ];
+        commandLineArgs = [ 
+          "--force-dark-mode" 
+          "--enable-features=WebUIDarkMode"
+          "--enable-gpu-rasterization"
+          "--enable-zero-copy"
+          "--ignore-gpu-blocklist"
+          "--enable-features=VaapiVideoDecoder"
+        ];
       })
       element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
