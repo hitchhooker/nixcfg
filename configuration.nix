@@ -72,8 +72,9 @@ let
       act
     ];
     stable = with stable; [
-      docker docker-compose lightdm parted screen
+      lightdm parted screen
       ssh-agents sshfs vim xdotool
+      podman podman-compose
     ];
   };
 
@@ -232,7 +233,7 @@ in {
       isNormalUser = true;
       home = "/home/alice";
       shell = pkgs.zsh;
-      extraGroups = [ "wheel" "docker" "podman" ];
+      extraGroups = [ "wheel" "podman" ];
       packages = lib.flatten (lib.attrValues userPkgs);
     };
   };
@@ -360,7 +361,6 @@ in {
     zsh.enable = true;
   };
 
-  virtualisation.docker.enable = true;
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
