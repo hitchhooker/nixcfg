@@ -220,16 +220,15 @@
   ];
 
   # video/acc
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
     extraPackages = with pkgs; [
-      mesa.drivers
+      mesa
         libvdpau-va-gl
     ];
   };
 
-  # NETWORKING
+# NETWORKING
   # ----------
   
   networking = {
