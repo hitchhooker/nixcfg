@@ -232,7 +232,7 @@ in {
       isNormalUser = true;
       home = "/home/alice";
       shell = pkgs.zsh;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [ "wheel" "docker" "podman" ];
       packages = lib.flatten (lib.attrValues userPkgs);
     };
   };
@@ -361,6 +361,10 @@ in {
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
 
   system.activationScripts.linkDotfiles = ''
     mkdir -p /home/alice/.config
