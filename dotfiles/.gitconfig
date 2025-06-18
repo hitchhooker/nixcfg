@@ -13,3 +13,4 @@
 	show = false
 [core]
 	pager = cat
+	editor = nvim

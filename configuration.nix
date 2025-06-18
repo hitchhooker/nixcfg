@@ -260,6 +260,7 @@ in {
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
+    services.nscd.enable = false;
     home = {
       stateVersion = "24.11";
       enableNixpkgsReleaseCheck = false;
