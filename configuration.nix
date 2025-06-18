@@ -272,7 +272,14 @@ in {
 
     
     # disable dns in alacritty to open in offline
-    nscd.enable = false; 
+    nscd = {
+      enable = true;
+      config = ''
+        negative-time-to-live   hosts           1
+        negative-time-to-live   passwd          1
+        negative-time-to-live   group           1
+      '';
+    };
 
     tailscale.enable = true;
     greenclip.enable = true;
