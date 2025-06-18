@@ -260,7 +260,6 @@ in {
 
   home-manager.users.alice = {
     services.syncthing.enable = true;
-    services.nscd.enable = false;
     home = {
       stateVersion = "24.11";
       enableNixpkgsReleaseCheck = false;
@@ -271,9 +270,13 @@ in {
     dbus.packages = [ pkgs.xfce.tumbler ];
     udev.packages = [ pkgs.ledger-udev-rules ];
 
+    
+    # disable dns in alacritty to open in offline
+    nscd.enable = false; 
+
     tailscale.enable = true;
     greenclip.enable = true;
-    syncthing.enable = false;
+    syncthing.enable = true;
 
     fwupd.enable   = true;   # fwupd daemon + fwupdmgr client
       udisks2.enable = true;   # fwupd uses UDisks2 to locate the ESP
