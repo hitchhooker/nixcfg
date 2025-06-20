@@ -25,7 +25,7 @@ let
     wm = [ bspwm dunst (polybar.override { pulseSupport = true; }) rofi sxhkd ];
     dev = [ bun gh julia rust-analyzer rustfmt yarn polkadot ];
     comm = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
-    media = [ flameshot mpv ncspot ];
+    media = [ flameshot mpv ncspot peek obs];
     ai = [ ollama ];
     system = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     # Estonian ID packages
@@ -270,20 +270,9 @@ in {
     dbus.packages = [ pkgs.xfce.tumbler ];
     udev.packages = [ pkgs.ledger-udev-rules ];
 
-    
-    # disable dns in alacritty to open in offline
-    nscd = {
-      enable = true;
-      config = ''
-        negative-time-to-live   hosts           1
-        negative-time-to-live   passwd          1
-        negative-time-to-live   group           1
-      '';
-    };
-
     tailscale.enable = true;
     greenclip.enable = true;
-    syncthing.enable = true;
+    syncthing.enable = false;
 
     fwupd.enable   = true;   # fwupd daemon + fwupdmgr client
       udisks2.enable = true;   # fwupd uses UDisks2 to locate the ESP
