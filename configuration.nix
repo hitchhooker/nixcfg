@@ -8,9 +8,6 @@ let
   stable    = import <nixos>           { inherit (config.nixpkgs) config; };
   unstable  = import <nixos-unstable>  { inherit (config.nixpkgs) config; };
 
-  # single Rust toolchain (nightly) used everywhere
-  rustToolchain = pkgs.rust-bin.nightly.latest.default;
-
   # ────────── hardware config ───────
   hwConfig = let
     specific = ./hardware/lenovo.nix;
@@ -61,6 +58,8 @@ let
       sqlite pgcli
       # Core
       bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh fzf
+      # Rust toolchain
+      rustup
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
       ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
@@ -205,16 +204,18 @@ in
 
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
 
-    systemPackages =
-      sysPkgs.unstable ++ sysPkgs.stable ++ [
-        rustToolchain  # rustc + cargo + clippy + rustfmt
-
-        (pkgs.writeShellScriptBin "cargo-wrapped" ''
-          export PATH="${rustToolchain}/bin:$PATH"
-          export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
-          exec "${rustToolchain}/bin/cargo" "$@"
-        '')
-      ];
+    systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
+      (pkgs.writeShellScriptBin "cargo-wrapped" ''
+        export PATH="${pkgs.rustup}/bin:$PATH"
+        export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
+        export OPENSSL_DIR="${pkgs.openssl.dev}"
+        export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+        export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+        export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
+        export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:$LD_LIBRARY_PATH"
+        exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
+      '')
+    ];
 
     etc = {
       "pkcs11/modules/opensc-pkcs11".text = "module: ${pkgs.opensc}/lib/opensc-pkcs11.so";
@@ -363,4 +364,3 @@ in
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
   '';
 }
-
