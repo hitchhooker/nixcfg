@@ -28,7 +28,7 @@ let
     wm       = [ bspwm dunst (polybar.override { pulseSupport = true; }) rofi sxhkd ];
     dev      = [ bun gh julia rust-analyzer rustfmt yarn polkadot ];
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
-    media    = [ flameshot mpv ncspot peek obs ];
+    media    = [ flameshot mpv ncspot peek obs-studio ];
     ai       = [ ollama ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     # Estonian ID
