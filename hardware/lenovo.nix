@@ -93,7 +93,7 @@
 
   # Swap
   swapDevices = [
-    { device = "/dev/disk/by-uuid/6f3e1022-45d0-4378-bcf5-26e4bd42bfd4"; }
+    { device = "/dev/disk/by-uuid/409f0d77-34ae-476e-9ef0-f960a84bbac5"; }
   ];
 
   # GRAPHICS AND DISPLAY
