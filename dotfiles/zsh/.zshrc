@@ -9,10 +9,6 @@ source /etc/set-environment
 # PATH
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
-# SSH agent
-[[ -z "$SSH_AUTH_SOCK" && -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]] && \
-  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
 # vim mode with indicators
 bindkey -v
 export KEYTIMEOUT=1
@@ -184,3 +180,7 @@ alias rsz='rsync -avhz --progress'  # compress
 
 # print execution time for slow commands
 REPORTTIME=2
+
+# SSH agent
+[[ -z "$SSH_AUTH_SOCK" && -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]] && \
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
