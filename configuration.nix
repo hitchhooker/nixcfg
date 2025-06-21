@@ -28,6 +28,7 @@ let
     media    = [ flameshot mpv ncspot peek obs-studio ];
     ai       = [ ollama ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
+    deploy   = [ act ];
     # Estonian ID
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
   } // {
@@ -77,12 +78,12 @@ let
       # build deps for Rust FFI
       binutils glibc pkg-config openssl libiconv cmake gnumake llvmPackages.clang
       # github actions cli
-      act
     ];
     stable = with stable; [
       lightdm parted screen
       ssh-agents sshfs vim xdotool
       podman podman-compose
+      unzip
     ];
   };
 
