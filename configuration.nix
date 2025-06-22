@@ -28,7 +28,7 @@ let
     media    = [ flameshot mpv ncspot peek obs-studio ];
     ai       = [ ollama ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
-    deploy   = [ act ];
+    deploy   = [ act deploy-rs ];
     # Estonian ID
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];
   } // {
