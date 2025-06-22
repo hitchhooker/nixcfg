@@ -243,47 +243,12 @@
     libnotify   # For desktop notifications
   ];
 
-  # Create a systemd service to fix the touchpad after resume
-  systemd.services.fix-touchpad = {
-    description = "Fix touchpad after resume";
-    after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
-    wantedBy = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
-    environment = {
-      DISPLAY = ":0";
-      XAUTHORITY = "/home/alice/.Xauthority";
-    };
-    serviceConfig = {
-      Type = "oneshot";
-      User = "alice";
-      ExecStart = "${pkgs.bash}/bin/bash -c '\
-        TOUCHPAD_ID=$(${pkgs.xorg.xinput}/bin/xinput list | ${pkgs.gnugrep}/bin/grep -i touchpad | ${pkgs.gnused}/bin/sed \"s/.*id=\\([0-9]*\\).*/\\1/\") && \
-        ${pkgs.xorg.xinput}/bin/xinput disable $TOUCHPAD_ID && \
-        sleep 1 && \
-        ${pkgs.xorg.xinput}/bin/xinput enable $TOUCHPAD_ID && \
-        ${pkgs.udev}/bin/udevadm trigger --subsystem-match=input \
-      '";
-    };
-  };
-  
-  # Create a systemd service to monitor temperatures and notify if too high
-  systemd.services.temp-monitor = {
-    description = "Monitor system temperatures";
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.bash}/bin/bash -c '\
-        while true; do \
-          CPU_TEMP=$(${pkgs.lm_sensors}/bin/sensors | grep \"Tctl\" | awk \"{print \\$2}\" | tr -d \"+°C\"); \
-          if (( $(echo \"$CPU_TEMP > 80\" | ${pkgs.bc}/bin/bc -l) )); then \
-            ${pkgs.libnotify}/bin/notify-send -u critical \"High CPU Temperature\" \"CPU temperature is $CPU_TEMP°C!\"; \
-          fi; \
-          sleep 60; \
-        done \
-      '";
-      Restart = "always";
-      RestartSec = "10s";
-      User = "alice";
-    };
-    wantedBy = ["multi-user.target"];
+  services.acpid = {
+    enable = true;
+    lidEventCommands = ''
+      ${pkgs.kmod}/bin/modprobe -r i2c_hid_acpi
+      ${pkgs.kmod}/bin/modprobe i2c_hid_acpi
+    '';
   };
 
   # SECURITY
