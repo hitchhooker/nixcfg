@@ -60,7 +60,9 @@ let
       # Core
       bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh fzf
       # Rust toolchain
-      rustup
+      rustup 
+      # lazyvim lsp
+      nixd
       # System tools
       age-plugin-ledger brightnessctl headsetcontrol home-manager
       ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
