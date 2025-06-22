@@ -75,9 +75,9 @@ let
       # File management
       appimage-run gvfs pcmanfm shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
-      # build deps for Rust FFI
-      binutils glibc pkg-config openssl libiconv cmake gnumake llvmPackages.clang
-      # github actions cli
+      # build deps for Rust FFI  
+      binutils glibc pkg-config openssl libiconv cmake gnumake
+      llvmPackages.clang llvmPackages.libclang.lib
     ];
     stable = with stable; [
       lightdm parted screen
@@ -206,16 +206,18 @@ in
     sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
 
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
-      (pkgs.writeShellScriptBin "cargo-wrapped" ''
-        export PATH="${pkgs.rustup}/bin:$PATH"
-        export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
-        export OPENSSL_DIR="${pkgs.openssl.dev}"
-        export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
-        export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
-        export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
-        export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:$LD_LIBRARY_PATH"
-        exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
-      '')
+    (pkgs.writeShellScriptBin "cargo-wrapped" ''
+      export PATH="${pkgs.rustup}/bin:$PATH"
+      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
+      export OPENSSL_DIR="${pkgs.openssl.dev}"
+      export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+      export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+      export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
+      export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:$LD_LIBRARY_PATH"
+      export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
+      export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
+      exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
+    '')
     ];
 
     etc = {
