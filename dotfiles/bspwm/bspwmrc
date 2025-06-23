@@ -3,7 +3,8 @@
 pgrep -x sxhkd > /dev/null || sxhkd &
 
 # Monitor setup with meaningful workspace names
-bspc monitor -d 󰇩 󰖟 󰭹 󰊢  󰒱 󰓓 󰍳 󰊖 󰐌
+#bspc monitor -d 󰇩 󰖟 󰭹 󰊢  󰒱 󰓓 󰍳 󰊖 󰐌
+bspc monitor -d I II III IV V VI VII VIII IX X
 # 1:term 2:web 3:chat 4:dev 5:media 6:files 7:virt 8:sys 9:misc 10:scratch
 
 # Window management

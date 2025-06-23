@@ -265,7 +265,7 @@ in
     dbus.packages   = [ pkgs.xfce.tumbler ];
     udev.packages   = [ pkgs.ledger-udev-rules ];
     tailscale.enable = true;
-    greenclip.enable = true;
+    #greenclip.enable = true;
     syncthing.enable = false;
 
     fwupd.enable      = true;
