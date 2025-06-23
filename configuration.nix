@@ -28,7 +28,7 @@ let
           owner = "rotkonetworks";
           repo = "bspwm";
           rev = "master";
-          sha256 = "sha256-T99dHWReRZ43yCZLT60L6m3/51iV0vulBkUNNq5xuiU="; # use nix-prefetch-git to get this
+          sha256 = ""; # use nix-prefetch-git to get this
         };
       }))
       dunst 
