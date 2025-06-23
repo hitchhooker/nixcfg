@@ -24,12 +24,13 @@ let
     terminal = [ alacritty bottom tree zsh ];
     wm = [ 
       (pkgs.bspwm.overrideAttrs (old: {
-        src = pkgs.fetchFromGitHub {
-          owner = "rotkonetworks";
-          repo = "bspwm";
-          rev = "master";
-          sha256 = "sha256-1vxx5VYzJdm+ZQwbY6Wkw4VvWgKIjDhYkjs6yfP5rG8="; # use nix-prefetch-git to get this
-        };
+      src = pkgs.fetchFromGitHub {
+        owner = "rotkonetworks";
+        repo = "bspwm";
+        rev = "76a08644416e97fcb9b2c47ea059de372abfcc10";
+        # nix-prefetch-git https://github.com/rotkonetworks/bspwm
+        sha256 = "sha256-+qHeci7QeOrid1CymdjyiMaYlsaGhpVOdEP+xKB6gMk=";
+      };
       }))
       dunst 
       (polybar.override { pulseSupport = true; }) 
