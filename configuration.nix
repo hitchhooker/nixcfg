@@ -22,12 +22,26 @@ let
   # ────────── user-level bundles ────
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
-    wm       = [ bspwm dunst (polybar.override { pulseSupport = true; }) rofi sxhkd ];
+    wm = [ 
+      (pkgs.bspwm.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "rotkonetworks";
+          repo = "bspwm";
+          rev = "master";
+          sha256 = ""; # use nix-prefetch-git to get this
+        };
+      }))
+      dunst 
+      (polybar.override { pulseSupport = true; }) 
+      rofi 
+      sxhkd 
+    ];
     dev      = [ bun gh julia rust-analyzer rustfmt yarn polkadot ];
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media    = [ flameshot mpv ncspot peek obs-studio ];
     ai       = [ ollama ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
+    nix      = [ nix-index nix-direnv nix-prefetch-git ];
     deploy   = [ act deploy-rs ];
     # Estonian ID
     estonian-id = [ qdigidoc web-eid-app p11-kit opensc ];

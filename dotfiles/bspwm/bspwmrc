@@ -151,9 +151,7 @@ xsetroot -cursor_name left_ptr &
 setxkbmap -option caps:escape &
 
 # Daemons
-greenclip daemon &
 dunst &
-nm-applet --indicator &
 ~/.config/polybar/launch.sh &
 
 # Background services
