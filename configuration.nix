@@ -27,9 +27,9 @@ let
       src = pkgs.fetchFromGitHub {
         owner = "rotkonetworks";
         repo = "bspwm";
-        rev = "76a08644416e97fcb9b2c47ea059de372abfcc10";
+        rev = "master";
         # nix-prefetch-git https://github.com/rotkonetworks/bspwm
-        sha256 = "sha256-+qHeci7QeOrid1CymdjyiMaYlsaGhpVOdEP+xKB6gMk=";
+        sha256 = "sha256-y5iiTPtabookH9GyG32mATJLaCFs+Onx1yZBBnwhMzg=";
       };
       }))
       dunst 
