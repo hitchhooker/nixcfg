@@ -28,10 +28,8 @@ let
         owner = "rotkonetworks";
         repo = "bspwm";
         # nix-prefetch-git https://github.com/rotkonetworks/bspwm
-        # rev = "master";
-        # sha256 = "sha256-p5z63khXfIIeNg4ouI5+YR0LuWXkNrO54Ztv8ikNFug=";
-        rev = "af3bd8b4351f4478fe0fe3cfd6c09e44cb108b4b";
-        sha256 = "sha256-O4Qwdjb3p6jw8Qtcd4zGZ57cB3oCCbPZcjUQtWbyC7Y=";
+        rev = "master";
+        sha256 = "sha256-p5z63khXfIIeNg4ouI5+YR0LuWXkNrO54Ztv8ikNFug=";
       };
       }))
       dunst 
