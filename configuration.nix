@@ -219,6 +219,13 @@ in
       glib.dev
       gst_all_1.gstreamer.dev
       gst_all_1.gst-plugins-base.dev
+      gst_all_1.gstreamer              # core libs
+      gst_all_1.gst-plugins-base       # libgstapp-1.0.so.* lives here
+      gst_all_1.gst-plugins-good       # common useful elements
+      gst_all_1.gst-plugins-bad        # contains ximagesrc etc. you use
+      # uncomment if you ever need proprietary codecs
+      # gst_all_1.gst-plugins-ugly
+      # gst_all_1.gst-libav
     ];
   pcPath = lib.makeSearchPath "lib/pkgconfig" pcDeps;
   in {
