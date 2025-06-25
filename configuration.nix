@@ -212,7 +212,7 @@ in
 
 # ────────── env + pkgs ─────────────
   environment = let
-# all .pc providers needed by Rust FFI builds
+# *.pc providers used by Rust FFI crates
     pcDeps = with pkgs; [
     openssl.dev
       sqlite.dev
@@ -222,7 +222,7 @@ in
     ];
   pcPath = lib.makeSearchPath "lib/pkgconfig" pcDeps;
   in {
-## global environment variables
+## global env vars
     variables = envVars // {
       TERMINAL            = "${pkgs.alacritty}/bin/alacritty";
     PKG_CONFIG_PATH     = pcPath;
@@ -231,10 +231,10 @@ in
     OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
   };
 
-## session-only variables
+## inherited session-only vars
   sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
 
-## packages plus a cargo wrapper that re-exports the same paths
+## packages plus a cargo wrapper
   systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
@@ -258,6 +258,7 @@ in
       "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
     "opt/chrome/native-messaging-hosts/eu.webeid.json".source =
       "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
+  };
   };
 
 # ────────── users ──────────────────
