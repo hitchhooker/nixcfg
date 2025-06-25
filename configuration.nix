@@ -210,9 +210,9 @@ in
     stateVersion            = "24.11";
   };
 
-  # ────────── env + pkgs ─────────────
+# ────────── env + pkgs ─────────────
   environment = let
-# all the *.pc producers we need for Rust FFI
+# all .pc providers needed by Rust FFI builds
     pcDeps = with pkgs; [
     openssl.dev
       sqlite.dev
@@ -222,36 +222,35 @@ in
     ];
   pcPath = lib.makeSearchPath "lib/pkgconfig" pcDeps;
   in {
-## env vars visible to every process
+## global environment variables
     variables = envVars // {
-      TERMINAL              = "${pkgs.alacritty}/bin/alacritty";
-    PKG_CONFIG_PATH       = pcPath;
-    OPENSSL_DIR           = "${pkgs.openssl.dev}";
-    OPENSSL_LIB_DIR       = "${pkgs.openssl.out}/lib";
-    OPENSSL_INCLUDE_DIR   = "${pkgs.openssl.dev}/include";
+      TERMINAL            = "${pkgs.alacritty}/bin/alacritty";
+    PKG_CONFIG_PATH     = pcPath;
+    OPENSSL_DIR         = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR     = "${pkgs.openssl.out}/lib";
+    OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
   };
 
-## inherited session-only vars
+## session-only variables
   sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
 
-## userland packages + cargo wrapper
-  systemPackages =
-    sysPkgs.unstable ++ sysPkgs.stable ++
-    [ (pkgs.writeShellScriptBin "cargo-wrapped" ''
-        export PATH="${pkgs.rustup}/bin:$PATH"
-        export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
-        export OPENSSL_DIR="${pkgs.openssl.dev}"
-        export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
-        export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
-        export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
-        export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
-        export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
-        export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
-        exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
-        '')
-    ];
+## packages plus a cargo wrapper that re-exports the same paths
+  systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
+    (pkgs.writeShellScriptBin "cargo-wrapped" ''
+     export PATH="${pkgs.rustup}/bin:$PATH"
+     export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
+     export OPENSSL_DIR="${pkgs.openssl.dev}"
+     export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+     export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+     export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
+     export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
+     export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
+     export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
+     exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
+     '')
+  ];
 
-## misc config files
+## misc system-wide config files
   etc = {
     "pkcs11/modules/opensc-pkcs11".text =
       "module: ${pkgs.opensc}/lib/opensc-pkcs11.so";
@@ -262,7 +261,7 @@ in
   };
   }
 
-  # ────────── users ──────────────────
+# ────────── users ──────────────────
   users = {
     mutableUsers = true;
     users.alice = {
@@ -285,25 +284,25 @@ in
     };
   };
 
-  # ────────── home-manager part ──────
+# ────────── home-manager part ──────
   home-manager.users.alice = {
     services.syncthing.enable = true;
     home = { stateVersion = "24.11"; enableNixpkgsReleaseCheck = false; };
   };
 
-  # ────────── services (excerpt) ─────
+# ────────── services (excerpt) ─────
   services = {
     dbus.packages   = [ pkgs.xfce.tumbler ];
     udev.packages   = [ pkgs.ledger-udev-rules ];
     tailscale.enable = true;
-    #greenclip.enable = true;
+#greenclip.enable = true;
     syncthing.enable = false;
 
     fwupd.enable      = true;
     udisks2.enable    = true;
     pcscd.enable      = true;   # Estonian ID
 
-    redshift = { enable = true; temperature = { day = 2900; night = 2700; }; };
+      redshift = { enable = true; temperature = { day = 2900; night = 2700; }; };
 
     logind.powerKey = "ignore";
 
@@ -325,24 +324,24 @@ in
     acpid.enable = true;
   };
 
-  # ────────── systemd user units ─────
+# ────────── systemd user units ─────
   systemd.user.services =
     lib.mapAttrs mkUserService userServices;
 
-  # ────────── desktop programs ───────
+# ────────── desktop programs ───────
   programs = {
     appimage = { enable = true; binfmt = true; };
     chromium = {
       enable = true;
       extensions = [
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # Vimium-C
-        "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite
-        "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
-        "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
-        "gobmdjdemnlkgfcgmhmmojgaebfediog" # Manage tabs by domain MV3
-        "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
-        "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
-        "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
+          "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite
+          "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
+          "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
+          "gobmdjdemnlkgfcgmhmmojgaebfediog" # Manage tabs by domain MV3
+          "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+          "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
+          "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
       ];
     };
 
@@ -381,22 +380,22 @@ in
     zsh.enable   = true;
   };
 
-  # ────────── containers / virt ──────
+# ────────── containers / virt ──────
   virtualisation.podman = { enable = true; dockerCompat = true; };
 
-  # ────────── activation scripts ─────
+# ────────── activation scripts ─────
   system.activationScripts.linkDotfiles = ''
     mkdir -p /home/alice/.config
     ${lib.concatStringsSep "\n" (lib.mapAttrsToList
         (dest: src:
-          "ln -sf${if lib.hasSuffix "/" dest then "n" else ""} /etc/nixos/dotfiles/${src} /home/alice/${dest}"
+         "ln -sf${if lib.hasSuffix "/" dest then "n" else ""} /etc/nixos/dotfiles/${src} /home/alice/${dest}"
         ) dotfiles)}
-    chown -R alice:users /home/alice/.config /home/alice/.zshrc
+  chown -R alice:users /home/alice/.config /home/alice/.zshrc
     chmod -R u+x /home/alice/.config/{bspwm,sxhkd}/scripts
-  '';
+    '';
 
   system.activationScripts.terminalEmulator = ''
     mkdir -p /usr/bin
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
-  '';
+    '';
 }
