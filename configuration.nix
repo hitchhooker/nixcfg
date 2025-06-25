@@ -93,7 +93,7 @@ let
       appimage-run gvfs pcmanfm shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
       # build deps for Rust FFI  
-      binutils glibc pkg-config openssl libiconv cmake gnumake
+      binutils glibc pkg-config openssl libiconv cmake gnumake glib.dev
       llvmPackages.clang llvmPackages.libclang.lib
     ];
     stable = with stable; [
@@ -214,7 +214,8 @@ in
   environment = {
     variables = envVars // {
       TERMINAL            = "${pkgs.alacritty}/bin/alacritty";
-      PKG_CONFIG_PATH     = "${pkgs.openssl.dev}/lib/pkgconfig";
+      PKG_CONFIG_PATH     = lib.makeSearchPath "lib/pkgconfig"
+        [ pkgs.openssl.dev pkgs.sqlite.dev pkgs.glib.dev ];
       OPENSSL_DIR         = "${pkgs.openssl.dev}";
       OPENSSL_LIB_DIR     = "${pkgs.openssl.out}/lib";
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
@@ -225,7 +226,7 @@ in
     systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
       export PATH="${pkgs.rustup}/bin:$PATH"
-      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
+      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:${pkgs.glib.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
       export OPENSSL_DIR="${pkgs.openssl.dev}"
       export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
       export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
