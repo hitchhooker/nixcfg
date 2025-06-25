@@ -211,41 +211,56 @@ in
   };
 
   # ────────── env + pkgs ─────────────
-  environment = {
+  environment = let
+# all the *.pc producers we need for Rust FFI
+    pcDeps = with pkgs; [
+    openssl.dev
+      sqlite.dev
+      glib.dev
+      gst_all_1.gstreamer.dev
+      gst_all_1.gst-plugins-base.dev
+    ];
+  pcPath = lib.makeSearchPath "lib/pkgconfig" pcDeps;
+  in {
+## env vars visible to every process
     variables = envVars // {
-      TERMINAL            = "${pkgs.alacritty}/bin/alacritty";
-      PKG_CONFIG_PATH     = lib.makeSearchPath "lib/pkgconfig"
-        [ pkgs.openssl.dev pkgs.sqlite.dev pkgs.glib.dev ];
-      OPENSSL_DIR         = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR     = "${pkgs.openssl.out}/lib";
-      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-    };
+      TERMINAL              = "${pkgs.alacritty}/bin/alacritty";
+    PKG_CONFIG_PATH       = pcPath;
+    OPENSSL_DIR           = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR       = "${pkgs.openssl.out}/lib";
+    OPENSSL_INCLUDE_DIR   = "${pkgs.openssl.dev}/include";
+  };
 
-    sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
+## inherited session-only vars
+  sessionVariables = { inherit (envVars) SSH_AUTH_SOCK; };
 
-    systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
-    (pkgs.writeShellScriptBin "cargo-wrapped" ''
-      export PATH="${pkgs.rustup}/bin:$PATH"
-      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:${pkgs.glib.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
-      export OPENSSL_DIR="${pkgs.openssl.dev}"
-      export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
-      export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
-      export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
-      export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
-      export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
-      export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
-      exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
-    '')
+## userland packages + cargo wrapper
+  systemPackages =
+    sysPkgs.unstable ++ sysPkgs.stable ++
+    [ (pkgs.writeShellScriptBin "cargo-wrapped" ''
+        export PATH="${pkgs.rustup}/bin:$PATH"
+        export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
+        export OPENSSL_DIR="${pkgs.openssl.dev}"
+        export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+        export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+        export SQLITE3_LIB_DIR="${pkgs.sqlite.out}/lib"
+        export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
+        export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
+        export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
+        exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
+        '')
     ];
 
-    etc = {
-      "pkcs11/modules/opensc-pkcs11".text = "module: ${pkgs.opensc}/lib/opensc-pkcs11.so";
-      "chromium/native-messaging-hosts/eu.webeid.json".source =
-        "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
-      "opt/chrome/native-messaging-hosts/eu.webeid.json".source =
-        "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
-    };
+## misc config files
+  etc = {
+    "pkcs11/modules/opensc-pkcs11".text =
+      "module: ${pkgs.opensc}/lib/opensc-pkcs11.so";
+    "chromium/native-messaging-hosts/eu.webeid.json".source =
+      "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
+    "opt/chrome/native-messaging-hosts/eu.webeid.json".source =
+      "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
   };
+  }
 
   # ────────── users ──────────────────
   users = {
