@@ -259,7 +259,6 @@ in
     "opt/chrome/native-messaging-hosts/eu.webeid.json".source =
       "${pkgs.web-eid-app}/share/web-eid/eu.webeid.json";
   };
-  }
 
 # ────────── users ──────────────────
   users = {
