@@ -178,6 +178,8 @@ alias rsu='rsync -avhu --progress'  # update only
 alias rsx='rsync -avhX --progress'  # preserve extended attrs
 alias rsz='rsync -avhz --progress'  # compress
 
+alias kbref='sudo modprobe -r i2c_hid_acpi && sudo modprobe i2c_hid_acpi'
+
 # print execution time for slow commands
 REPORTTIME=2
 
