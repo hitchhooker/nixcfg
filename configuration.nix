@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-  nixpkgs.overlays = [(self: super: { python3 = super.python312; python3Packages = super.python312Packages; })];
+  nixpkgs.overlays = [(self: super: { python3 = python3Packages = super.python313Packages; })];
 
 let
   inherit (lib) mkIf optional optionals;
@@ -64,8 +64,7 @@ let
       element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
       tigervnc xclip alsa-utils toybox pgcli
-#      (python312.withPackages (ps: [ ps.ansible ps.pip ]))
-      python312Full
+      python313Full
     ];
   };
 
@@ -248,7 +247,6 @@ in
     pkgs.usbutils
     pkgs.esptool
     pkgs.picocom
-    pkgs.python312Packages.pyserial
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
