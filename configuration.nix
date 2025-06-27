@@ -247,7 +247,7 @@ in
     pkgs.usbutils
     pkgs.esptool
     pkgs.picocom
-    pkgs.python3Packages.pyserial
+    pkgs.python312Packages.pyserial
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
