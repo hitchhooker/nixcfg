@@ -64,7 +64,7 @@ let
       jmtpfs keepassxc libssh nodejs pavucontrol
       tigervnc xclip alsa-utils toybox pgcli
       (python3.withPackages (ps: [ ps.ansible ps.pip ]))
-      python313Full
+      python312Full
     ];
   };
 
