@@ -78,8 +78,6 @@ let
       # lazyvim lsp
       nixd
       # System tools
-      age-plugin-ledger brightnessctl headsetcontrol home-manager
-      ledger-agent ledger-live-desktop mdbook redshift tailscale yazi
       inetutils fscrypt-experimental
       # Hardware monitoring
       lm_sensors nvme-cli dmidecode ryzenadj stress-ng s-tui btop bottom
