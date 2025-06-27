@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-  nixpkgs.overlays = [(self: super: { python3 = python3Packages = super.python313Packages; })];
+  nixpkgs.overlays = [(self: super: { python3 })];
 
 let
   inherit (lib) mkIf optional optionals;
