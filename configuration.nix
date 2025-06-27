@@ -244,6 +244,10 @@ in
 
 ## packages plus a cargo wrapper
   systemPackages = sysPkgs.unstable ++ sysPkgs.stable ++ [
+    pkgs.usbutils
+    pkgs.esptool
+    pkgs.picocom
+    pkgs.python3Packages.pyserial
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
@@ -276,7 +280,7 @@ in
       isNormalUser = true;
       home         = "/home/alice";
       shell        = pkgs.zsh;
-      extraGroups  = [ "wheel" "podman" ];
+      extraGroups  = [ "wheel" "podman" "dialout" ];
       packages     = lib.flatten (lib.attrValues userPkgs);
     };
   };
