@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-  nixpkgs.overlays = [(self: super: { python3 })];
 
 let
   inherit (lib) mkIf optional optionals;
@@ -64,7 +63,6 @@ let
       element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
       tigervnc xclip alsa-utils toybox pgcli
-      python313Full
     ];
   };
 
