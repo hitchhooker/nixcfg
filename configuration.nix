@@ -63,7 +63,7 @@ let
       element-desktop cinny-desktop google-cloud-sdk i3lock-fancy-rapid
       jmtpfs keepassxc libssh nodejs pavucontrol
       tigervnc xclip alsa-utils toybox pgcli
-      (python3.withPackages (ps: [ ps.ansible ps.pip ]))
+      (python312.withPackages (ps: [ ps.ansible ps.pip ]))
       python312Full
     ];
   };
