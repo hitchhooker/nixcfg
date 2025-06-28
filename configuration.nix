@@ -328,6 +328,14 @@ in
       windowManager.bspwm.enable    = true;
     };
 
+    # ────────── ollama service ─────────
+    ollama = {
+      enable = true;
+      acceleration = "rocm";
+      listenAddress = "127.0.0.1:11434";
+    };
+
+
     acpid.enable = true;
   };
 
@@ -406,3 +414,4 @@ in
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
     '';
 }
+
