@@ -41,7 +41,7 @@ let
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media    = [ flameshot mpv ncspot peek obs-studio ];
     tools    = [ television ];
-    ai       = [ ollama claude-desktop ];
+    ai       = [ ollama ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     nix      = [ nix-index nix-direnv nix-prefetch-git ];
     deploy   = [ act deploy-rs ];
