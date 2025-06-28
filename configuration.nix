@@ -329,12 +329,12 @@ in
     };
 
     # ────────── ollama service ─────────
-    #ollama = {
-    #  enable = true;
-    #  acceleration = "rocm";
-   #   host = "127.0.0.1";
-   #   port = 11434;
-    #};
+    ollama = {
+      enable = true;
+      acceleration = "rocm";
+      host = "127.0.0.1";
+      port = 11434;
+    };
 
 
     acpid.enable = true;
