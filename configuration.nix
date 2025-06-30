@@ -110,6 +110,7 @@ let
       rustup 
       # lazyvim lsp
       nixd
+      rnix-lsp
       # System tools
       inetutils fscrypt-experimental
       # Hardware monitoring
