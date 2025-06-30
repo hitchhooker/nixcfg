@@ -27,6 +27,7 @@ let
         pkgs.openssl.out
         pkgs.zlib
         pkgs.glibc
+        pkgs.gcc.cc.lib  # This provides libstdc++.so.6
       ]} \
       /home/alice/src/penumbra/target/release/pcli "$@"
   '';
@@ -41,6 +42,7 @@ let
         pkgs.openssl.out
         pkgs.zlib
         pkgs.glibc
+        pkgs.gcc.cc.lib  # This provides libstdc++.so.6
         pkgs.libgcc.lib
         pkgs.xorg.libX11
         pkgs.xorg.libXcursor
@@ -286,6 +288,7 @@ in
      export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
      export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
      export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
+        pkgs.gcc.cc.lib  # This provides libstdc++.so.6
      exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
      '')
   ];
