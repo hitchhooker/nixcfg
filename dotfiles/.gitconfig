@@ -14,3 +14,5 @@
 [core]
 	pager = cat
 	editor = nvim
+[alias]
+	rl = log --reverse

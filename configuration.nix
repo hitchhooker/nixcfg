@@ -19,6 +19,37 @@ let
     options = [ "edns0" "trust-ad" "rotate" "timeout:2" "attempts:3" ];
   };
 
+  # ────────── pcli wrapper ───────────
+  pcli = pkgs.writeShellScriptBin "pcli" ''
+    exec ${pkgs.stdenv.cc.cc.lib}/lib/ld-linux-x86-64.so.2 \
+      --library-path ${pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc.lib
+        pkgs.openssl.out
+        pkgs.zlib
+        pkgs.glibc
+      ]} \
+      /home/alice/src/penumbra/target/release/pcli "$@"
+  '';
+
+  # ────────── universal binary runner ─
+  run-binary = pkgs.writeShellScriptBin "run-binary" ''
+    binary="$1"
+    shift
+    exec ${pkgs.stdenv.cc.cc.lib}/lib/ld-linux-x86-64.so.2 \
+      --library-path ${pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc.lib
+        pkgs.openssl.out
+        pkgs.zlib
+        pkgs.glibc
+        pkgs.libgcc.lib
+        pkgs.xorg.libX11
+        pkgs.xorg.libXcursor
+        pkgs.xorg.libXrandr
+        pkgs.xorg.libXi
+      ]} \
+      "$binary" "$@"
+  '';
+
   # ────────── user-level bundles ────
   userPkgs = with unstable; {
     terminal = [ alacritty bottom tree zsh ];
@@ -243,6 +274,8 @@ in
     pkgs.usbutils
     pkgs.esptool
     pkgs.picocom
+    pcli
+    run-binary
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
@@ -392,7 +425,94 @@ in
 
     gnupg.agent  = { enable = true; enableSSHSupport = false; };
     mtr.enable   = true;
-    nix-ld.enable= true;
+    
+    # ────────── Enhanced nix-ld ──────────
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        # Basic runtime
+        stdenv.cc.cc.lib
+        glibc
+        zlib
+        
+        # Common dependencies
+        openssl
+        curl
+        expat
+        freetype
+        glib
+        libuuid
+        libgcc.lib
+        
+        # GUI libraries
+        libGL
+        libxkbcommon
+        fontconfig
+        xorg.libX11
+        xorg.libXcursor
+        xorg.libXi
+        xorg.libXrandr
+        xorg.libXrender
+        xorg.libxcb
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXcomposite
+        xorg.libXdamage
+        xorg.libXtst
+        xorg.libXScrnSaver
+        xorg.libXau
+        xorg.libXdmcp
+        xorg.libXinerama
+        xorg.libXxf86vm
+        
+        # Wayland
+        wayland
+        
+        # Additional common libs
+        bzip2
+        pcre
+        pcre2
+        ncurses
+        readline
+        sqlite
+        libxml2
+        libxslt
+        icu
+        harfbuzz
+        pango
+        cairo
+        gdk-pixbuf
+        gtk3
+        dbus
+        at-spi2-core
+        at-spi2-atk
+        
+        # Audio
+        alsa-lib
+        pulseaudio
+        
+        # Compression
+        lz4
+        xz
+        
+        # Crypto
+        libgcrypt
+        libgpg-error
+        
+        # Networking
+        libssh2
+        nghttp2
+        
+        # System
+        systemd.lib
+        libcap
+        util-linux.lib
+        libffi
+        libtasn1
+        p11-kit
+      ];
+    };
+    
     zsh.enable   = true;
   };
 
@@ -415,4 +535,3 @@ in
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
     '';
 }
-
