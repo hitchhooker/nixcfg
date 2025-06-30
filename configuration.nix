@@ -358,9 +358,14 @@ in
 
     xserver = {
       enable = true;
+      videoDrivers = [ "amdgpu" ];
+      deviceSection = ''
+        Option "TearFree" "true"
+        Option "VariableRefresh" "true"
+        '';
       xkb = { layout = "us,fi"; options = "grp:win_space_toggle"; };
       displayManager.lightdm.enable = true;
-      windowManager.bspwm.enable    = true;
+      windowManager.bspwm.enable = true;
     };
 
     # ────────── ollama service ─────────
