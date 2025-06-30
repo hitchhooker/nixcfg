@@ -504,7 +504,7 @@ in
         nghttp2
         
         # System
-        systemd.lib
+        systemd
         libcap
         util-linux.lib
         libffi
