@@ -21,7 +21,7 @@ let
 
   # ────────── pcli wrapper ───────────
   pcli = pkgs.writeShellScriptBin "pcli" ''
-    exec ${pkgs.stdenv.cc.cc.lib}/lib/ld-linux-x86-64.so.2 \
+    exec ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 \
       --library-path ${pkgs.lib.makeLibraryPath [
         pkgs.stdenv.cc.cc.lib
         pkgs.openssl.out
@@ -36,7 +36,7 @@ let
   run-binary = pkgs.writeShellScriptBin "run-binary" ''
     binary="$1"
     shift
-    exec ${pkgs.stdenv.cc.cc.lib}/lib/ld-linux-x86-64.so.2 \
+    exec ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 \
       --library-path ${pkgs.lib.makeLibraryPath [
         pkgs.stdenv.cc.cc.lib
         pkgs.openssl.out
@@ -288,7 +288,6 @@ in
      export LD_LIBRARY_PATH="${pkgs.sqlite.out}/lib:${pkgs.openssl.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
      export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
      export BINDGEN_EXTRA_CLANG_ARGS="-I${pkgs.glibc.dev}/include"
-        pkgs.gcc.cc.lib  # This provides libstdc++.so.6
      exec ${pkgs.rustup}/bin/rustup run nightly cargo "$@"
      '')
   ];
