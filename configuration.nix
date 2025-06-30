@@ -382,8 +382,6 @@ in
   };
 
 # ────────── systemd user units ─────
-  };
-
   systemd.user.services = lib.mapAttrs mkUserService userServices // {
     tearfree = {
       description = "Enable AMD TearFree";
@@ -396,7 +394,6 @@ in
       };
     };
   };
-  systemd.user.services =
 
 # ────────── desktop programs ───────
   programs = {
