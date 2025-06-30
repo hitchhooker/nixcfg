@@ -47,6 +47,7 @@
     
     # AMD-specific kernel parameters
     kernelParams = [
+      "amdgpu.tearfree=1"
       # GPU configuration
       "radeon.si_support=0"
       "amdgpu.si_support=1"
