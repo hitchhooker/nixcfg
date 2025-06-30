@@ -382,6 +382,17 @@ in
   };
 
 # ────────── systemd user units ─────
+  systemd.user.services.tearfree = {
+    description = "Enable AMD TearFree";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.xorg.xrandr}/bin/xrandr --output eDP --set TearFree on";
+      RemainAfterExit = true;
+    };
+  };
+
   systemd.user.services =
     lib.mapAttrs mkUserService userServices;
 
