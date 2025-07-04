@@ -73,7 +73,7 @@ let
     dev      = [ bun pnpm gh julia rust-analyzer rustfmt yarn polkadot ];
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media    = [ flameshot mpv ncspot peek obs-studio ];
-    tools    = [ television ];
+    tools    = [ television age ];
     ai       = [ ollama-rocm ];
     system   = [ dmidecode jq syncthing tailscale transmission_4-qt turbovnc websocat ];
     nix      = [ nix-index nix-direnv nix-prefetch-git ];
@@ -110,7 +110,6 @@ let
       rustup 
       # lazyvim lsp
       nixd
-      rnix-lsp
       # System tools
       inetutils fscrypt-experimental
       # Hardware monitoring
