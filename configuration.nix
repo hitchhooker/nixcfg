@@ -62,7 +62,7 @@ let
         repo = "bspwm";
         # nix-prefetch-git https://github.com/rotkonetworks/bspwm
         rev = "master";
-        sha256 = "sha256-p5z63khXfIIeNg4ouI5+YR0LuWXkNrO54Ztv8ikNFug=";
+        sha256 = "sha256-z3HsXJG1QhszHVAE/4QiViM+Ex7HbXFoXEqGyddJviY=";
       };
       }))
       dunst 
