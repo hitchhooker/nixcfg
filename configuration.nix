@@ -62,7 +62,7 @@ let
         repo = "bspwm";
         # nix-prefetch-git https://github.com/rotkonetworks/bspwm
         rev = "master";
-        sha256 = "sha256-AwkMSHNL3TJop+ZtshUBZJ07D1CDKp46Js4McZaOmUo=";
+        sha256 = "sha256-54NM7gP+VqylOKYGt5rv+f2zJc075iT020YUHrrNlks=";
       };
       }))
       dunst 
@@ -365,7 +365,17 @@ in
         '';
       xkb = { layout = "us,fi"; options = "grp:win_space_toggle"; };
       displayManager.lightdm.enable = true;
-      windowManager.bspwm.enable = true;
+      windowManager.bspwm = {
+        enable = true;
+        package = pkgs.bspwm.overrideAttrs (old: {
+            src = pkgs.fetchFromGitHub {
+            owner = "rotkonetworks";
+            repo = "bspwm";
+            rev = "master";
+            sha256 = "sha256-54NM7gP+VqylOKYGt5rv+f2zJc075iT020YUHrrNlks=";
+            };
+            });
+      };
     };
 
     # ────────── ollama service ─────────
