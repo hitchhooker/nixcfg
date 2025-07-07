@@ -180,22 +180,6 @@ alias rsz='rsync -avhz --progress'  # compress
 
 alias kbref='sudo modprobe -r i2c_hid_acpi && sudo modprobe i2c_hid_acpi'
 
-# Override mv with safety for cross-filesystem transfers
-mv() {
-   local src="${1%/}" dst="${2%/}"
-   [ $# -lt 2 ] && { command mv "$@"; return; }
-   
-   # Same filesystem or special flags = use real mv
-   if [ "${1:0:1}" = "-" ] || [ "$(stat -c %d "$src" 2>/dev/null)" = "$(stat -c %d "$(dirname "$dst")" 2>/dev/null)" ]; then
-       command mv "$@"
-   else
-       # Cross-filesystem = rsync with verification
-       rsync -avP "$src/" "$dst/" && {
-           rsync -ncav "$src/" "$dst/" | grep -q "^" || rm -rf "$src"
-       }
-   fi
-}
-
 # print execution time for slow commands
 REPORTTIME=2
 
@@ -203,3 +187,4 @@ REPORTTIME=2
 [[ -z "$SSH_AUTH_SOCK" && -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]] && \
   export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
+export PATH=/home/alice/.opencode/bin:$PATH
