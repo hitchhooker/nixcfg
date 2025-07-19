@@ -224,7 +224,8 @@ in
 
   # ────────── locale/console/fonts ───
   fonts.packages = with pkgs; [
-    nerd-fonts.iosevka nerd-fonts.fira-code iosevka
+    nerd-fonts.iosevka
+    jetbrains-mono nerd-fonts.fira-code iosevka
     font-awesome font-awesome_6
   ];
 
