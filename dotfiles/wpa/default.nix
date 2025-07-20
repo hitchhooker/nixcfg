@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
-pkgs.writeShellScriptBin "wifi" ''
+pkgs.writeShellScriptBin "wpa" ''
  #!/usr/bin/env bash
  
  # Auto-detect interface
@@ -24,7 +24,7 @@ pkgs.writeShellScriptBin "wifi" ''
    enable|e)
      SSID="$2"
      if [ -z "$SSID" ]; then
-       echo "Usage: wifi enable SSID"
+       echo "Usage: wpa enable SSID"
        exit 1
      fi
      
@@ -65,7 +65,7 @@ pkgs.writeShellScriptBin "wifi" ''
    disable|d)
      SSID="$2"
      if [ -z "$SSID" ]; then
-       echo "Usage: wifi disable SSID"
+       echo "Usage: wpa disable SSID"
        exit 1
      fi
      
@@ -123,7 +123,7 @@ pkgs.writeShellScriptBin "wifi" ''
      PASS="$3"
      
      if [ -z "$SSID" ]; then
-       echo "Usage: wifi add SSID [password]"
+       echo "Usage: wpa add SSID [password]"
        exit 1
      fi
      
@@ -134,18 +134,18 @@ pkgs.writeShellScriptBin "wifi" ''
        echo -e "# network={\n# \tssid=\"$SSID\"\n# \tkey_mgmt=NONE\n# }" | sudo tee -a $CONF
      fi
      
-     echo "Added $SSID (disabled by default, use 'wifi enable $SSID' to activate)"
+     echo "Added $SSID (disabled by default, use 'wpa enable $SSID' to activate)"
      ;;
      
    *)
-     echo "wifi - manage wpa_supplicant networks"
+     echo "wpa - manage wpa_supplicant networks"
      echo ""
      echo "Commands:"
-     echo "  wifi list              # show all networks ([✓] = enabled)"
-     echo "  wifi enable SSID       # uncomment and activate network"
-     echo "  wifi disable SSID      # comment out network"
-     echo "  wifi scan              # scan for available networks"
-     echo "  wifi add SSID [pass]   # add new network (disabled by default)"
+     echo "  wpa list              # show all networks ([✓] = enabled)"
+     echo "  wpa enable SSID       # uncomment and activate network"
+     echo "  wpa disable SSID      # comment out network"
+     echo "  wpa scan              # scan for available networks"
+     echo "  wpa add SSID [pass]   # add new network (disabled by default)"
      echo ""
      echo "Current interface: $IFACE"
      if wpa_cli -i $IFACE status 2>/dev/null | grep -q "ssid="; then

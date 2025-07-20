@@ -120,7 +120,7 @@ let
       # GUI/Desktop
       gtk-engine-murrine libsForQt5.qt5ct xorg.libX11
       # File management
-      appimage-run gvfs pcmanfm shared-mime-info xfce.tumbler
+      appimage-run gvfs shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
       # build deps for Rust FFI  
       binutils glibc pkg-config openssl libiconv cmake gnumake glib.dev
@@ -130,6 +130,7 @@ let
       lightdm parted screen
       ssh-agents sshfs vim xdotool
       podman podman-compose
+      pcmanfm
       unzip
     ];
   };
@@ -279,7 +280,7 @@ in
     pkgs.picocom
     pcli
     run-binary
-#    (import ./dotfiles/wifi { inherit pkgs; })
+    (import ./dotfiles/wpa { inherit pkgs; })
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
