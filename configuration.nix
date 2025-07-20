@@ -279,7 +279,7 @@ in
     pkgs.picocom
     pcli
     run-binary
-    (import ./dotfiles/wifi { inherit pkgs; })
+#    (import ./dotfiles/wifi { inherit pkgs; })
     (pkgs.writeShellScriptBin "cargo-wrapped" ''
      export PATH="${pkgs.rustup}/bin:$PATH"
      export PKG_CONFIG_PATH="${pcPath}:$PKG_CONFIG_PATH"
