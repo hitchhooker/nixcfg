@@ -4,7 +4,6 @@
 pkill polybar
 
 # Wait until the processes have been shut down
-sleep 2
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch Polybar
