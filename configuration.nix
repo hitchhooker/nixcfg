@@ -201,6 +201,7 @@ in
   nixpkgs.config = {
     allowUnfree           = true;
     allowUnfreePredicate  = pkg: elem (lib.getName pkg) [ "slack" "libsciter" ];
+    permittedInsecurePackages = [ "libsoup-2.74.3" ];
   };
 
   nix = {
