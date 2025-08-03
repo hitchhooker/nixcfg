@@ -57,9 +57,9 @@
       # touchpad bug
       "psmouse.synaptics_intertouch=0"
       "psmouse.resetafter=0"
-      # CPU configuration
-      "amd_pstate=passive"  # Better power management for Ryzen
-      "processor.max_cstate=3"  # Limit deep C-states that can cause heat spikes
+      # CPU thermal management
+      "amd_pstate=passive"
+      "processor.max_cstate=3"
     ];
   };
 
@@ -124,23 +124,23 @@
   # SYSTEM SERVICES
   # ---------------
 
-  # Enhanced TLP configuration for better thermal management
+  # Enhanced TLP configuration for aggressive thermal management
   services.tlp = {
     enable = true;
     settings = {
-      # CPU settings - limit performance to reduce heat
-      CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
+      # CPU settings - aggressive limits to prevent overheating
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
       
-      # Reduce max CPU performance when plugged in
-      CPU_MIN_PERF_ON_AC = 20;
-      CPU_MAX_PERF_ON_AC = 70;
+      # Aggressive CPU performance limits
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 50;  # Very conservative
       CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;
+      CPU_MAX_PERF_ON_BAT = 40;
       
-      # Disable CPU boost to prevent overheating
+      # Disable turbo boost completely
       CPU_BOOST_ON_AC = 0;
       CPU_BOOST_ON_BAT = 0;
 
@@ -158,35 +158,12 @@
       PCIE_ASPM_ON_AC = "powersupersave";
       PCIE_ASPM_ON_BAT = "powersupersave";
 
-      # Restore device state on startup to ensure settings persist
-      RESTORE_DEVICE_STATE_ON_STARTUP = true;
+      # Restore device state on startup
+      RESTORE_DEVICE_STATE_ON_STARTUP = 1;
     };
   };
 
   services.power-profiles-daemon.enable = false;
-
-  # CPU temperature throttling service
-  systemd.services.cpu-temp-throttle = {
-    description = "CPU Temperature Throttling";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "multi-user.target" ];
-    
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.bash}/bin/bash /etc/nixos/scripts/cpu-temp-throttle.sh";
-      Restart = "always";
-      RestartSec = "5s";
-    };
-    
-    path = with pkgs; [
-      bc
-      cpupower
-      coreutils
-      gnugrep
-      gnused
-      lm_sensors
-    ];
-  };
 
   # Battery alert service and timer
   systemd.user.services.battery-alert = {
@@ -219,7 +196,36 @@
     };
   };
 
-  # Enable thermald for thermal monitoring and management
+  # CPU temperature monitoring and throttling
+  systemd.services.cpu-thermal-monitor = {
+    description = "CPU Thermal Monitor";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = pkgs.writeScript "thermal-monitor" ''
+        #!${pkgs.bash}/bin/bash
+        
+        while true; do
+          # Get CPU temp
+          temp=$(${pkgs.lm_sensors}/bin/sensors | grep -E "Tctl|temp1" | grep -oE '[0-9]+\.[0-9]+' | head -1 | cut -d. -f1)
+          
+          if [ -n "$temp" ] && [ "$temp" -gt 75 ]; then
+            echo "High CPU temp: $temp°C - Limiting frequency"
+            # Force lowest performance state
+            echo "powersave" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+            echo "0" > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true
+          fi
+          
+          sleep 5
+        done
+      '';
+      Restart = "always";
+    };
+  };
+
+  # Enable thermald for thermal monitoring
   services.thermald.enable = true;
 
   # Audio with PipeWire
@@ -254,17 +260,17 @@
     dhcpcd.extraConfig = "noipv6";
   };
 
-  # First, make sure these packages are installed
+  # System packages
   environment.systemPackages = with pkgs; [
     xorg.xinput
     evtest
     openssh
-    lm_sensors  # For temperature monitoring
-    powertop    # For power usage analysis
-    bc          # Used in temperature monitoring script
-    libnotify   # For desktop notifications
-    linuxPackages.cpupower    # For CPU frequency control
-    s-tui       # For stress testing and monitoring
+    lm_sensors
+    powertop
+    bc
+    libnotify
+    linuxPackages.cpupower
+    s-tui
   ];
 
   services.acpid = {
@@ -275,7 +281,7 @@
     '';
   };
 
-  # Create a systemd service to fix the touchpad after resume
+  # Fix touchpad after resume
   systemd.services.fix-touchpad = {
     description = "Fix touchpad after resume";
     after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
@@ -297,62 +303,10 @@
     };
   };
 
-  # Create temperature throttling script
-  system.activationScripts.cpuTempThrottle = ''
-    mkdir -p /etc/nixos/scripts
-    cat > /etc/nixos/scripts/cpu-temp-throttle.sh << 'SCRIPT_EOF'
-#!/bin/bash
-
-# Temperature thresholds (in Celsius)
-TEMP_HIGH=75
-TEMP_CRITICAL=85
-TEMP_LOW=65
-
-# Get current CPU temperature
-get_temp() {
-    # Try different sensors
-    temp=$(sensors | grep -E "(Tctl|Package id 0|Core 0)" | grep -oE '[0-9]+\.[0-9]+' | head -1 | cut -d. -f1)
-    if [ -z "$temp" ]; then
-        # Fallback to thermal zone
-        temp=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1)
-        temp=$((temp / 1000))
-    fi
-    echo $temp
-}
-
-# Main loop
-while true; do
-    current_temp=$(get_temp)
-    
-    if [ -z "$current_temp" ]; then
-        echo "Failed to read temperature"
-        sleep 5
-        continue
-    fi
-    
-    echo "Current CPU temp: $\{current_temp}°C"
-    
-    if [ $current_temp -ge $TEMP_CRITICAL ]; then
-        echo "CRITICAL: Temp >= $\{TEMP_CRITICAL}°C, setting minimum frequency"
-        cpupower frequency-set -u 1.4GHz
-    elif [ $current_temp -ge $TEMP_HIGH ]; then
-        echo "HIGH: Temp >= $\{TEMP_HIGH}°C, limiting to 2.0GHz"
-        cpupower frequency-set -u 2.0GHz
-    elif [ $current_temp -le $TEMP_LOW ]; then
-        echo "NORMAL: Temp <= $\{TEMP_LOW}°C, allowing up to 2.8GHz"
-        cpupower frequency-set -u 2.8GHz
-    fi
-    
-    sleep 3
-done
-SCRIPT_EOF
-    chmod +x /etc/nixos/scripts/cpu-temp-throttle.sh
-  '';
-
   # SECURITY
   # --------
 
-  # sudo configuration - SECURITY ISSUE: passwordless sudo is a security risk
+  # sudo configuration
   security.sudo = {
     enable = true;
     extraConfig = ''
