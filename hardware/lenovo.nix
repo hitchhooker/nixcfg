@@ -263,7 +263,7 @@
     powertop    # For power usage analysis
     bc          # Used in temperature monitoring script
     libnotify   # For desktop notifications
-    cpupower    # For CPU frequency control
+    linuxPackages.cpupower    # For CPU frequency control
     s-tui       # For stress testing and monitoring
   ];
 
