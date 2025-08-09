@@ -192,6 +192,7 @@ in
 {
   imports = [
     ./shell.nix
+    ./wireguard.nix
     <home-manager/nixos>
     hwConfig
     <agenix/modules/age.nix>
