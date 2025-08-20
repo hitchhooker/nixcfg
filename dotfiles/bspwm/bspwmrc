@@ -152,7 +152,6 @@ setxkbmap -option caps:escape &
 
 # Daemons
 dunst &
-~/.config/polybar/launch.sh &
 
 # Background services
 pgrep -x syncthing > /dev/null || syncthing --no-browser &
@@ -179,3 +178,6 @@ pgrep -x pcscd > /dev/null || sudo pcscd &
 
 # Low battery notifier
 # ~/.config/bspwm/scripts/low_bat_notifier.sh &
+#
+
+(sleep 2 && ~/.config/polybar/launch.sh) &
