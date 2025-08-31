@@ -9,7 +9,8 @@ let
     src = /home/alice/rotko/wg-tui/wg-tui;
     
     # You'll need to replace this with actual hash after first build attempt
-    cargoHash = lib.fakeHash;
+    # cargoHash = lib.fakeHash;
+    cargoHash = "sha256-2BiuVV/7DOvM+R6O7OLeTMQTJJVLt+6EjnmX3aUEeVw=";
     
     nativeBuildInputs = with pkgs; [ pkg-config ];
     buildInputs = with pkgs; [ openssl ];
