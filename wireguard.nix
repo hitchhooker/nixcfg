@@ -99,8 +99,8 @@ in
           # Ensure nftables rules are loaded
           ${pkgs.nftables}/bin/nft -f - <<NFT
             add table inet wireguard
-            add chain inet wireguard forward { type filter hook forward priority 0 \; }
-            add chain inet wireguard postrouting { type nat hook postrouting priority srcnat \; }
+            add chain inet wireguard forward { type filter hook forward priority 0; }
+            add chain inet wireguard postrouting { type nat hook postrouting priority srcnat; }
             add rule inet wireguard forward iifname "wg0" accept
             add rule inet wireguard forward oifname "wg0" accept
             add rule inet wireguard postrouting ip saddr 10.100.0.0/24 oifname != "wg0" masquerade
