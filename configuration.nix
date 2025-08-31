@@ -74,7 +74,7 @@ let
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media    = [ flameshot mpv ncspot peek obs-studio ];
     tools    = [ television age ];
-    net      = [ wireguard-tools tailscale zerotier ];
+    net      = [ wireguard-tools tailscale zerotierone ];
     ai       = [ ollama-rocm ];
     system   = [ dmidecode jq syncthing transmission_4-qt turbovnc websocat ];
     nix      = [ nix-index nix-direnv nix-prefetch-git ];

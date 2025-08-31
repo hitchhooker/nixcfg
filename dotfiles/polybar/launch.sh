@@ -9,5 +9,6 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 ~/.local/bin/btc-polybar &
 sleep 1
 pkill btc-polybar
+~/.local/bin/btc-polybar &
 # Launch Polybar
 polybar top -c ~/.config/polybar/config.ini &
