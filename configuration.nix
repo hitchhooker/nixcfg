@@ -203,7 +203,8 @@ in
   nixpkgs.config = {
     allowUnfree           = true;
     allowUnfreePredicate  = pkg: elem (lib.getName pkg) [ "slack" "libsciter" ];
-    permittedInsecurePackages = [ "libsoup-2.74.3" ];
+    permittedInsecurePackages = [ "libsoup-2.74.3" "qtwebengine-5.15.19" ];
+
   };
 
   nix = {
@@ -352,7 +353,7 @@ in
 
       redshift = { enable = true; temperature = { day = 2900; night = 2700; }; };
 
-    logind.powerKey = "ignore";
+    logind.settings.Login.HandlePowerKey = "ignore";
 
     openssh = {
       enable   = true;
