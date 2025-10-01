@@ -104,7 +104,7 @@ let
   sysPkgs = {
     unstable = with unstable; [
       # db
-      sqlite pgcli
+      sqlite pgcli distrobox claude-code
       # Core
       bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh fzf
       # Rust toolchain
@@ -193,6 +193,7 @@ in
 {
   imports = [
     ./shell.nix
+    ./containers.nix
     ./wireguard.nix
     <home-manager/nixos>
     hwConfig

@@ -136,6 +136,7 @@ bspc rule -a "Bluetooth Devices" state=floating rectangle=600x400+0+0 center=on
 
 # Sticky windows (visible on all desktops)
 bspc rule -a "*:*:Telegram Media viewer" state=floating sticky=on
+bspc rule -a discord sticky=off
 bspc rule -a "*:*:Discord Popout" state=floating sticky=on
 
 # Locked windows (can't be closed with super+q)

@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+
+#
+# ┌─┐┬ ┬┌─┐╔═╗╔═╗  ┬ ┬┌─┐┌┬┐┬┌─┌─┐┬ ┬┌─┐
+# │  ├─┤├─┤║ ║╚═╗  ├─┤│ │ │ ├┴┐├┤ └┬┘└─┐
+# └─┘┴ ┴┴ ┴╚═╝╚═╝  ┴ ┴└─┘ ┴ ┴ ┴ ┴└─┘ ┴ └─┘
+#
+
+# ──────────────────────────────────────────
+# System Control
+# ──────────────────────────────────────────
+
+# Reload sxhkd config
+super + Escape
+    pkill -10 -x sxhkd
+
+# Restart/quit bspwm
+super + alt + {r,q}
+    bspc {wm -r,quit}
+
+# Lock screen
+super + shift + x
+    i2lock-fancy-rapid 5 3
+
+# ──────────────────────────────────────────
+# Window Management
+# ──────────────────────────────────────────
+
+# Close/kill window
+super + {_,shift + }q
+    bspc node -{c,k}
+
+# Window states
+super + {t,shift + t,f,shift + f}
+    bspc node -t {tiled,pseudo_tiled,fullscreen,floating}
+
+# Toggle monocle layout
+super + m
+    bspc desktop -l next
+
+# Swap current node with biggest
+super + g
+    bspc node -s biggest.window
+
+# ──────────────────────────────────────────
+# Focus & Movement
+# ──────────────────────────────────────────
+
+# Focus/move window in direction
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+# Focus next/previous window
+super + {_,shift + }Tab
+    bspc node -f {next,prev}.local.!hidden.window
+
+# Focus/send to desktop
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} '^{1-9,10}'
+
+# Focus next/previous desktop
+super + bracket{left,right}
+    bspc desktop -f {prev,next}.local
+
+# ──────────────────────────────────────────
+# Window Resizing
+# ──────────────────────────────────────────
+
+# Expand window
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contract window
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# Move floating window
+super + {Left,Down,Up,Right}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# ──────────────────────────────────────────
+# Preselection
+# ──────────────────────────────────────────
+
+# Preselect direction
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# Preselect ratio
+super + ctrl + {1-9}
+    bspc node -o 0.{1-9}
+
+# Cancel preselection
+super + ctrl + space
+    bspc node -p cancel
+
+# ──────────────────────────────────────────
+# Applications
+# ──────────────────────────────────────────
+
+# Terminal
+super + Return
+    alacritty
+
+# App launcher
+super + d
+    rofi -show drun
+
+# Run command (in terminal)
+super + r
+    bash -c 'cmd=$(rofi -dmenu -p "Run: "); [ -n "$cmd" ] && alacritty -e bash -c "$cmd; read -p \"Press enter to close...\""'
+
+# Window switcher
+alt + Tab
+    rofi -show window
+
+# Browser
+super + w
+    chromium
+
+# File manager (GUI)
+super + e
+    pcmanfm
+
+# File manager (TUI)
+super + shift + e
+    alacritty -e yazi
+
+# ──────────────────────────────────────────
+# Rofi Menus
+# ──────────────────────────────────────────
+
+# Power menu
+super + x
+    rofi -show power
+
+# SSH connections
+super + c
+    TERMINAL=alacritty rofi -show ssh
+
+# Clipboard history
+super + b
+    ~/.local/bin/nocb print | rofi -dmenu -i -p "clipboard" | ~/.local/bin/nocb copy
+#    alacritty --class clipboard,Alacritty -o window.dimensions.columns=100 -o window.dimensions.lines=20 -e sh -c '~/.local/bin/nocb print | fzf | ~/.local/bin/nocb copy'
+
+# Intercept Win+Space to show notification after XKB switches
+super + space
+    xdotool key --clearmodifiers "Super_L+space" && sleep 0.1 && ~/.config/rofi/keyboard-status.sh
+
+# Notification history
+super + n
+    rofi -modi "notifications:~/.config/rofi/dunst-history.sh" -show notifications
+
+# ──────────────────────────────────────────
+
+# ──────────────────────────────────────────
+# Media & System Keys
+# ──────────────────────────────────────────
+
+# Volume control
+XF86Audio{Raise,Lower}Volume
+    amixer -q set Master 5%{+,-} && \
+    dunstify "Vol $(amixer get Master | grep -o '[0-9]*%' | head -1)" -t 1000 -r 9999
+
+XF86AudioMute
+    amixer -q set Master toggle && \
+    dunstify "Vol $(amixer get Master | grep '\[on\]' > /dev/null && echo 'Unmuted' || echo 'Muted')" -t 1000 -r 9999
+
+# Brightness control
+XF86MonBrightness{Up,Down}
+    brightnessctl s 5%{+,-} && \
+    dunstify "Brightness $(brightnessctl g)%" -t 1000 -r 9998
+
+# Screenshot
+Print
+    flameshot gui
+
+# Screenshot full screen
+shift + Print
+    flameshot full -c
+
+# Screenshot to file
+ctrl + Print
+    flameshot full -p ~/Pictures/Screenshots/
+
+# ──────────────────────────────────────────
+# Special Modes
+# ──────────────────────────────────────────────
+
+# Disable sxhkd (press F6 to re-enable)
+super + alt + g ; F6
+    pkill -ALRM sxhkd
