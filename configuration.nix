@@ -193,7 +193,6 @@ in
 {
   imports = [
     ./shell.nix
-    ./containers.nix
     ./wireguard.nix
     <home-manager/nixos>
     hwConfig
