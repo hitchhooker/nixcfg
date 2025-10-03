@@ -124,7 +124,7 @@ let
       appimage-run gvfs shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
       # build deps for Rust FFI  
-      binutils glibc pkg-config openssl libiconv cmake gnumake glib.dev
+      binutils glibc pkg-config openssl libiconv cmake gnumake glib.dev protobuf
       llvmPackages.clang llvmPackages.libclang.lib
     ];
     stable = with stable; [
