@@ -73,7 +73,7 @@ let
     dev      = [ bun pnpm gh julia rust-analyzer rustfmt yarn polkadot ];
     comm     = [ beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie ];
     media    = [ flameshot mpv ncspot peek obs-studio ];
-    tools    = [ television age ];
+    tools    = [ television age ssh-to-age ];
     net      = [ wireguard-tools tailscale zerotierone ];
     ai       = [ ollama-rocm ];
     system   = [ dmidecode jq syncthing transmission_4-qt turbovnc websocat ];
