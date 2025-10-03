@@ -422,7 +422,7 @@ in
           "damllfnhhcbmclmjilomenbhkappdjgb" # Parity Signer Companion
           "oboonakemofpalcgghocfoadofidjkkk" # KeepassXC
           "gobmdjdemnlkgfcgmhmmojgaebfediog" # Manage tabs by domain MV3
-          "mopnmbcafieddcagagdcbnhejhlodfdd" # Polkadot-js
+          "ginchbkmljhldofnbjabmeophlhdldgp" # polkagate-js
           "lkpmkhpnhknhmibgnmmhdhgdilepfghe" # Prax wallet
           "dmkamcknogkgcdfhhbddcghachkejeap" # Kepler wallet
       ];
