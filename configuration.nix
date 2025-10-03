@@ -45,6 +45,7 @@ let
         pkgs.gcc.cc.lib  # This provides libstdc++.so.6
         pkgs.libgcc.lib
         pkgs.xorg.libX11
+      pkgs.xwinwrap
         pkgs.xorg.libXcursor
         pkgs.xorg.libXrandr
         pkgs.xorg.libXi
@@ -120,6 +121,7 @@ let
       hdparm smartmontools iotop sysstat ncdu
       # GUI/Desktop
       gtk-engine-murrine libsForQt5.qt5ct xorg.libX11
+      xwinwrap
       # File management
       appimage-run gvfs shared-mime-info xfce.tumbler
       ffmpegthumbnailer libopenraw poppler
@@ -192,6 +194,7 @@ let
 in
 {
   imports = [
+    ./anime-wallpaper.nix
     ./shell.nix
     ./wireguard.nix
     <home-manager/nixos>
@@ -483,6 +486,7 @@ in
         libxkbcommon
         fontconfig
         xorg.libX11
+      xwinwrap
         xorg.libXcursor
         xorg.libXi
         xorg.libXrandr

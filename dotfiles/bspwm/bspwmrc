@@ -182,3 +182,4 @@ pgrep -x pcscd > /dev/null || sudo pcscd &
 #
 
 (sleep 2 && ~/.config/polybar/launch.sh) &
+anime-wallpaper &
