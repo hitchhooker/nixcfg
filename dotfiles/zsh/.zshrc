@@ -189,3 +189,4 @@ REPORTTIME=2
   export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 export PATH=/home/alice/.opencode/bin:$PATH
+alias celestia='/usr/local/bin/celestia'
