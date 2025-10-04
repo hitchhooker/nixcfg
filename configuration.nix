@@ -573,3 +573,14 @@ in
     ln -sf ${pkgs.alacritty}/bin/alacritty /usr/bin/x-terminal-emulator
     '';
 }
+
+  services.picom = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
+    settings = {
+      opacity-rule = [
+        "90:class_g = 'Alacritty'"
+      ];
+    };
+  };
