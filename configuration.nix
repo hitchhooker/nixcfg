@@ -349,7 +349,7 @@ in
       vSync = true;
       settings = {
         opacity-rule = [
-          "94:class_g = 'Alacritty'"
+          "96:class_g = 'Alacritty'"
         ];
       };
     };
