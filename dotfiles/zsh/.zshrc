@@ -190,3 +190,6 @@ REPORTTIME=2
 
 export PATH=/home/alice/.opencode/bin:$PATH
 alias celestia='/usr/local/bin/celestia'
+
+# bun
+export PATH="$HOME/.bun/bin:$PATH"

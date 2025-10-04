@@ -49,7 +49,6 @@ in {
     };
 
     systemPackages = with unstable; [
-      # core - removed claude-code, install manually
       bash fd gcc git iputils neovim openssh ripgrep wget zellij zsh fzf
       rustup nixd sqlite pgcli distrobox
       
@@ -105,7 +104,7 @@ in {
           };
         }))
         # dev
-        bun pnpm gh julia rust-analyzer rustfmt yarn polkadot
+        bun pnpm gh julia rust-analyzer rustfmt yarn polkadot nodejs
         # comm
         beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie
         # media
