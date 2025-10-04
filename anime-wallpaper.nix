@@ -9,7 +9,7 @@ let
     pkill -f "xwinwrap.*mpv" || true
     # get actual screen resolution
     RESOLUTION=$(${pkgs.xorg.xrandr}/bin/xrandr | grep '*' | awk '{print $1}' | head -1)
-    exec ${pkgs.xwinwrap}/bin/xwinwrap -g ${RESOLUTION}+0+0 -ov -ni -s -nf -- \
+    exec ${pkgs.xwinwrap}/bin/xwinwrap -g "''${RESOLUTION}+0+0" -ov -ni -s -nf -- \
       ${pkgs.mpv}/bin/mpv -wid WID --loop --no-audio --no-osc \
       --no-osd-bar --profile=low-latency --hwdec=auto \
       --video-unscaled=no --panscan=1.0 "$VIDEO"
