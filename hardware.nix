@@ -7,14 +7,6 @@
      else ./hardware/default.nix)
   ];
 
-  boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
-    "net.ipv6.conf.all.forwarding" = 1;
-    "net.ipv4.conf.all.send_redirects" = 0;
-    "net.ipv4.conf.default.rp_filter" = 0;
-    "net.ipv4.conf.all.rp_filter" = 0;
-  };
-
   networking = {
     nameservers = [ "9.9.9.9" "149.112.112.112" "2620:fe::fe" "2620:fe::9" ];
     resolvconf = { 
