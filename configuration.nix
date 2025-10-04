@@ -5,6 +5,7 @@
     ./anime-wallpaper.nix
     ./shell.nix
     ./wireguard.nix
+    ./containers.nix
     ./hardware.nix
     ./packages.nix
     ./desktop.nix
