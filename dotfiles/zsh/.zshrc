@@ -193,3 +193,9 @@ alias celestia='/usr/local/bin/celestia'
 
 # bun
 export PATH="$HOME/.bun/bin:$PATH"
+
+# claude-dev aliases
+alias cc='distrobox enter claude -- claude'
+alias ccc='distrobox enter claude -- claude --continue'
+alias ccp='distrobox enter claude -- claude --print'
+alias ccb='distrobox enter claude -- claude --dangerously-skip-permissions'
