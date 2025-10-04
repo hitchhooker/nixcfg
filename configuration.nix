@@ -344,6 +344,15 @@ in
 
 # ────────── services (excerpt) ─────
   services = {
+    picom = {enable = true;
+      backend = "glx";
+      vSync = true;
+      settings = {
+        opacity-rule = [
+          "90:class_g = 'Alacritty'"
+        ];
+      };
+    };
     dbus.packages   = [ pkgs.xfce.tumbler ];
     udev.packages   = [ pkgs.ledger-udev-rules ];
     tailscale.enable = true;
@@ -574,13 +583,3 @@ in
     '';
 }
 
-  services.picom = {
-    enable = true;
-    backend = "glx";
-    vSync = true;
-    settings = {
-      opacity-rule = [
-        "90:class_g = 'Alacritty'"
-      ];
-    };
-  };
