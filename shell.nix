@@ -51,7 +51,6 @@
       # shortcuts
       nx = "cd /etc/nixos/ && ls";
       ping = "/run/wrappers/bin/ping";
-      cargo = "cargo-wrapped";  # use wrapper by default
     };
   };
   environment.shells = [ pkgs.zsh pkgs.bash ];
