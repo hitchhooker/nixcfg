@@ -36,6 +36,28 @@ let
       "$binary" "$@"
   '';
 
+  ferroxide = pkgs.buildGoModule rec {
+    pname = "ferroxide";
+    version = "unstable-2025-01-14";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "acheong08";
+      repo = "ferroxide";
+      rev = "fbf5dc23365646c63db358bc9c5713f435592c33";
+      sha256 = "sha256-VrvNlmPTfiRP99o0Cn8cICQg1y0sprUTpstAwtyvasg=";
+    };
+
+    vendorHash = null;
+
+    subPackages = [ "cmd/ferroxide" ];
+
+    meta = with lib; {
+      description = "Open-source ProtonMail bridge with CardDAV, CalDAV, IMAP, and SMTP support";
+      homepage = "https://github.com/acheong08/ferroxide";
+      license = licenses.gpl3;
+    };
+  };
+
 in {
   environment = {
     variables = {
@@ -73,7 +95,7 @@ in {
       stable.lightdm stable.parted stable.screen stable.ssh-agents stable.sshfs
       stable.vim stable.xdotool stable.podman stable.podman-compose stable.pcmanfm
       stable.unzip
-    ] ++ [ pkgs.usbutils pkgs.esptool pkgs.picocom pcli run-binary ];
+    ] ++ [ pkgs.usbutils pkgs.esptool pkgs.picocom pcli run-binary ferroxide ];
 
     etc = {
       "pkcs11/modules/opensc-pkcs11".text = "module: ${pkgs.opensc}/lib/opensc-pkcs11.so";
@@ -98,9 +120,9 @@ in {
         (pkgs.bspwm.overrideAttrs (old: {
           src = pkgs.fetchFromGitHub {
             owner = "rotkonetworks";
-            repo = "bspwm";
-            rev = "master";
-            sha256 = "sha256-54NM7gP+VqylOKYGt5rv+f2zJc075iT020YUHrrNlks=";
+            repo = "bspwm1";
+            rev = "063bf2d314d2f34ed190c734be7eeecb5e39da1e";
+            sha256 = "sha256-lPfe08LQHHxxqfAJltbYlM94iHJvl5FBkeH4BPoF07A=";
           };
         }))
         # dev

@@ -16,9 +16,9 @@
         package = pkgs.bspwm.overrideAttrs (old: {
           src = pkgs.fetchFromGitHub {
             owner = "rotkonetworks";
-            repo = "bspwm";
-            rev = "master";
-            sha256 = "";
+            repo = "bspwm1";
+            rev = "063bf2d314d2f34ed190c734be7eeecb5e39da1e";
+            sha256 = "sha256-lPfe08LQHHxxqfAJltbYlM94iHJvl5FBkeH4BPoF07A=";
           };
         });
       };
