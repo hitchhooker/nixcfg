@@ -18,7 +18,7 @@
             owner = "rotkonetworks";
             repo = "bspwm";
             rev = "master";
-            sha256 = "sha256-54NM7gP+VqylOKYGt5rv+f2zJc075iT020YUHrrNlks=";
+            sha256 = "";
           };
         });
       };
