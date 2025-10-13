@@ -47,7 +47,7 @@ let
       sha256 = "sha256-wSao/k+j9cQenn4oVPTcmluw6Kvl7J4SeK6JJTRrInc=";
     };
 
-    vendorHash = null;
+    vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
     subPackages = [ "cmd/ferroxide" ];
 
@@ -115,7 +115,7 @@ in {
         # terminal
         alacritty bottom tree zsh
         # wm
-        dunst rofi sxhkd
+        dunst rofi sxhkd picom
         (polybar.override { pulseSupport = true; })
         # dev
         bun pnpm gh julia rust-analyzer rustfmt yarn polkadot nodejs
