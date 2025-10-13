@@ -47,7 +47,7 @@ let
       sha256 = "sha256-wSao/k+j9cQenn4oVPTcmluw6Kvl7J4SeK6JJTRrInc=";
     };
 
-    vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    vendorHash = "sha256-Ar7bCsye5qi1YIN+YUZ9fZnUOmIJ+s6hrQclKQnlvaA=";
 
     subPackages = [ "cmd/ferroxide" ];
 
