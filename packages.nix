@@ -118,7 +118,7 @@ in {
         dunst rofi sxhkd picom
         (polybar.override { pulseSupport = true; })
         # dev
-        bun pnpm gh rust-analyzer rustfmt yarn polkadot nodejs stable.julia
+        bun pnpm gh rust-analyzer rustfmt yarn polkadot nodejs
         # comm
         beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie
         # media

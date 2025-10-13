@@ -11,14 +11,19 @@
         (
           cd /etc/nixos || exit 1
           echo "Running nixos-rebuild switch..."
-          if sudo nixos-rebuild switch; then
+          if sudo nixos-rebuild switch 2>&1 | tee /tmp/nixos-rebuild.log && [ ''${PIPESTATUS[0]} -eq 0 ]; then
+            system_path=$(readlink /nix/var/nix/profiles/system)
             if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
               git add -A
-              git commit -m "update: $(readlink /nix/var/nix/profiles/system)"
-              echo "Changes committed successfully"
+              git commit -m "update: $system_path"
+              echo "Changes committed successfully: $system_path"
+            else
+              echo "No changes to commit. System: $system_path"
             fi
+            rm -f /tmp/nixos-rebuild.log
           else
             echo "Rebuild failed! No changes committed."
+            echo "See /tmp/nixos-rebuild.log for details"
             exit 1
           fi
         )
