@@ -44,7 +44,7 @@ let
       owner = "acheong08";
       repo = "ferroxide";
       rev = "fbf5dc23365646c63db358bc9c5713f435592c33";
-      sha256 = "sha256-VrvNlmPTfiRP99o0Cn8cICQg1y0sprUTpstAwtyvasg=";
+      sha256 = "sha256-wSao/k+j9cQenn4oVPTcmluw6Kvl7J4SeK6JJTRrInc=";
     };
 
     vendorHash = null;
@@ -117,14 +117,6 @@ in {
         # wm
         dunst rofi sxhkd
         (polybar.override { pulseSupport = true; })
-        (pkgs.bspwm.overrideAttrs (old: {
-          src = pkgs.fetchFromGitHub {
-            owner = "rotkonetworks";
-            repo = "bspwm1";
-            rev = "063bf2d314d2f34ed190c734be7eeecb5e39da1e";
-            sha256 = "sha256-maMdSJtXQg/YwPDufqj4rK2H4Ja9Nky6Xcvig4x3jLs=";
-          };
-        }))
         # dev
         bun pnpm gh julia rust-analyzer rustfmt yarn polkadot nodejs
         # comm
@@ -147,17 +139,11 @@ in {
     };
   };
 
-  security = {
-    sudo = {
-      enable = true;
-      extraConfig = "alice ALL=(ALL) NOPASSWD: ALL";
-    };
-    wrappers.ping = {
-      source = "${pkgs.iputils}/bin/ping";
-      owner = "root";
-      group = "root";
-      setuid = true;
-    };
+  security.wrappers.ping = {
+    source = "${pkgs.iputils}/bin/ping";
+    owner = "root";
+    group = "root";
+    setuid = true;
   };
 
   fonts.packages = with pkgs; [

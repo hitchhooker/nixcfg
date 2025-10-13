@@ -80,7 +80,7 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-    "/home/alice/Downloads" = {
+    "${config.users.users.alice.home}/Downloads" = {
       device = "/dev/disk/by-uuid/779e5b85-ffce-4a76-b86d-04d8a364bae7";
       fsType = "ext4";
     };
@@ -280,13 +280,15 @@
   };
 
   # Fix touchpad after resume
-  systemd.services.fix-touchpad = {
+  systemd.services.fix-touchpad = let
+    homeDir = config.users.users.alice.home;
+  in {
     description = "Fix touchpad after resume";
     after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
     wantedBy = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
     environment = {
       DISPLAY = ":0";
-      XAUTHORITY = "/home/alice/.Xauthority";
+      XAUTHORITY = "${homeDir}/.Xauthority";
     };
     serviceConfig = {
       Type = "oneshot";
@@ -304,12 +306,8 @@
   # SECURITY
   # --------
 
-  # sudo configuration
   security.sudo = {
     enable = true;
-    extraConfig = ''
-      alice ALL=(ALL) NOPASSWD: ALL
-      user ALL=(ALL) NOPASSWD: ALL
-    '';
+    extraConfig = "alice ALL=(ALL) NOPASSWD: ALL";
   };
 }

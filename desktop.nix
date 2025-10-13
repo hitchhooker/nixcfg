@@ -99,19 +99,21 @@
   };
 
   system.activationScripts = {
-    linkDotfiles = ''
-      mkdir -p /home/alice/.config
-      ln -sf /etc/nixos/dotfiles/zsh/.zshrc /home/alice/.zshrc
-      ln -sfn /etc/nixos/dotfiles/nvim /home/alice/.config/nvim
-      ln -sfn /etc/nixos/dotfiles/alacritty /home/alice/.config/alacritty
-      ln -sfn /etc/nixos/dotfiles/dunst /home/alice/.config/dunst
-      ln -sfn /etc/nixos/dotfiles/rofi /home/alice/.config/rofi
-      ln -sfn /etc/nixos/dotfiles/polybar /home/alice/.config/polybar
-      ln -sfn /etc/nixos/dotfiles/bspwm /home/alice/.config/bspwm
-      ln -sfn /etc/nixos/dotfiles/sxhkd /home/alice/.config/sxhkd
-      ln -sf /etc/nixos/dotfiles/greenclip.toml /home/alice/.config/greenclip.toml
-      chown -R alice:users /home/alice/.config /home/alice/.zshrc
-      chmod -R u+x /home/alice/.config/{bspwm,sxhkd}/scripts
+    linkDotfiles = let
+      homeDir = config.users.users.alice.home;
+    in ''
+      mkdir -p ${homeDir}/.config
+      ln -sf /etc/nixos/dotfiles/zsh/.zshrc ${homeDir}/.zshrc
+      ln -sfn /etc/nixos/dotfiles/nvim ${homeDir}/.config/nvim
+      ln -sfn /etc/nixos/dotfiles/alacritty ${homeDir}/.config/alacritty
+      ln -sfn /etc/nixos/dotfiles/dunst ${homeDir}/.config/dunst
+      ln -sfn /etc/nixos/dotfiles/rofi ${homeDir}/.config/rofi
+      ln -sfn /etc/nixos/dotfiles/polybar ${homeDir}/.config/polybar
+      ln -sfn /etc/nixos/dotfiles/bspwm ${homeDir}/.config/bspwm
+      ln -sfn /etc/nixos/dotfiles/sxhkd ${homeDir}/.config/sxhkd
+      ln -sf /etc/nixos/dotfiles/greenclip.toml ${homeDir}/.config/greenclip.toml
+      chown -R alice:users ${homeDir}/.config ${homeDir}/.zshrc
+      chmod -R u+x ${homeDir}/.config/{bspwm,sxhkd}/scripts
     '';
 
     terminalEmulator = ''
