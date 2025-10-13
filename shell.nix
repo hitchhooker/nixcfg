@@ -11,17 +11,14 @@
         (
           cd /etc/nixos || exit 1
           echo "Running nixos-rebuild switch..."
-          if sudo nixos-rebuild switch 2>&1 | tee nixos-build.log; then
-            build_path=$(grep -oE '/nix/store/[a-z0-9]{32}-nixos-system-[^ ]+' nixos-build.log | head -n1)
-            rm nixos-build.log
+          if sudo nixos-rebuild switch; then
             if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
               git add -A
-              git commit -m "update: $build_path"
+              git commit -m "update: $(readlink /nix/var/nix/profiles/system)"
               echo "Changes committed successfully"
             fi
           else
             echo "Rebuild failed! No changes committed."
-            rm -f nixos-build.log
             exit 1
           fi
         )
