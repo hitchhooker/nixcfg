@@ -16,3 +16,5 @@
 	editor = nvim
 [alias]
 	rl = log --reverse
+[commit]
+	gpgsign = false

@@ -122,7 +122,7 @@ in {
         # comm
         beeper discord iamb signal-desktop slack telegram-desktop thunderbird whatsie
         # media
-        flameshot mpv ncspot peek obs-studio
+        flameshot mpv ncspot peek obs-studio stremio
         # tools
         television age ssh-to-age wireguard-tools tailscale zerotierone
         ollama-rocm dmidecode jq syncthing transmission_4-qt turbovnc websocat
