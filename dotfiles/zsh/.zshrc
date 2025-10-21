@@ -200,3 +200,5 @@ alias ccc='distrobox enter claude -- claude --continue'
 alias cci='distrobox enter claude -- sudo pacman -Suy'
 alias ccy='distrobox enter claude -- yay'
 alias ccb='distrobox enter claude -- claude --dangerously-skip-permissions'
+alias distro='distrobox enter claude --'
+for conf in ~/.zshrc.d/*.zsh; do source "$conf"; done

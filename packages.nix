@@ -90,6 +90,7 @@ in {
       # build deps
       binutils glibc pkg-config openssl libiconv cmake gnumake glib.dev
       protobuf llvmPackages.clang llvmPackages.libclang.lib
+      xorg.libxcb xorg.xcbutil xorg.xcbutilkeysyms xorg.xcbutilwm
       
       # stable packages
       stable.lightdm stable.parted stable.screen stable.ssh-agents stable.sshfs
