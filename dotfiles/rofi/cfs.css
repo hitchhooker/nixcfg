@@ -1,0 +1,211 @@
+/* chaOS Rofi Theme - Optimized */
+
+configuration {
+    modi: "drun,run,window,ssh,filebrowser,power:~/.config/rofi/power-menu.sh";
+    show-icons: true;
+    font: "monospace 10";
+    drun-display-format: "{name}";
+    window-format: "{w} {t}";
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    display-ssh: " SSH";
+    display-filebrowser: " Files";
+    display-power: " Power";
+    sidebar-mode: true;
+    steal-focus: true;
+    matching: "fuzzy";
+    scroll-method: 0;
+    disable-history: false;
+    show-match: true;
+    threads: 0;
+    click-to-exit: true;
+    cache-dir: "/tmp/rofi-cache";
+}
+
+* {
+    bg: #000000CC;
+    bg-alt: #1A1B26;
+    fg: #F8229B;
+    pink: #E6007A;
+    green: #56F39A;
+    yellow: #D3FF33;
+    cyan: #00FFE1;
+    black: #000000;
+    white: #FFFFFF;
+
+    background-color: transparent;
+    text-color: @fg;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    background-color: @bg;
+    border: 0.2em;
+    border-color: @pink;
+    border-radius: 0.5em;
+    padding: 1.5em;
+    width: 40%;
+    height: 50%;
+    location: center;
+    anchor: center;
+    transparency: "real";
+}
+
+window.power {
+    width: 20%;
+    height: 30%;
+    location: northwest;
+    anchor: northwest;
+    x-offset: 2%;
+    y-offset: 5%;
+}
+
+window.notifications {
+    width: 50%;
+    height: 60%;
+}
+
+mainbox {
+    spacing: 1em;
+    children: [ inputbar, message, listview, mode-switcher ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 0.3em;
+    padding: 0.8em 1.2em;
+    spacing: 0.5em;
+    children: [ prompt, textbox-prompt-colon, entry, num-filtered-rows, textbox-slash, num-rows ];
+}
+
+prompt {
+    text-color: @pink;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+    text-color: @pink;
+}
+
+entry {
+    placeholder: "Type to search...";
+    placeholder-color: #666;
+    expand: true;
+    horizontal-align: 0;
+    blink: true;
+}
+
+num-filtered-rows, num-rows {
+    text-color: @cyan;
+    expand: false;
+}
+
+textbox-slash {
+    text-color: @cyan;
+    expand: false;
+    str: "/";
+}
+
+listview {
+    columns: 1;
+    lines: 10;
+    spacing: 0.5em;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    fixed-height: false;
+}
+
+scrollbar {
+    width: 0.3em;
+    handle-width: 0.3em;
+    handle-color: @pink;
+    background-color: @bg-alt;
+}
+
+element {
+    padding: 0.6em 1em;
+    border-radius: 0.3em;
+    spacing: 0.5em;
+}
+
+element selected {
+    background-color: @pink;
+    text-color: @black;
+}
+
+element active {
+    text-color: @green;
+}
+
+element urgent {
+    text-color: @yellow;
+}
+
+element alternate.normal {
+    background-color: #1A1B2611;
+}
+
+element-icon {
+    size: 1.2em;
+    margin: 0 0.5em 0 0;
+    text-color: inherit;
+}
+
+element-text {
+    highlight: bold;
+    vertical-align: 0.5;
+    text-color: inherit;
+    expand: true;
+    horizontal-align: 0;
+}
+
+mode-switcher {
+    background-color: @bg-alt;
+    border-radius: 0.3em;
+    padding: 0.5em;
+    spacing: 0.5em;
+}
+
+button {
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+button selected {
+    background-color: @pink;
+    text-color: @black;
+}
+
+message {
+    background-color: @bg-alt;
+    border-radius: 0.3em;
+    padding: 1em;
+    margin: 1em 0 0 0;
+    border: 0.1em;
+    border-color: @pink;
+}
+
+textbox {
+    vertical-align: 0.5;
+    horizontal-align: 0;
+    blink: true;
+    markup: true;
+}
+
+error-message {
+    background-color: @yellow;
+    text-color: @black;
+    padding: 1em;
+    border-radius: 0.3em;
+}
+
+/* vim:ft=css */
