@@ -202,3 +202,8 @@ alias ccy='distrobox enter claude -- yay'
 alias ccb='distrobox enter claude -- claude --dangerously-skip-permissions'
 alias distro='distrobox enter claude --'
 for conf in ~/.zshrc.d/*.zsh; do source "$conf"; done
+
+# fix claude aliases with full path
+alias cc='distrobox enter claude -- /home/alice/.cache/.bun/bin/claude'
+alias ccc='distrobox enter claude -- /home/alice/.cache/.bun/bin/claude --continue'
+alias ccb='distrobox enter claude -- /home/alice/.cache/.bun/bin/claude --dangerously-skip-permissions'
