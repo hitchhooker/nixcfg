@@ -81,7 +81,7 @@ in {
       hdparm smartmontools iotop sysstat ncdu
       
       # gui/desktop
-      gtk-engine-murrine libsForQt5.qt5ct xorg.libX11 xwinwrap
+      gtk-engine-murrine xorg.libX11 xwinwrap
       
       # file management
       appimage-run gvfs shared-mime-info xfce.tumbler ffmpegthumbnailer
@@ -132,7 +132,7 @@ in {
         # estonian id
         qdigidoc web-eid-app p11-kit opensc
         # stable
-        stable.chromium stable.element-desktop stable.cinny-desktop
+        stable.chromium stable.element-desktop
         stable.google-cloud-sdk stable.i3lock-fancy-rapid stable.jmtpfs
         stable.keepassxc stable.libssh stable.nodejs stable.pavucontrol
         stable.tigervnc stable.xclip stable.alsa-utils stable.toybox stable.pgcli
